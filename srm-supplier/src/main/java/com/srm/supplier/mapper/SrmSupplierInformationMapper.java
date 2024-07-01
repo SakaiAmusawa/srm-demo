@@ -3,6 +3,7 @@ package com.srm.supplier.mapper;
 import java.util.List;
 import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierContactInformation;
+import org.springframework.stereotype.Repository;
 
 /**
  * 供应商信息Mapper接口
@@ -10,6 +11,8 @@ import com.srm.supplier.domain.SrmSupplierContactInformation;
  * @author sakai
  * @date 2024-07-01
  */
+
+@Repository
 public interface SrmSupplierInformationMapper 
 {
     /**
