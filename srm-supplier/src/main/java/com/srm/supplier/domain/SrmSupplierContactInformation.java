@@ -1,4 +1,4 @@
-package com.srm.system.domain;
+package com.srm.supplier.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -8,7 +8,7 @@ import com.srm.common.core.domain.BaseEntity;
 /**
  * 供应商联系人信息对象 srm_supplier_contact_information
  * 
- * @author ruoyi
+ * @author sakai
  * @date 2024-07-01
  */
 public class SrmSupplierContactInformation extends BaseEntity
