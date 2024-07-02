@@ -1,5 +1,7 @@
 package com.srm.supplier.service.impl;
 
+import com.google.gson.Gson;
+import com.srm.supplier.domain.CompanyInfo;
 import com.srm.supplier.mapper.SrmSupplierMapper;
 import com.srm.supplier.service.ISrmSupplierService;
 import org.apache.http.HttpEntity;
@@ -26,7 +28,13 @@ public class SrmSupplierServiceImpl implements ISrmSupplierService {
 
         String token = "token";
         String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/normal?keyword=" + companyName;
-        System.out.println(executeGet(url, token));
+        String jsonResponse = executeGet(url, token);
+        System.out.println(jsonResponse);
+
+        // Convert JSON response to Java object
+        Gson gson = new Gson();
+        CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
+        String legalPersonName = companyInfo.result.legalPersonName;
     }
 
     /**
