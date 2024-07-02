@@ -1,9 +1,18 @@
 package com.srm.supplier.service.impl;
 
+import com.google.gson.Gson;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
 import com.srm.supplier.mapper.SrmSupplierInformationMapper;
 import com.srm.supplier.service.ISrmSupplierInformationService;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +63,21 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
     @Override
     public int insertSrmSupplierInformation(SrmSupplierInformation srmSupplierInformation) {
         int rows = srmSupplierInformationMapper.insertSrmSupplierInformation(srmSupplierInformation);
+        srmSupplierInformation.setSupplierCode("263016");
+        String supplierName = srmSupplierInformation.getSupplierName();
+
+        //token在生产时需要替换为实际可用的token
+        String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
+        String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/normal?keyword=" + supplierName;
+        String jsonResponse = executeGet(url, token);
+
+        // Convert JSON response to Java object
+        Gson gson = new Gson();
+        CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
+
+        srmSupplierInformation.setIndustryType(companyInfo.getResult().getIndustryAll().getCategoryMiddle());
+
+        //todo 从天眼查获取部分信息
         insertSrmSupplierContactInformation(srmSupplierInformation);
         insertSrmSupplierAddressInformation(srmSupplierInformation);
         insertSrmSupplierBankInformation(srmSupplierInformation);
@@ -189,5 +213,37 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
                 srmSupplierInformationMapper.batchSrmSupplierInvoiceInformation(list);
             }
         }
+    }
+
+
+    /**
+     * http get请求
+     *
+     * @param url   接口url
+     * @param token token
+     * @return 返回接口数据
+     */
+    protected static String executeGet(String url, String token) {
+        BasicHttpParams httpParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpParams, 1000);
+        HttpConnectionParams.setSoTimeout(httpParams, 1000);
+        HttpClient httpClient = new DefaultHttpClient(httpParams);
+        String result = null;
+        try {
+
+            HttpGet get = new HttpGet(url);
+            // 设置header
+            get.setHeader("Authorization", token);
+            // 设置类型
+            HttpResponse response = httpClient.execute(get);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity, "utf-8");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+        return result;
     }
 }

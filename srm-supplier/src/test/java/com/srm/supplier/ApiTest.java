@@ -1,5 +1,8 @@
 package com.srm.supplier;
 
+import com.google.gson.Gson;
+import com.srm.common.core.domain.AjaxResult;
+import com.srm.supplier.domain.CompanyInfo;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -16,7 +19,20 @@ public class ApiTest {
 
         String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
         String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/normal?keyword=" + companyName;
-        System.out.println(executeGet(url, token));
+        String jsonResponse = executeGet(url, token);
+
+        Gson gson = new Gson();
+        CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
+
+        if (companyInfo.getResult() != null) {
+            String ln = companyInfo.getResult().getLegalPersonName();
+            System.out.println(ln);
+        } else {
+            System.out.println("查询失败");
+            AjaxResult.error(companyInfo.getErrorCode(), companyInfo.getReason());
+        }
+
+
     }
 
     /**

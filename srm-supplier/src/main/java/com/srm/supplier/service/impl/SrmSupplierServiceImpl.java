@@ -26,7 +26,7 @@ public class SrmSupplierServiceImpl implements ISrmSupplierService {
 
         String companyName = "test";
 
-        String token = "token";
+        String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
         String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/normal?keyword=" + companyName;
         String jsonResponse = executeGet(url, token);
         System.out.println(jsonResponse);
@@ -34,7 +34,6 @@ public class SrmSupplierServiceImpl implements ISrmSupplierService {
         // Convert JSON response to Java object
         Gson gson = new Gson();
         CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
-        String legalPersonName = companyInfo.result.legalPersonName;
     }
 
     /**

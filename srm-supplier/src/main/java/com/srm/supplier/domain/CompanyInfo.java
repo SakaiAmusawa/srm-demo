@@ -1,13 +1,15 @@
 package com.srm.supplier.domain;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class CompanyInfo {
 
     @SerializedName("result")
-    public Result result;
+    private Result result;
 
     @SerializedName("reason")
     private String reason;
@@ -15,6 +17,7 @@ public class CompanyInfo {
     @SerializedName("error_code")
     private int errorCode;
 
+    @Getter
     public static class Result {
         @SerializedName("historyNames")
         private String historyNames;
@@ -43,7 +46,7 @@ public class CompanyInfo {
         @SerializedName("updateTimes")
         private long updateTimes;
         @SerializedName("legalPersonName")
-        public String legalPersonName;
+        private String legalPersonName;
         @SerializedName("revokeReason")
         private String revokeReason;
         @SerializedName("compForm")
@@ -100,6 +103,7 @@ public class CompanyInfo {
         private String name;
         @SerializedName("percentileScore")
         private int percentileScore;
+        @Getter
         @SerializedName("industryAll")
         private IndustryAll industryAll;
         @SerializedName("isMicroEnt")
@@ -107,6 +111,7 @@ public class CompanyInfo {
         @SerializedName("base")
         private String base;
 
+        @Getter
         public static class IndustryAll {
             @SerializedName("categoryMiddle")
             private String categoryMiddle;
@@ -116,6 +121,7 @@ public class CompanyInfo {
             private String category;
             @SerializedName("categorySmall")
             private String categorySmall;
+
         }
     }
 }
