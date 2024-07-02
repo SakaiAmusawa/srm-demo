@@ -1,92 +1,273 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.supplier.mapper.SrmSupplierInformationMapper">
-    
+
     <resultMap type="SrmSupplierInformation" id="SrmSupplierInformationResult">
-        <result property="id"    column="id"    />
-        <result property="supplierCode"    column="supplier_code"    />
-        <result property="supplierName"    column="supplier_name"    />
-        <result property="certificationRegion"    column="certification_region"    />
-        <result property="enterpriseType"    column="enterprise_type"    />
-        <result property="industryType"    column="industry_type"    />
-        <result property="rsnum"    column="rsnum"    />
-        <result property="socialCode"    column="social_code"    />
-        <result property="organizationalCode"    column="organizational_code"    />
-        <result property="capital"    column="capital"    />
-        <result property="taxpayerType"    column="taxpayer_type"    />
-        <result property="incorporationDate"    column="incorporation_date"    />
-        <result property="legalPerson"    column="legal_person"    />
-        <result property="businessTerm"    column="business_term"    />
-        <result property="businessNature"    column="business_nature"    />
-        <result property="businessLicense"    column="business_license"    />
-        <result property="registrationStatus"    column="registration_status"    />
-        <result property="invitationTime"    column="invitation_time"    />
-        <result property="lifeStage"    column="life_stage"    />
-        <result property="blackList"    column="black_list"    />
+        <result property="id" column="id"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="certificationRegion" column="certification_region"/>
+        <result property="enterpriseType" column="enterprise_type"/>
+        <result property="industryType" column="industry_type"/>
+        <result property="rsnum" column="rsnum"/>
+        <result property="socialCode" column="social_code"/>
+        <result property="organizationalCode" column="organizational_code"/>
+        <result property="capital" column="capital"/>
+        <result property="taxpayerType" column="taxpayer_type"/>
+        <result property="incorporationDate" column="incorporation_date"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="businessTerm" column="business_term"/>
+        <result property="businessNature" column="business_nature"/>
+        <result property="businessLicense" column="business_license"/>
+        <result property="registrationStatus" column="registration_status"/>
+        <result property="invitationTime" column="invitation_time"/>
+        <result property="lifeStage" column="life_stage"/>
+        <result property="blackList" column="black_list"/>
     </resultMap>
 
-    <resultMap id="SrmSupplierInformationSrmSupplierContactInformationResult" type="SrmSupplierInformation" extends="SrmSupplierInformationResult">
-        <collection property="srmSupplierContactInformationList" ofType="SrmSupplierContactInformation" column="supplier_id" select="selectSrmSupplierContactInformationList" />
+    <resultMap id="SrmSupplierInformationSrmSupplierContactInformationResult" type="SrmSupplierInformation"
+               extends="SrmSupplierInformationResult">
+        <collection property="srmSupplierContactInformationList" ofType="SrmSupplierContactInformation"
+                    column="supplier_id" select="selectSrmSupplierContactInformationList"/>
+    </resultMap>
+    <resultMap id="SrmSupplierInformationSrmSupplierAddressInformationResult" type="SrmSupplierInformation"
+               extends="SrmSupplierInformationSrmSupplierContactInformationResult">
+        <collection property="srmSupplierAddressInformationList" ofType="SrmSupplierAddressInformation"
+                    column="supplier_id" select="selectSrmSupplierAddressInformationList"/>
+    </resultMap>
+
+    <resultMap id="SrmSupplierInformationSrmSupplierBankInformationResult" type="SrmSupplierInformation"
+               extends="SrmSupplierInformationSrmSupplierAddressInformationResult">
+        <collection property="srmSupplierBankInformationList" ofType="SrmSupplierBankInformation" column="supplier_id"
+                    select="selectSrmSupplierBankInformationList"/>
+    </resultMap>
+
+    <resultMap id="SrmSupplierInformationSrmSupplierInvoiceInformationResult" type="SrmSupplierInformation"
+               extends="SrmSupplierInformationSrmSupplierBankInformationResult">
+        <collection property="srmSupplierInvoiceInformationList" ofType="SrmSupplierInvoiceInformation"
+                    column="supplier_id" select="selectSrmSupplierInvoiceInformationList"/>
     </resultMap>
 
     <resultMap type="SrmSupplierContactInformation" id="SrmSupplierContactInformationResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="gender"    column="gender"    />
-        <result property="email"    column="email"    />
-        <result property="phone"    column="phone"    />
-        <result property="department"    column="department"    />
-        <result property="telephone"    column="telephone"    />
-        <result property="documentType"    column="document_type"    />
-        <result property="documentCode"    column="document_code"    />
-        <result property="remarks"    column="remarks"    />
-        <result property="supplierId"    column="supplier_id"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="department" column="department"/>
+        <result property="telephone" column="telephone"/>
+        <result property="documentType" column="document_type"/>
+        <result property="documentCode" column="document_code"/>
+        <result property="remarks" column="remarks"/>
+        <result property="supplierId" column="supplier_id"/>
+    </resultMap>
+
+    <resultMap type="SrmSupplierAddressInformation" id="SrmSupplierAddressInformationResult">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="country" column="country"/>
+        <result property="pcd" column="pcd"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="zipcode" column="zipcode"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+
+    <resultMap type="SrmSupplierBankInformation" id="SrmSupplierBankInformationResult">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="country" column="country"/>
+        <result property="bankCode" column="bank_code"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="interbankAccount" column="interbank_account"/>
+        <result property="firstBank" column="first_bank"/>
+        <result property="account" column="account"/>
+        <result property="bankAccount" column="bank_account"/>
+    </resultMap>
+
+    <resultMap type="SrmSupplierInvoiceInformation" id="SrmSupplierInvoiceInformationResult">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="invoiceHeader" column="invoice_header"/>
+        <result property="taxRegistration" column="tax_registration"/>
+        <result property="firstBankNum" column="first_bank_num"/>
+        <result property="firstBank" column="first_bank"/>
+        <result property="taxRegistrationAdd" column="tax_registration_add"/>
+        <result property="taxRegistrationPhone" column="tax_registration_phone"/>
+        <result property="recipientEmail" column="recipient_email"/>
+        <result property="recipientPhone" column="recipient_phone"/>
     </resultMap>
 
     <sql id="selectSrmSupplierInformationVo">
-        select id, supplier_code, supplier_name, certification_region, enterprise_type, industry_type, rsnum, social_code, organizational_code, capital, taxpayer_type, incorporation_date, legal_person, business_term, business_nature, business_license, registration_status, invitation_time, life_stage, black_list from srm_supplier_information
+        select id,
+               supplier_code,
+               supplier_name,
+               certification_region,
+               enterprise_type,
+               industry_type,
+               rsnum,
+               social_code,
+               organizational_code,
+               capital,
+               taxpayer_type,
+               incorporation_date,
+               legal_person,
+               business_term,
+               business_nature,
+               business_license,
+               registration_status,
+               invitation_time,
+               life_stage,
+               black_list
+        from srm_supplier_information
     </sql>
 
-    <select id="selectSrmSupplierInformationList" parameterType="SrmSupplierInformation" resultMap="SrmSupplierInformationResult">
+    <select id="selectSrmSupplierInformationList" parameterType="SrmSupplierInformation"
+            resultMap="SrmSupplierInformationResult">
         <include refid="selectSrmSupplierInformationVo"/>
-        <where>  
-            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
-            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
-            <if test="certificationRegion != null "> and certification_region = #{certificationRegion}</if>
-            <if test="enterpriseType != null "> and enterprise_type = #{enterpriseType}</if>
-            <if test="industryType != null  and industryType != ''"> and industry_type = #{industryType}</if>
-            <if test="rsnum != null  and rsnum != ''"> and rsnum = #{rsnum}</if>
-            <if test="socialCode != null  and socialCode != ''"> and social_code = #{socialCode}</if>
-            <if test="organizationalCode != null  and organizationalCode != ''"> and organizational_code = #{organizationalCode}</if>
-            <if test="capital != null "> and capital = #{capital}</if>
-            <if test="taxpayerType != null  and taxpayerType != ''"> and taxpayer_type = #{taxpayerType}</if>
-            <if test="incorporationDate != null "> and incorporation_date = #{incorporationDate}</if>
-            <if test="legalPerson != null  and legalPerson != ''"> and legal_person = #{legalPerson}</if>
-            <if test="businessTerm != null "> and business_term = #{businessTerm}</if>
-            <if test="businessNature != null "> and business_nature = #{businessNature}</if>
-            <if test="businessLicense != null  and businessLicense != ''"> and business_license = #{businessLicense}</if>
-            <if test="registrationStatus != null "> and registration_status = #{registrationStatus}</if>
-            <if test="invitationTime != null "> and invitation_time = #{invitationTime}</if>
-            <if test="lifeStage != null "> and life_stage = #{lifeStage}</if>
-            <if test="blackList != null "> and black_list = #{blackList}</if>
+        <where>
+            <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>
+            <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},
+                '%')
+            </if>
+            <if test="certificationRegion != null ">and certification_region = #{certificationRegion}</if>
+            <if test="enterpriseType != null ">and enterprise_type = #{enterpriseType}</if>
+            <if test="industryType != null  and industryType != ''">and industry_type = #{industryType}</if>
+            <if test="rsnum != null  and rsnum != ''">and rsnum = #{rsnum}</if>
+            <if test="socialCode != null  and socialCode != ''">and social_code = #{socialCode}</if>
+            <if test="organizationalCode != null  and organizationalCode != ''">and organizational_code =
+                #{organizationalCode}
+            </if>
+            <if test="capital != null ">and capital = #{capital}</if>
+            <if test="taxpayerType != null  and taxpayerType != ''">and taxpayer_type = #{taxpayerType}</if>
+            <if test="incorporationDate != null ">and incorporation_date = #{incorporationDate}</if>
+            <if test="legalPerson != null  and legalPerson != ''">and legal_person = #{legalPerson}</if>
+            <if test="businessTerm != null ">and business_term = #{businessTerm}</if>
+            <if test="businessNature != null ">and business_nature = #{businessNature}</if>
+            <if test="businessLicense != null  and businessLicense != ''">and business_license = #{businessLicense}</if>
+            <if test="registrationStatus != null ">and registration_status = #{registrationStatus}</if>
+            <if test="invitationTime != null ">and invitation_time = #{invitationTime}</if>
+            <if test="lifeStage != null ">and life_stage = #{lifeStage}</if>
+            <if test="blackList != null ">and black_list = #{blackList}</if>
         </where>
     </select>
-    
-    <select id="selectSrmSupplierInformationById" parameterType="Long" resultMap="SrmSupplierInformationSrmSupplierContactInformationResult">
-        select id, supplier_code, supplier_name, certification_region, enterprise_type, industry_type, rsnum, social_code, organizational_code, capital, taxpayer_type, incorporation_date, legal_person, business_term, business_nature, business_license, registration_status, invitation_time, life_stage, black_list
-        from srm_supplier_information
-        where id = #{id}
+
+    <select id="selectSrmSupplierInformationById" parameterType="Long"
+            resultMap="SrmSupplierInformationSrmSupplierInvoiceInformationResult">
+        select ssi.id,
+               ssi.supplier_code,
+               ssi.supplier_name,
+               ssi.certification_region,
+               ssi.enterprise_type,
+               ssi.industry_type,
+               ssi.rsnum,
+               ssi.social_code,
+               ssi.organizational_code,
+               ssi.capital,
+               ssi.taxpayer_type,
+               ssi.incorporation_date,
+               ssi.legal_person,
+               ssi.business_term,
+               ssi.business_nature,
+               ssi.business_license,
+               ssi.registration_status,
+               ssi.invitation_time,
+               ssi.life_stage,
+               ssi.black_list,
+               ssai.id,
+               ssai.supplier_id,
+               ssai.country,
+               ssai.pcd,
+               ssai.detailed_address,
+               ssai.zipcode,
+               ssai.remarks,
+               ssci.id,
+               ssci.name,
+               ssci.gender,
+               ssci.email,
+               ssci.phone,
+               ssci.department,
+               ssci.telephone,
+               ssci.document_type,
+               ssci.document_code,
+               ssci.remarks,
+               ssci.supplier_id,
+               ssii.id,
+               ssii.supplier_id,
+               ssii.invoice_header,
+               ssii.tax_registration,
+               ssii.first_bank_num,
+               ssii.first_bank,
+               ssii.tax_registration_add,
+               ssii.tax_registration_phone,
+               ssii.recipient_email,
+               ssii.recipient_phone
+        from srm_supplier_information ssi
+                 left join srm_demo.srm_supplier_contact_information ssci on ssi.id = ssci.supplier_id
+                 left join srm_demo.srm_supplier_address_information ssai on ssi.id = ssai.supplier_id
+                 left join srm_demo.srm_supplier_bank_information ssbi on ssi.id = ssbi.supplier_id
+                 left join srm_demo.srm_supplier_invoice_information ssii on ssi.id = ssii.supplier_id
+        where ssi.id = #{id}
     </select>
 
-    <select id="selectSrmSupplierContactInformationList" resultType="SrmSupplierContactInformation" resultMap="SrmSupplierContactInformationResult">
-        select id, name, gender, email, phone, department, telephone, document_type, document_code, remarks, supplier_id
+    <select id="selectSrmSupplierContactInformationList" resultType="SrmSupplierContactInformation"
+            resultMap="SrmSupplierContactInformationResult">
+        select id,
+               name,
+               gender,
+               email,
+               phone,
+               department,
+               telephone,
+               document_type,
+               document_code,
+               remarks,
+               supplier_id
         from srm_supplier_contact_information
         where supplier_id = #{supplier_id}
     </select>
 
-    <insert id="insertSrmSupplierInformation" parameterType="SrmSupplierInformation" useGeneratedKeys="true" keyProperty="id">
+    <select id="selectSrmSupplierAddressInformationList" resultType="SrmSupplierAddressInformation"
+            resultMap="SrmSupplierAddressInformationResult">
+        select id, supplier_id, country, pcd, detailed_address, zipcode, remarks
+        from srm_supplier_address_information
+        where supplier_id = #{supplier_id}
+    </select>
+
+    <select id="selectSrmSupplierBankInformationList" resultType="SrmSupplierBankInformation"
+            resultMap="SrmSupplierBankInformationResult">
+        select id,
+               supplier_id,
+               country,
+               bank_code,
+               bank_name,
+               interbank_account,
+               first_bank,
+               account,
+               bank_account
+        from srm_supplier_bank_information
+        where supplier_id = #{supplier_id}
+    </select>
+
+    <select id="selectSrmSupplierInvoiceInformationList" resultType="SrmSupplierInvoiceInformation"
+            resultMap="SrmSupplierInvoiceInformationResult">
+        select id,
+               supplier_id,
+               invoice_header,
+               tax_registration,
+               first_bank_num,
+               first_bank,
+               tax_registration_add,
+               tax_registration_phone,
+               recipient_email,
+               recipient_phone
+        from srm_supplier_invoice_information
+        where supplier_id = #{supplier_id}
+    </select>
+
+    <insert id="insertSrmSupplierInformation" parameterType="SrmSupplierInformation" useGeneratedKeys="true"
+            keyProperty="id">
         insert into srm_supplier_information
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="supplierCode != null and supplierCode != ''">supplier_code,</if>
@@ -108,7 +289,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="invitationTime != null">invitation_time,</if>
             <if test="lifeStage != null">life_stage,</if>
             <if test="blackList != null">black_list,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="supplierCode != null and supplierCode != ''">#{supplierCode},</if>
             <if test="supplierName != null and supplierName != ''">#{supplierName},</if>
@@ -129,7 +310,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="invitationTime != null">#{invitationTime},</if>
             <if test="lifeStage != null">#{lifeStage},</if>
             <if test="blackList != null">#{blackList},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSrmSupplierInformation" parameterType="SrmSupplierInformation">
@@ -142,7 +323,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="industryType != null and industryType != ''">industry_type = #{industryType},</if>
             <if test="rsnum != null and rsnum != ''">rsnum = #{rsnum},</if>
             <if test="socialCode != null and socialCode != ''">social_code = #{socialCode},</if>
-            <if test="organizationalCode != null and organizationalCode != ''">organizational_code = #{organizationalCode},</if>
+            <if test="organizationalCode != null and organizationalCode != ''">organizational_code =
+                #{organizationalCode},
+            </if>
             <if test="capital != null">capital = #{capital},</if>
             <if test="taxpayerType != null and taxpayerType != ''">taxpayer_type = #{taxpayerType},</if>
             <if test="incorporationDate != null">incorporation_date = #{incorporationDate},</if>
@@ -159,31 +342,105 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmSupplierInformationById" parameterType="Long">
-        delete from srm_supplier_information where id = #{id}
+        delete
+        from srm_supplier_information
+        where id = #{id}
     </delete>
 
     <delete id="deleteSrmSupplierInformationByIds" parameterType="String">
-        delete from srm_supplier_information where id in 
+        delete from srm_supplier_information where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
+    <delete id="deleteSrmSupplierBankInformationBySupplierIds" parameterType="String">
+        delete from srm_supplier_bank_information where supplier_id in
+        <foreach item="supplierId" collection="array" open="(" separator="," close=")">
+            #{supplierId}
+        </foreach>
+    </delete>
+
     <delete id="deleteSrmSupplierContactInformationBySupplierIds" parameterType="String">
-        delete from srm_supplier_contact_information where supplier_id in 
+        delete from srm_supplier_contact_information where supplier_id in
+        <foreach item="supplierId" collection="array" open="(" separator="," close=")">
+            #{supplierId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmSupplierAddressInformationBySupplierIds" parameterType="String">
+        delete from srm_supplier_address_information where supplier_id in
+        <foreach item="supplierId" collection="array" open="(" separator="," close=")">
+            #{supplierId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmSupplierInvoiceInformationBySupplierIds" parameterType="String">
+        delete from srm_supplier_invoice_information where supplier_id in
         <foreach item="supplierId" collection="array" open="(" separator="," close=")">
             #{supplierId}
         </foreach>
     </delete>
 
     <delete id="deleteSrmSupplierContactInformationBySupplierId" parameterType="Long">
-        delete from srm_supplier_contact_information where supplier_id = #{supplierId}
+        delete
+        from srm_supplier_contact_information
+        where supplier_id = #{supplierId}
+    </delete>
+
+    <delete id="deleteSrmSupplierAddressInformationBySupplierId" parameterType="Long">
+        delete
+        from srm_supplier_address_information
+        where supplier_id = #{supplierId}
+    </delete>
+
+    <delete id="deleteSrmSupplierBankInformationBySupplierId" parameterType="Long">
+        delete
+        from srm_supplier_bank_information
+        where supplier_id = #{supplierId}
+    </delete>
+
+    <delete id="deleteSrmSupplierInvoiceInformationBySupplierId" parameterType="Long">
+        delete
+        from srm_supplier_invoice_information
+        where supplier_id = #{supplierId}
     </delete>
 
     <insert id="batchSrmSupplierContactInformation">
-        insert into srm_supplier_contact_information( id, name, gender, email, phone, department, telephone, document_type, document_code, remarks, supplier_id) values
+        insert into srm_supplier_contact_information( id, name, gender, email, phone, department, telephone,
+        document_type, document_code, remarks, supplier_id) values
         <foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.id}, #{item.name}, #{item.gender}, #{item.email}, #{item.phone}, #{item.department}, #{item.telephone}, #{item.documentType}, #{item.documentCode}, #{item.remarks}, #{item.supplierId})
+            ( #{item.id}, #{item.name}, #{item.gender}, #{item.email}, #{item.phone}, #{item.department},
+            #{item.telephone}, #{item.documentType}, #{item.documentCode}, #{item.remarks}, #{item.supplierId})
+        </foreach>
+    </insert>
+
+    <insert id="batchSrmSupplierAddressInformation">
+        insert into srm_supplier_address_information( id, supplier_id, country, pcd, detailed_address, zipcode, remarks)
+        values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.supplierId}, #{item.country}, #{item.pcd}, #{item.detailedAddress}, #{item.zipcode},
+            #{item.remarks})
+        </foreach>
+    </insert>
+
+
+    <insert id="batchSrmSupplierBankInformation">
+        insert into srm_supplier_bank_information( id, supplier_id, country, bank_code, bank_name, interbank_account,
+        first_bank, account, bank_account) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.supplierId}, #{item.country}, #{item.bankCode}, #{item.bankName},
+            #{item.interbankAccount}, #{item.firstBank}, #{item.account}, #{item.bankAccount})
+        </foreach>
+    </insert>
+
+    <insert id="batchSrmSupplierInvoiceInformation">
+        insert into srm_supplier_invoice_information( id, supplier_id, invoice_header, tax_registration, first_bank_num,
+        first_bank, tax_registration_add, tax_registration_phone, recipient_email, recipient_phone) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.supplierId}, #{item.invoiceHeader}, #{item.taxRegistration}, #{item.firstBankNum},
+            #{item.firstBank}, #{item.taxRegistrationAdd}, #{item.taxRegistrationPhone}, #{item.recipientEmail},
+            #{item.recipientPhone})
         </foreach>
     </insert>
 </mapper>

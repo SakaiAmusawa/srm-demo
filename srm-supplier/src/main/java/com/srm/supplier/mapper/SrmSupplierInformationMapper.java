@@ -1,8 +1,9 @@
 package com.srm.supplier.mapper;
 
 import java.util.List;
-import com.srm.supplier.domain.SrmSupplierInformation;
-import com.srm.supplier.domain.SrmSupplierContactInformation;
+
+import com.srm.supplier.domain.*;
+import org.springframework.stereotype.Repository;
 
 /**
  * 供应商信息Mapper接口
@@ -10,6 +11,7 @@ import com.srm.supplier.domain.SrmSupplierContactInformation;
  * @author sakai
  * @date 2024-07-01
  */
+@Repository
 public interface SrmSupplierInformationMapper 
 {
     /**
@@ -84,4 +86,59 @@ public interface SrmSupplierInformationMapper
      * @return 结果
      */
     public int deleteSrmSupplierContactInformationBySupplierId(Long id);
+
+    /**
+     * 批量删除供应商地址信息
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteSrmSupplierAddressInformationBySupplierIds(Long[] ids);
+
+    /**
+     * 批量新增供应商地址信息
+     *
+     * @param srmSupplierAddressInformationList 供应商地址信息列表
+     * @return 结果
+     */
+    public int batchSrmSupplierAddressInformation(List<SrmSupplierAddressInformation> srmSupplierAddressInformationList);
+
+
+    /**
+     * 通过供应商信息主键删除供应商地址信息信息
+     *
+     * @param id 供应商信息ID
+     * @return 结果
+     */
+    public int deleteSrmSupplierAddressInformationBySupplierId(Long id);
+
+
+
+    public int batchSrmSupplierBankInformation(List<SrmSupplierBankInformation> srmSupplierBankInformationList);
+
+
+    /**
+     * 批量删除供应商开票信息
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteSrmSupplierInvoiceInformationBySupplierIds(Long[] ids);
+
+    /**
+     * 批量新增供应商开票信息
+     *
+     * @param srmSupplierInvoiceInformationList 供应商开票信息列表
+     * @return 结果
+     */
+    public int batchSrmSupplierInvoiceInformation(List<SrmSupplierInvoiceInformation> srmSupplierInvoiceInformationList);
+
+
+    /**
+     * 通过供应商信息主键删除供应商开票信息信息
+     *
+     * @param id 供应商信息ID
+     * @return 结果
+     */
+    public int deleteSrmSupplierInvoiceInformationBySupplierId(Long id);
 }
