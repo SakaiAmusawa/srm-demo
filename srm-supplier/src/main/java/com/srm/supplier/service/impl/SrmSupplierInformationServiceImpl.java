@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,8 +77,22 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
 
         srmSupplierInformation.setIndustryType(companyInfo.getResult().getIndustryAll().getCategoryMiddle());
+        srmSupplierInformation.setOrganizationalCode(companyInfo.getResult().getOrgNumber());
+        srmSupplierInformation.setCapital(Long.valueOf(companyInfo.getResult().getRegCapital()));
+        srmSupplierInformation.setTaxpayerType(companyInfo.getResult().getTaxNumber());
+        //todo 时间格式需要转换 先填写一个假数据
+        //srmSupplierInformation.setIncorporationDate(companyInfo.getResult().getEstiblishTime());
+        srmSupplierInformation.setIncorporationDate(new Date());
+        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());
+        //todo 时间格式需要转换 先填写一个假数据
+        //srmSupplierInformation.setBusinessTerm(companyInfo.getResult().getToTime());
+        srmSupplierInformation.setBusinessTerm(new Date());
+        srmSupplierInformation.setRegistrationStatus(2L);
+        srmSupplierInformation.setInvitationTime(new Date());
+        srmSupplierInformation.setLifeStage(0L);
+        srmSupplierInformation.setBlackList(0L);
 
-        //todo 从天眼查获取部分信息
+
         insertSrmSupplierContactInformation(srmSupplierInformation);
         insertSrmSupplierAddressInformation(srmSupplierInformation);
         insertSrmSupplierBankInformation(srmSupplierInformation);
