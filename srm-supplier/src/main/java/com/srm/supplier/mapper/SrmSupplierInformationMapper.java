@@ -141,4 +141,29 @@ public interface SrmSupplierInformationMapper
      * @return 结果
      */
     public int deleteSrmSupplierInvoiceInformationBySupplierId(Long id);
+
+    /**
+     * 批量删除供应商证照信息
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteSrmSupplierLicenseInformationBySupplierIds(Long[] ids);
+
+    /**
+     * 批量新增供应商证照信息
+     *
+     * @param srmSupplierLicenseInformationList 供应商证照信息列表
+     * @return 结果
+     */
+    public int batchSrmSupplierLicenseInformation(List<SrmSupplierLicenseInformation> srmSupplierLicenseInformationList);
+
+
+    /**
+     * 通过供应商信息主键删除供应商证照信息信息
+     *
+     * @param id 供应商信息ID
+     * @return 结果
+     */
+    public int deleteSrmSupplierLicenseInformationBySupplierId(Long id);
 }

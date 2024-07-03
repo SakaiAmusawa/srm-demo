@@ -150,11 +150,20 @@ public class SrmSupplierInformation extends BaseEntity {
      */
     private List<SrmSupplierAddressInformation> srmSupplierAddressInformationList;
 
-    /** 供应商银行信息信息 */
+    /**
+     * 供应商银行信息信息
+     */
     private List<SrmSupplierBankInformation> srmSupplierBankInformationList;
 
-    /** 供应商开票信息信息 */
+    /**
+     * 供应商开票信息信息
+     */
     private List<SrmSupplierInvoiceInformation> srmSupplierInvoiceInformationList;
+
+    /**
+     * 供应商证照信息信息
+     */
+    private List<SrmSupplierLicenseInformation> srmSupplierLicenseInformationList;
 
     public void setId(Long id) {
         this.id = id;
@@ -348,6 +357,14 @@ public class SrmSupplierInformation extends BaseEntity {
         this.srmSupplierInvoiceInformationList = srmSupplierInvoiceInformationList;
     }
 
+    public List<SrmSupplierLicenseInformation> getSrmSupplierLicenseInformationList() {
+        return srmSupplierLicenseInformationList;
+    }
+
+    public void setSrmSupplierLicenseInformationList(List<SrmSupplierLicenseInformation> srmSupplierLicenseInformationList) {
+        this.srmSupplierLicenseInformationList = srmSupplierLicenseInformationList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -375,6 +392,7 @@ public class SrmSupplierInformation extends BaseEntity {
                 .append("srmSupplierAddressInformationList", getSrmSupplierAddressInformationList())
                 .append("srmSupplierBankInformationList", getSrmSupplierBankInformationList())
                 .append("srmSupplierInvoiceInformationList", getSrmSupplierInvoiceInformationList())
+                .append("srmSupplierLicenseInformationList", getSrmSupplierLicenseInformationList())
                 .toString();
     }
 }

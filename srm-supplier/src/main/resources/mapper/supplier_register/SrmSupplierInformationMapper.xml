@@ -50,6 +50,10 @@
                     column="supplier_id" select="selectSrmSupplierInvoiceInformationList"/>
     </resultMap>
 
+    <resultMap id="SrmSupplierInformationSrmSupplierLicenseInformationResult" type="SrmSupplierInformation" extends="SrmSupplierInformationSrmSupplierInvoiceInformationResult">
+        <collection property="srmSupplierLicenseInformationList" ofType="SrmSupplierLicenseInformation" column="supplier_id" select="selectSrmSupplierLicenseInformationList" />
+    </resultMap>
+
     <resultMap type="SrmSupplierContactInformation" id="SrmSupplierContactInformationResult">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -97,6 +101,17 @@
         <result property="taxRegistrationPhone" column="tax_registration_phone"/>
         <result property="recipientEmail" column="recipient_email"/>
         <result property="recipientPhone" column="recipient_phone"/>
+    </resultMap>
+
+    <resultMap type="SrmSupplierLicenseInformation" id="SrmSupplierLicenseInformationResult">
+        <result property="id"    column="id"    />
+        <result property="attachment"    column="attachment"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="describe"    column="describe"    />
+        <result property="expirationPeriod"    column="expiration_period"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="attachmentUpload"    column="attachment_upload"    />
+        <result property="remarks"    column="remarks"    />
     </resultMap>
 
     <sql id="selectSrmSupplierInformationVo">
@@ -208,6 +223,7 @@
                  left join srm_demo.srm_supplier_address_information ssai on ssi.id = ssai.supplier_id
                  left join srm_demo.srm_supplier_bank_information ssbi on ssi.id = ssbi.supplier_id
                  left join srm_demo.srm_supplier_invoice_information ssii on ssi.id = ssii.supplier_id
+                 left join srm_demo.srm_supplier_license_information ssli on ssi.id = ssli.supplier_id
         where ssi.id = #{id}
     </select>
 
@@ -263,6 +279,12 @@
                recipient_email,
                recipient_phone
         from srm_supplier_invoice_information
+        where supplier_id = #{supplier_id}
+    </select>
+
+    <select id="selectSrmSupplierLicenseInformationList" resultType="SrmSupplierLicenseInformation" resultMap="SrmSupplierLicenseInformationResult">
+        select id, attachment, supplier_id, `describe`, expiration_period, update_date, attachment_upload, remarks
+        from srm_supplier_license_information
         where supplier_id = #{supplier_id}
     </select>
 
@@ -382,6 +404,13 @@
         </foreach>
     </delete>
 
+    <delete id="deleteSrmSupplierLicenseInformationBySupplierIds" parameterType="String">
+        delete from srm_supplier_license_information where supplier_id in
+        <foreach item="supplierId" collection="array" open="(" separator="," close=")">
+            #{supplierId}
+        </foreach>
+    </delete>
+
     <delete id="deleteSrmSupplierContactInformationBySupplierId" parameterType="Long">
         delete
         from srm_supplier_contact_information
@@ -404,6 +433,10 @@
         delete
         from srm_supplier_invoice_information
         where supplier_id = #{supplierId}
+    </delete>
+
+    <delete id="deleteSrmSupplierLicenseInformationBySupplierId" parameterType="Long">
+        delete from srm_supplier_license_information where supplier_id = #{supplierId}
     </delete>
 
     <insert id="batchSrmSupplierContactInformation">
@@ -441,6 +474,13 @@
             ( #{item.id}, #{item.supplierId}, #{item.invoiceHeader}, #{item.taxRegistration}, #{item.firstBankNum},
             #{item.firstBank}, #{item.taxRegistrationAdd}, #{item.taxRegistrationPhone}, #{item.recipientEmail},
             #{item.recipientPhone})
+        </foreach>
+    </insert>
+
+    <insert id="batchSrmSupplierLicenseInformation">
+        insert into srm_supplier_license_information( id, attachment, supplier_id, `describe`, expiration_period, update_date, attachment_upload, remarks) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.attachment}, #{item.supplierId}, #{item.describe}, #{item.expirationPeriod}, #{item.updateDate}, #{item.attachmentUpload}, #{item.remarks})
         </foreach>
     </insert>
 </mapper>

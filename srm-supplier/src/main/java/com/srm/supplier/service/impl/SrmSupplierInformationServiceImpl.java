@@ -80,10 +80,10 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformation.setOrganizationalCode(companyInfo.getResult().getOrgNumber());
         srmSupplierInformation.setCapital(Long.valueOf(companyInfo.getResult().getRegCapital()));
         srmSupplierInformation.setTaxpayerType(companyInfo.getResult().getTaxNumber());
+        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());
         //todo 时间格式需要转换 先填写一个假数据
         //srmSupplierInformation.setIncorporationDate(companyInfo.getResult().getEstiblishTime());
         srmSupplierInformation.setIncorporationDate(new Date());
-        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());
         //todo 时间格式需要转换 先填写一个假数据
         //srmSupplierInformation.setBusinessTerm(companyInfo.getResult().getToTime());
         srmSupplierInformation.setBusinessTerm(new Date());
@@ -97,6 +97,7 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         insertSrmSupplierAddressInformation(srmSupplierInformation);
         insertSrmSupplierBankInformation(srmSupplierInformation);
         insertSrmSupplierInvoiceInformation(srmSupplierInformation);
+        insertSrmSupplierLicenseInformation(srmSupplierInformation);
         return rows;
     }
 
@@ -114,6 +115,7 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         insertSrmSupplierAddressInformation(srmSupplierInformation);
         insertSrmSupplierBankInformation(srmSupplierInformation);
         insertSrmSupplierInvoiceInformation(srmSupplierInformation);
+        insertSrmSupplierLicenseInformation(srmSupplierInformation);
         return srmSupplierInformationMapper.updateSrmSupplierInformation(srmSupplierInformation);
     }
 
@@ -130,6 +132,7 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformationMapper.deleteSrmSupplierAddressInformationBySupplierIds(ids);
         srmSupplierInformationMapper.deleteSrmSupplierInformationByIds(ids);
         srmSupplierInformationMapper.deleteSrmSupplierInvoiceInformationBySupplierIds(ids);
+        srmSupplierInformationMapper.deleteSrmSupplierLicenseInformationBySupplierIds(ids);
         return srmSupplierInformationMapper.deleteSrmSupplierInformationByIds(ids);
     }
 
@@ -146,6 +149,7 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformationMapper.deleteSrmSupplierAddressInformationBySupplierId(id);
         srmSupplierInformationMapper.deleteSrmSupplierInformationById(id);
         srmSupplierInformationMapper.deleteSrmSupplierInvoiceInformationBySupplierId(id);
+        srmSupplierInformationMapper.deleteSrmSupplierLicenseInformationBySupplierId(id);
         return srmSupplierInformationMapper.deleteSrmSupplierInformationById(id);
     }
 
@@ -230,6 +234,25 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         }
     }
 
+    /**
+     * 新增供应商证照信息信息
+     *
+     * @param srmSupplierInformation 供应商信息对象
+     */
+    public void insertSrmSupplierLicenseInformation(SrmSupplierInformation srmSupplierInformation) {
+        List<SrmSupplierLicenseInformation> srmSupplierLicenseInformationList = srmSupplierInformation.getSrmSupplierLicenseInformationList();
+        Long id = srmSupplierInformation.getId();
+        if (StringUtils.isNotNull(srmSupplierLicenseInformationList)) {
+            List<SrmSupplierLicenseInformation> list = new ArrayList<SrmSupplierLicenseInformation>();
+            for (SrmSupplierLicenseInformation srmSupplierLicenseInformation : srmSupplierLicenseInformationList) {
+                srmSupplierLicenseInformation.setSupplierId(id);
+                list.add(srmSupplierLicenseInformation);
+            }
+            if (list.size() > 0) {
+                srmSupplierInformationMapper.batchSrmSupplierLicenseInformation(list);
+            }
+        }
+    }
 
     /**
      * http get请求
