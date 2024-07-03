@@ -84,11 +84,13 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         Gson gson = new Gson();
         CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
 
-/*        srmSupplierInformation.setIndustryType(companyInfo.getResult().getIndustryAll().getCategoryMiddle());
+        /*
+        srmSupplierInformation.setIndustryType(companyInfo.getResult().getIndustryAll().getCategoryMiddle());
         srmSupplierInformation.setOrganizationalCode(companyInfo.getResult().getOrgNumber());
         srmSupplierInformation.setCapital(Long.valueOf(companyInfo.getResult().getRegCapital()));
         srmSupplierInformation.setTaxpayerType(companyInfo.getResult().getTaxNumber());
-        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());*/
+        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());
+        */
 
         srmSupplierInformation.setIndustryType("制造业");
         srmSupplierInformation.setOrganizationalCode("123456");
