@@ -1,40 +1,34 @@
 package com.srm.supplier.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.srm.common.annotation.Log;
 import com.srm.common.core.controller.BaseController;
 import com.srm.common.core.domain.AjaxResult;
+import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
+import com.srm.common.utils.poi.ExcelUtil;
 import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.service.ISrmSupplierInformationService;
-import com.srm.common.utils.poi.ExcelUtil;
-import com.srm.common.core.page.TableDataInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 供应商信息Controller
- * 
+ *
  * @author sakai
  * @date 2024-07-01
  */
 @Api(tags = "供应商")
 @RestController
 @RequestMapping("/supplier_register/information")
-public class SrmSupplierInformationController extends BaseController
-{
+@Slf4j
+public class SrmSupplierInformationController extends BaseController {
     @Autowired
     private ISrmSupplierInformationService srmSupplierInformationService;
 
@@ -44,8 +38,7 @@ public class SrmSupplierInformationController extends BaseController
     @ApiOperation("查询供应商信息列表")
     @PreAuthorize("@ss.hasPermi('supplier_register:information:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SrmSupplierInformation srmSupplierInformation)
-    {
+    public TableDataInfo list(SrmSupplierInformation srmSupplierInformation) {
         startPage();
         List<SrmSupplierInformation> list = srmSupplierInformationService.selectSrmSupplierInformationList(srmSupplierInformation);
         return getDataTable(list);
@@ -57,8 +50,7 @@ public class SrmSupplierInformationController extends BaseController
     @PreAuthorize("@ss.hasPermi('supplier_register:information:export')")
     @Log(title = "供应商信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SrmSupplierInformation srmSupplierInformation)
-    {
+    public void export(HttpServletResponse response, SrmSupplierInformation srmSupplierInformation) {
         List<SrmSupplierInformation> list = srmSupplierInformationService.selectSrmSupplierInformationList(srmSupplierInformation);
         ExcelUtil<SrmSupplierInformation> util = new ExcelUtil<SrmSupplierInformation>(SrmSupplierInformation.class);
         util.exportExcel(response, list, "供应商信息数据");
@@ -70,8 +62,7 @@ public class SrmSupplierInformationController extends BaseController
     @ApiOperation("获取供应商信息详细信息")
     @PreAuthorize("@ss.hasPermi('supplier_register:information:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(srmSupplierInformationService.selectSrmSupplierInformationById(id));
     }
 
@@ -82,8 +73,8 @@ public class SrmSupplierInformationController extends BaseController
     @PreAuthorize("@ss.hasPermi('supplier_register:information:add')")
     @Log(title = "供应商信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SrmSupplierInformation srmSupplierInformation)
-    {
+    public AjaxResult add(@RequestBody SrmSupplierInformation srmSupplierInformation) {
+        log.debug("srmSupplierInformation:{}", srmSupplierInformation);
         return toAjax(srmSupplierInformationService.insertSrmSupplierInformation(srmSupplierInformation));
     }
 
@@ -93,8 +84,7 @@ public class SrmSupplierInformationController extends BaseController
     @PreAuthorize("@ss.hasPermi('supplier_register:information:edit')")
     @Log(title = "供应商信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SrmSupplierInformation srmSupplierInformation)
-    {
+    public AjaxResult edit(@RequestBody SrmSupplierInformation srmSupplierInformation) {
         return toAjax(srmSupplierInformationService.updateSrmSupplierInformation(srmSupplierInformation));
     }
 
@@ -103,9 +93,8 @@ public class SrmSupplierInformationController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('supplier_register:information:remove')")
     @Log(title = "供应商信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(srmSupplierInformationService.deleteSrmSupplierInformationByIds(ids));
     }
 

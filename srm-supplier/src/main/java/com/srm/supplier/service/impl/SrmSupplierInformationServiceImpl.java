@@ -5,6 +5,7 @@ import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
 import com.srm.supplier.mapper.SrmSupplierInformationMapper;
 import com.srm.supplier.service.ISrmSupplierInformationService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,6 +33,7 @@ import java.util.UUID;
  * @date 2024-07-01
  */
 @Service
+@Slf4j
 public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformationService {
     @Autowired
     private SrmSupplierInformationMapper srmSupplierInformationMapper;
@@ -67,9 +69,10 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
     @Transactional
     @Override
     public int insertSrmSupplierInformation(SrmSupplierInformation srmSupplierInformation) {
-        int rows = srmSupplierInformationMapper.insertSrmSupplierInformation(srmSupplierInformation);
+
         String code = generateUniqueString(10);
         srmSupplierInformation.setSupplierCode(code);
+        log.debug("supplier:{}", code);
         String supplierName = srmSupplierInformation.getSupplierName();
 
         //token在生产时需要替换为实际可用的token
@@ -104,6 +107,8 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformation.setInvitationTime(new Date());
         srmSupplierInformation.setLifeStage(0L);
         srmSupplierInformation.setBlackList(0L);
+
+        int rows = srmSupplierInformationMapper.insertSrmSupplierInformation(srmSupplierInformation);
 
         insertSrmSupplierContactInformation(srmSupplierInformation);
         insertSrmSupplierAddressInformation(srmSupplierInformation);
