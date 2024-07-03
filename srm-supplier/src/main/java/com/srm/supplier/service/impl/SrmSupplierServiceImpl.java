@@ -1,6 +1,7 @@
 package com.srm.supplier.service.impl;
 
 import com.google.gson.Gson;
+import com.srm.common.core.domain.AjaxResult;
 import com.srm.supplier.domain.CompanyInfo;
 import com.srm.supplier.mapper.SrmSupplierMapper;
 import com.srm.supplier.service.ISrmSupplierService;
@@ -22,18 +23,21 @@ public class SrmSupplierServiceImpl implements ISrmSupplierService {
     private SrmSupplierMapper srmSupplierMapper;
 
     @Override
-    public void supplierRegister() {
+    public AjaxResult supplierRegister() {
 
         String companyName = "test";
 
         String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
         String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/normal?keyword=" + companyName;
         String jsonResponse = executeGet(url, token);
-        System.out.println(jsonResponse);
 
         // Convert JSON response to Java object
         Gson gson = new Gson();
         CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
+        if (companyInfo.getResult() == null) {
+            return AjaxResult.error(500612, "调用天眼查API接口失败");
+        }
+        return AjaxResult.success();
     }
 
     /**

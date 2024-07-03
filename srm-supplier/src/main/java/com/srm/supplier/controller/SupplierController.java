@@ -16,8 +16,7 @@ public class SupplierController {
 
     @PostMapping("/register")
     public AjaxResult supplierRegister() {
-        srmSupplierService.supplierRegister();
-        return AjaxResult.success();
+        return srmSupplierService.supplierRegister();
     }
 
 }
