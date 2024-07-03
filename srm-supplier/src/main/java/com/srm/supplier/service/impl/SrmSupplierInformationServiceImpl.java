@@ -17,9 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 供应商信息Service业务层处理
@@ -64,7 +68,8 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
     @Override
     public int insertSrmSupplierInformation(SrmSupplierInformation srmSupplierInformation) {
         int rows = srmSupplierInformationMapper.insertSrmSupplierInformation(srmSupplierInformation);
-        srmSupplierInformation.setSupplierCode("263016");
+        String code = generateUniqueString(10);
+        srmSupplierInformation.setSupplierCode(code);
         String supplierName = srmSupplierInformation.getSupplierName();
 
         //token在生产时需要替换为实际可用的token
@@ -76,16 +81,24 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         Gson gson = new Gson();
         CompanyInfo companyInfo = gson.fromJson(jsonResponse, CompanyInfo.class);
 
-        srmSupplierInformation.setIndustryType(companyInfo.getResult().getIndustryAll().getCategoryMiddle());
+/*        srmSupplierInformation.setIndustryType(companyInfo.getResult().getIndustryAll().getCategoryMiddle());
         srmSupplierInformation.setOrganizationalCode(companyInfo.getResult().getOrgNumber());
         srmSupplierInformation.setCapital(Long.valueOf(companyInfo.getResult().getRegCapital()));
         srmSupplierInformation.setTaxpayerType(companyInfo.getResult().getTaxNumber());
-        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());
+        srmSupplierInformation.setLegalPerson(companyInfo.getResult().getLegalPersonName());*/
+
+        srmSupplierInformation.setIndustryType("制造业");
+        srmSupplierInformation.setOrganizationalCode("123456");
+        srmSupplierInformation.setCapital(50000L);
+        srmSupplierInformation.setTaxpayerType("165465656");
+        srmSupplierInformation.setLegalPerson("Test");
+
         //todo 时间格式需要转换 先填写一个假数据
         //srmSupplierInformation.setIncorporationDate(companyInfo.getResult().getEstiblishTime());
         srmSupplierInformation.setIncorporationDate(new Date());
         //todo 时间格式需要转换 先填写一个假数据
         //srmSupplierInformation.setBusinessTerm(companyInfo.getResult().getToTime());
+
         srmSupplierInformation.setBusinessTerm(new Date());
         srmSupplierInformation.setRegistrationStatus(2L);
         srmSupplierInformation.setInvitationTime(new Date());
@@ -283,5 +296,29 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
             httpClient.getConnectionManager().shutdown();
         }
         return result;
+    }
+
+    public static String generateUniqueString(int length) {
+        String uuidStr = UUID.randomUUID().toString();
+        String hashStr = sha256(uuidStr);
+        return hashStr.substring(0, length);
+    }
+
+    private static String sha256(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
