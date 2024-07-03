@@ -2,6 +2,9 @@ package com.srm.supplier.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,7 @@ import com.srm.common.core.page.TableDataInfo;
  * @author sakai
  * @date 2024-07-01
  */
+@Api(tags = "供应商")
 @RestController
 @RequestMapping("/supplier_register/information")
 public class SrmSupplierInformationController extends BaseController
@@ -37,6 +41,7 @@ public class SrmSupplierInformationController extends BaseController
     /**
      * 查询供应商信息列表
      */
+    @ApiOperation("查询供应商信息列表")
     @PreAuthorize("@ss.hasPermi('supplier_register:information:list')")
     @GetMapping("/list")
     public TableDataInfo list(SrmSupplierInformation srmSupplierInformation)
@@ -62,6 +67,7 @@ public class SrmSupplierInformationController extends BaseController
     /**
      * 获取供应商信息详细信息
      */
+    @ApiOperation("获取供应商信息详细信息")
     @PreAuthorize("@ss.hasPermi('supplier_register:information:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
@@ -72,6 +78,7 @@ public class SrmSupplierInformationController extends BaseController
     /**
      * 新增供应商信息
      */
+    @ApiOperation("供应商注册")
     @PreAuthorize("@ss.hasPermi('supplier_register:information:add')")
     @Log(title = "供应商信息", businessType = BusinessType.INSERT)
     @PostMapping
