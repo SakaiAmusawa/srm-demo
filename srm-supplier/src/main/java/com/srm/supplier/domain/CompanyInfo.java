@@ -78,7 +78,7 @@ public class CompanyInfo {
         @SerializedName("orgNumber")
         private String orgNumber;
         @SerializedName("toTime")
-        private Object toTime;
+        private Long toTime;
         @SerializedName("actualCapital")
         private String actualCapital;
         @SerializedName("estiblishTime")
