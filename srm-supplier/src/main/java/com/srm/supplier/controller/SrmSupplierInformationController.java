@@ -101,4 +101,5 @@ public class SrmSupplierInformationController extends BaseController
     {
         return toAjax(srmSupplierInformationService.deleteSrmSupplierInformationByIds(ids));
     }
+
 }

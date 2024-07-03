@@ -98,13 +98,12 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformation.setIncorporationDate(new Date());
         //todo 时间格式需要转换 先填写一个假数据
         //srmSupplierInformation.setBusinessTerm(companyInfo.getResult().getToTime());
-
         srmSupplierInformation.setBusinessTerm(new Date());
+
         srmSupplierInformation.setRegistrationStatus(2L);
         srmSupplierInformation.setInvitationTime(new Date());
         srmSupplierInformation.setLifeStage(0L);
         srmSupplierInformation.setBlackList(0L);
-
 
         insertSrmSupplierContactInformation(srmSupplierInformation);
         insertSrmSupplierAddressInformation(srmSupplierInformation);
