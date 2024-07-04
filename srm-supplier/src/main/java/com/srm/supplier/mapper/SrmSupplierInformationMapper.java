@@ -166,4 +166,6 @@ public interface SrmSupplierInformationMapper
      * @return 结果
      */
     public int deleteSrmSupplierLicenseInformationBySupplierId(Long id);
+
+    int selectSrmSupplierInformationByName(String supplierName);
 }

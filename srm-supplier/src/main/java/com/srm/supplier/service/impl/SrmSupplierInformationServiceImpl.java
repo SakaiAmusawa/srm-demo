@@ -1,6 +1,8 @@
 package com.srm.supplier.service.impl;
 
 import com.google.gson.Gson;
+import com.srm.common.exception.ServiceException;
+import com.srm.common.utils.SecurityUtils;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
 import com.srm.supplier.mapper.SrmSupplierInformationMapper;
@@ -70,10 +72,23 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
     @Override
     public int insertSrmSupplierInformation(SrmSupplierInformation srmSupplierInformation) {
 
+
+        if (srmSupplierInformation.getSrmSupplierContactInformationList().isEmpty() || srmSupplierInformation.getSrmSupplierAddressInformationList().isEmpty() || srmSupplierInformation.getSrmSupplierBankInformationList().isEmpty() || srmSupplierInformation.getSrmSupplierInvoiceInformationList().isEmpty() || srmSupplierInformation.getSrmSupplierLicenseInformationList().isEmpty()) {
+            throw new ServiceException("信息不完整,请确保填写联系人信息、地址信息、银行信息、开票信息、证照信息");
+        }
+
+        //供应商注册幂等
+        String supplierName = srmSupplierInformation.getSupplierName();
+        int selectNameResult = srmSupplierInformationMapper.selectSrmSupplierInformationByName(supplierName);
+        if (selectNameResult != 0) {
+            throw new ServiceException("供应商已存在");
+        }
+
+        //生成供应商编码
         String code = generateUniqueString(10);
         srmSupplierInformation.setSupplierCode(code);
         log.debug("supplier:{}", code);
-        String supplierName = srmSupplierInformation.getSupplierName();
+
 
         //token在生产时需要替换为实际可用的token
         String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";

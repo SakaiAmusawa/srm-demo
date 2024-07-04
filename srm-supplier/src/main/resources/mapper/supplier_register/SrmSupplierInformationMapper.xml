@@ -483,4 +483,10 @@
             ( #{item.id}, #{item.attachment}, #{item.supplierId}, #{item.describe}, #{item.expirationPeriod}, #{item.updateDate}, #{item.attachmentUpload}, #{item.remarks})
         </foreach>
     </insert>
+
+    <select id="selectSrmSupplierInformationByName" resultType="java.lang.Integer">
+        select supplier_name
+        FROM srm_supplier_information
+        WHERE supplier_name = #{supplierName}
+    </select>
 </mapper>
