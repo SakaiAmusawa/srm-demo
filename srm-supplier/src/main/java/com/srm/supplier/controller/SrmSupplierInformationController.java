@@ -7,6 +7,7 @@ import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
 import com.srm.supplier.domain.SrmSupplierInformation;
+import com.srm.supplier.domain.param.ChangeRegStatus;
 import com.srm.supplier.service.ISrmSupplierInformationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -96,6 +97,15 @@ public class SrmSupplierInformationController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(srmSupplierInformationService.deleteSrmSupplierInformationByIds(ids));
+    }
+
+    @ApiOperation("注册状态修改")
+    @Log(title = "供应商注册状态修改", businessType = BusinessType.UPDATE)
+    @PostMapping("/changeRegStatus")
+    public AjaxResult changeRegStatus(@RequestBody ChangeRegStatus changeRegStatus) {
+        log.debug("changeStatus:{}", changeRegStatus);
+        srmSupplierInformationService.changeRegStatusById(changeRegStatus);
+        return AjaxResult.success();
     }
 
 }

@@ -167,5 +167,7 @@ public interface SrmSupplierInformationMapper
      */
     public int deleteSrmSupplierLicenseInformationBySupplierId(Long id);
 
-    int selectSrmSupplierInformationByName(String supplierName);
+    SrmSupplierInformation selectSrmSupplierInformationByName(String supplierName);
+
+    void updateRegStatusById();
 }

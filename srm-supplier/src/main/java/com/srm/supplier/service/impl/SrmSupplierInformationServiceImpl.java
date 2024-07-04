@@ -5,6 +5,7 @@ import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.SecurityUtils;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
+import com.srm.supplier.domain.param.ChangeRegStatus;
 import com.srm.supplier.mapper.SrmSupplierInformationMapper;
 import com.srm.supplier.service.ISrmSupplierInformationService;
 import lombok.extern.slf4j.Slf4j;
@@ -79,8 +80,8 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
 
         //供应商注册幂等
         String supplierName = srmSupplierInformation.getSupplierName();
-        int selectNameResult = srmSupplierInformationMapper.selectSrmSupplierInformationByName(supplierName);
-        if (selectNameResult != 0) {
+        SrmSupplierInformation selectNameResult = srmSupplierInformationMapper.selectSrmSupplierInformationByName(supplierName);
+        if (selectNameResult != null) {
             throw new ServiceException("供应商已存在");
         }
 
@@ -185,6 +186,11 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformationMapper.deleteSrmSupplierInvoiceInformationBySupplierId(id);
         srmSupplierInformationMapper.deleteSrmSupplierLicenseInformationBySupplierId(id);
         return srmSupplierInformationMapper.deleteSrmSupplierInformationById(id);
+    }
+
+    @Override
+    public void changeRegStatusById(ChangeRegStatus changeRegStatus) {
+        srmSupplierInformationMapper.updateRegStatusById();
     }
 
     /**

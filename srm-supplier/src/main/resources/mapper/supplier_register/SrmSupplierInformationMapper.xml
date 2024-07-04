@@ -161,7 +161,7 @@
             <if test="businessTerm != null ">and business_term = #{businessTerm}</if>
             <if test="businessNature != null ">and business_nature = #{businessNature}</if>
             <if test="businessLicense != null  and businessLicense != ''">and business_license = #{businessLicense}</if>
-            <if test="registrationStatus != null ">and registration_status = #{registrationStatus}</if>
+            <if test="registrationStatus != null ">and registration_status = 2 or 3</if>
             <if test="invitationTime != null ">and invitation_time = #{invitationTime}</if>
             <if test="lifeStage != null ">and life_stage = #{lifeStage}</if>
             <if test="blackList != null ">and black_list = #{blackList}</if>
@@ -225,6 +225,7 @@
                  left join srm_demo.srm_supplier_invoice_information ssii on ssi.id = ssii.supplier_id
                  left join srm_demo.srm_supplier_license_information ssli on ssi.id = ssli.supplier_id
         where ssi.id = #{id}
+          AND ssi.registration_status = 2
     </select>
 
     <select id="selectSrmSupplierContactInformationList" resultType="SrmSupplierContactInformation"
@@ -484,9 +485,15 @@
         </foreach>
     </insert>
 
-    <select id="selectSrmSupplierInformationByName" resultType="java.lang.Integer">
+    <select id="selectSrmSupplierInformationByName" resultMap="SrmSupplierInformationResult">
         select supplier_name
         FROM srm_supplier_information
         WHERE supplier_name = #{supplierName}
     </select>
+
+    <update id="updateRegStatusById">
+        UPDATE srm_supplier_information
+        SET registration_status = #{registrationStatus}
+        WHERE id = #{id}
+    </update>
 </mapper>

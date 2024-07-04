@@ -2,6 +2,7 @@ package com.srm.supplier.service;
 
 import java.util.List;
 import com.srm.supplier.domain.SrmSupplierInformation;
+import com.srm.supplier.domain.param.ChangeRegStatus;
 
 /**
  * 供应商信息Service接口
@@ -58,4 +59,6 @@ public interface ISrmSupplierInformationService
      * @return 结果
      */
     public int deleteSrmSupplierInformationById(Long id);
+
+    void changeRegStatusById(ChangeRegStatus changeRegStatus);
 }
