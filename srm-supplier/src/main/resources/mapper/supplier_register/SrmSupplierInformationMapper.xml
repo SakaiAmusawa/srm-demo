@@ -140,36 +140,41 @@
 
     <select id="selectSrmSupplierInformationList" parameterType="SrmSupplierInformation"
             resultMap="SrmSupplierInformationResult">
-        <include refid="selectSrmSupplierInformationVo"/>
-        <where>
-            <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>
-            <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},
-                '%')
-            </if>
-            <if test="certificationRegion != null ">and certification_region = #{certificationRegion}</if>
-            <if test="enterpriseType != null ">and enterprise_type = #{enterpriseType}</if>
-            <if test="industryType != null  and industryType != ''">and industry_type = #{industryType}</if>
-            <if test="rsnum != null  and rsnum != ''">and rsnum = #{rsnum}</if>
-            <if test="socialCode != null  and socialCode != ''">and social_code = #{socialCode}</if>
-            <if test="organizationalCode != null  and organizationalCode != ''">and organizational_code =
-                #{organizationalCode}
-            </if>
-            <if test="capital != null ">and capital = #{capital}</if>
-            <if test="taxpayerType != null  and taxpayerType != ''">and taxpayer_type = #{taxpayerType}</if>
-            <if test="incorporationDate != null ">and incorporation_date = #{incorporationDate}</if>
-            <if test="legalPerson != null  and legalPerson != ''">and legal_person = #{legalPerson}</if>
-            <if test="businessTerm != null ">and business_term = #{businessTerm}</if>
-            <if test="businessNature != null ">and business_nature = #{businessNature}</if>
-            <if test="businessLicense != null  and businessLicense != ''">and business_license = #{businessLicense}</if>
-            <if test="registrationStatus != null ">and registration_status = 2 or 3</if>
-            <if test="invitationTime != null ">and invitation_time = #{invitationTime}</if>
-            <if test="lifeStage != null ">and life_stage = #{lifeStage}</if>
-            <if test="blackList != null ">and black_list = #{blackList}</if>
-        </where>
+        <!--        <include refid="selectSrmSupplierInformationVo"/>-->
+        <!--        <where>-->
+        <!--            <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>-->
+        <!--            <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},-->
+        <!--                '%')-->
+        <!--            </if>-->
+        <!--            <if test="certificationRegion != null ">and certification_region = #{certificationRegion}</if>-->
+        <!--            <if test="enterpriseType != null ">and enterprise_type = #{enterpriseType}</if>-->
+        <!--            <if test="industryType != null  and industryType != ''">and industry_type = #{industryType}</if>-->
+        <!--            <if test="rsnum != null  and rsnum != ''">and rsnum = #{rsnum}</if>-->
+        <!--            <if test="socialCode != null  and socialCode != ''">and social_code = #{socialCode}</if>-->
+        <!--            <if test="organizationalCode != null  and organizationalCode != ''">and organizational_code =-->
+        <!--                #{organizationalCode}-->
+        <!--            </if>-->
+        <!--            <if test="capital != null ">and capital = #{capital}</if>-->
+        <!--            <if test="taxpayerType != null  and taxpayerType != ''">and taxpayer_type = #{taxpayerType}</if>-->
+        <!--            <if test="incorporationDate != null ">and incorporation_date = #{incorporationDate}</if>-->
+        <!--            <if test="legalPerson != null  and legalPerson != ''">and legal_person = #{legalPerson}</if>-->
+        <!--            <if test="businessTerm != null ">and business_term = #{businessTerm}</if>-->
+        <!--            <if test="businessNature != null ">and business_nature = #{businessNature}</if>-->
+        <!--            <if test="businessLicense != null  and businessLicense != ''">and business_license = #{businessLicense}</if>-->
+        <!--            <if test="registrationStatus != null ">and registration_status = #{registrationStatus}</if>-->
+        <!--            <if test="invitationTime != null ">and invitation_time = #{invitationTime}</if>-->
+        <!--            <if test="lifeStage != null ">and life_stage = #{lifeStage}</if>-->
+        <!--            <if test="blackList != null ">and black_list = #{blackList}</if>-->
+        <!--        </where>-->
+        select id, supplier_code, supplier_name, certification_region, enterprise_type, industry_type, rsnum,
+        social_code, organizational_code, capital, taxpayer_type, incorporation_date, legal_person, business_term,
+        business_nature, business_license, registration_status, invitation_time, life_stage, black_list
+        from srm_supplier_information
+        where registration_status in(2,3)
     </select>
 
     <select id="selectSrmSupplierInformationById" parameterType="Long"
-            resultMap="SrmSupplierInformationSrmSupplierInvoiceInformationResult">
+            resultMap="SrmSupplierInformationSrmSupplierLicenseInformationResult">
         select ssi.id,
                ssi.supplier_code,
                ssi.supplier_name,
@@ -217,7 +222,15 @@
                ssii.tax_registration_add,
                ssii.tax_registration_phone,
                ssii.recipient_email,
-               ssii.recipient_phone
+               ssii.recipient_phone,
+               ssli.id,
+               ssli.attachment,
+               ssli.supplier_id,
+               ssli.`describe`,
+               ssli.expiration_period,
+               ssli.update_date,
+               ssli.attachment_upload,
+               ssli.remarks
         from srm_supplier_information ssi
                  left join srm_demo.srm_supplier_contact_information ssci on ssi.id = ssci.supplier_id
                  left join srm_demo.srm_supplier_address_information ssai on ssi.id = ssai.supplier_id
@@ -225,7 +238,6 @@
                  left join srm_demo.srm_supplier_invoice_information ssii on ssi.id = ssii.supplier_id
                  left join srm_demo.srm_supplier_license_information ssli on ssi.id = ssli.supplier_id
         where ssi.id = #{id}
-          AND ssi.registration_status = 2
     </select>
 
     <select id="selectSrmSupplierContactInformationList" resultType="SrmSupplierContactInformation"

@@ -2,7 +2,6 @@ package com.srm.supplier.service.impl;
 
 import com.google.gson.Gson;
 import com.srm.common.exception.ServiceException;
-import com.srm.common.utils.SecurityUtils;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
 import com.srm.supplier.domain.param.ChangeRegStatus;
@@ -78,12 +77,13 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
             throw new ServiceException("信息不完整,请确保填写联系人信息、地址信息、银行信息、开票信息、证照信息");
         }
 
-        //供应商注册幂等
         String supplierName = srmSupplierInformation.getSupplierName();
+        //供应商注册幂等
+/*        String supplierName = srmSupplierInformation.getSupplierName();
         SrmSupplierInformation selectNameResult = srmSupplierInformationMapper.selectSrmSupplierInformationByName(supplierName);
         if (selectNameResult != null) {
             throw new ServiceException("供应商已存在");
-        }
+        }*/
 
         //生成供应商编码
         String code = generateUniqueString(10);
@@ -190,7 +190,7 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
 
     @Override
     public void changeRegStatusById(ChangeRegStatus changeRegStatus) {
-        srmSupplierInformationMapper.updateRegStatusById();
+        srmSupplierInformationMapper.updateRegStatusById(changeRegStatus);
     }
 
     /**

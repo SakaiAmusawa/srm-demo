@@ -20,4 +20,12 @@ public class ChangeRegStatus {
     public void setRegistrationStatus(Integer registrationStatus) {
         this.registrationStatus = registrationStatus;
     }
+
+    @Override
+    public String toString() {
+        return "ChangeRegStatus{" +
+                "id=" + id +
+                ", registrationStatus=" + registrationStatus +
+                '}';
+    }
 }
