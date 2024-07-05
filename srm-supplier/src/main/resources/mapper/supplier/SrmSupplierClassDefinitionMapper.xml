@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supplier.mapper.SrmSupplierClassDefinitionMapper">
+    
+    <resultMap type="SrmSupplierClassDefinition" id="SrmSupplierClassDefinitionResult">
+        <result property="id"    column="id"    />
+        <result property="supplierClass"    column="supplier_class"    />
+        <result property="supplierClassCode"    column="supplier_class_code"    />
+    </resultMap>
+
+    <sql id="selectSrmSupplierClassDefinitionVo">
+        select id, supplier_class, supplier_class_code from srm_supplier_class_definition
+    </sql>
+
+    <select id="selectSrmSupplierClassDefinitionList" parameterType="SrmSupplierClassDefinition" resultMap="SrmSupplierClassDefinitionResult">
+        <include refid="selectSrmSupplierClassDefinitionVo"/>
+        <where>  
+            <if test="supplierClass != null  and supplierClass != ''"> and supplier_class = #{supplierClass}</if>
+            <if test="supplierClassCode != null  and supplierClassCode != ''"> and supplier_class_code = #{supplierClassCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmSupplierClassDefinitionById" parameterType="Long" resultMap="SrmSupplierClassDefinitionResult">
+        <include refid="selectSrmSupplierClassDefinitionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmSupplierClassDefinition" parameterType="SrmSupplierClassDefinition" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_supplier_class_definition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplierClass != null and supplierClass != ''">supplier_class,</if>
+            <if test="supplierClassCode != null and supplierClassCode != ''">supplier_class_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplierClass != null and supplierClass != ''">#{supplierClass},</if>
+            <if test="supplierClassCode != null and supplierClassCode != ''">#{supplierClassCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmSupplierClassDefinition" parameterType="SrmSupplierClassDefinition">
+        update srm_supplier_class_definition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierClass != null and supplierClass != ''">supplier_class = #{supplierClass},</if>
+            <if test="supplierClassCode != null and supplierClassCode != ''">supplier_class_code = #{supplierClassCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSupplierClassDefinitionById" parameterType="Long">
+        delete from srm_supplier_class_definition where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSupplierClassDefinitionByIds" parameterType="String">
+        delete from srm_supplier_class_definition where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
