@@ -124,4 +124,13 @@ public class CompanyInfo {
 
         }
     }
+
+    @Override
+    public String toString() {
+        return "CompanyInfo{" +
+                "result=" + result +
+                ", reason='" + reason + '\'' +
+                ", errorCode=" + errorCode +
+                '}';
+    }
 }

@@ -169,4 +169,6 @@ public interface SrmSupplierInformationMapper {
     SrmSupplierInformation selectSrmSupplierInformationByName(String supplierName);
 
     void updateRegStatusById(ChangeRegStatus changeRegStatus);
+
+    List<SrmSupplierInformation> selectSrmSupplier();
 }

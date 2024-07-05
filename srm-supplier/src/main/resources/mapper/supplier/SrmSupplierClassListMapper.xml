@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supplier.mapper.SrmSupplierClassListMapper">
+    
+    <resultMap type="SrmSupplierClassList" id="SrmSupplierClassListResult">
+        <result property="id"    column="id"    />
+        <result property="companyCode"    column="company_code"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="supplierClass"    column="supplier_class"    />
+        <result property="supplierClassCode"    column="supplier_class_code"    />
+    </resultMap>
+
+    <sql id="selectSrmSupplierClassListVo">
+        select id, company_code, enterprise, supplier_class, supplier_class_code from srm_supplier_class_list
+    </sql>
+
+    <select id="selectSrmSupplierClassListList" parameterType="SrmSupplierClassList" resultMap="SrmSupplierClassListResult">
+        <include refid="selectSrmSupplierClassListVo"/>
+        <where>  
+            <if test="companyCode != null  and companyCode != ''"> and company_code = #{companyCode}</if>
+            <if test="enterprise != null  and enterprise != ''"> and enterprise like concat('%', #{enterprise}, '%')</if>
+            <if test="supplierClass != null  and supplierClass != ''"> and supplier_class like concat('%', #{supplierClass}, '%')</if>
+            <if test="supplierClassCode != null  and supplierClassCode != ''"> and supplier_class_code = #{supplierClassCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmSupplierClassListById" parameterType="Long" resultMap="SrmSupplierClassListResult">
+        <include refid="selectSrmSupplierClassListVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmSupplierClassList" parameterType="SrmSupplierClassList" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_supplier_class_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyCode != null and companyCode != ''">company_code,</if>
+            <if test="enterprise != null and enterprise != ''">enterprise,</if>
+            <if test="supplierClass != null and supplierClass != ''">supplier_class,</if>
+            <if test="supplierClassCode != null and supplierClassCode != ''">supplier_class_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyCode != null and companyCode != ''">#{companyCode},</if>
+            <if test="enterprise != null and enterprise != ''">#{enterprise},</if>
+            <if test="supplierClass != null and supplierClass != ''">#{supplierClass},</if>
+            <if test="supplierClassCode != null and supplierClassCode != ''">#{supplierClassCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmSupplierClassList" parameterType="SrmSupplierClassList">
+        update srm_supplier_class_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyCode != null and companyCode != ''">company_code = #{companyCode},</if>
+            <if test="enterprise != null and enterprise != ''">enterprise = #{enterprise},</if>
+            <if test="supplierClass != null and supplierClass != ''">supplier_class = #{supplierClass},</if>
+            <if test="supplierClassCode != null and supplierClassCode != ''">supplier_class_code = #{supplierClassCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSupplierClassListById" parameterType="Long">
+        delete from srm_supplier_class_list where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSupplierClassListByIds" parameterType="String">
+        delete from srm_supplier_class_list where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

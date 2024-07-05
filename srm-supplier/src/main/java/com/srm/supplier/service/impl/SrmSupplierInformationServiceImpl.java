@@ -5,6 +5,7 @@ import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
 import com.srm.supplier.domain.param.ChangeRegStatus;
+import com.srm.supplier.mapper.SrmSupplierClassListMapper;
 import com.srm.supplier.mapper.SrmSupplierInformationMapper;
 import com.srm.supplier.service.ISrmSupplierInformationService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,9 @@ import java.util.UUID;
 public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformationService {
     @Autowired
     private SrmSupplierInformationMapper srmSupplierInformationMapper;
+
+    @Autowired
+    private SrmSupplierClassListMapper srmSupplierClassListMapper;
 
     /**
      * 查询供应商信息
@@ -190,6 +194,16 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
 
     @Override
     public void changeRegStatusById(ChangeRegStatus changeRegStatus) {
+
+        if (changeRegStatus.getRegistrationStatus() == 1) {
+            SrmSupplierClassList srmSupplierClassList = new SrmSupplierClassList();
+            srmSupplierClassList.setEnterprise(changeRegStatus.getSupplierName());
+            srmSupplierClassList.setCompanyCode(changeRegStatus.getSupplierCode());
+            srmSupplierClassList.setSupplierClass("未分配");
+            srmSupplierClassList.setSupplierClassCode("~");
+            srmSupplierClassListMapper.insertSrmSupplierClassList(srmSupplierClassList);
+        }
+
         srmSupplierInformationMapper.updateRegStatusById(changeRegStatus);
     }
 

@@ -502,4 +502,12 @@
         SET registration_status = #{registrationStatus}
         WHERE id = #{id}
     </update>
+
+    <select id="selectSrmSupplier" resultType="com.srm.supplier.domain.SrmSupplierInformation">
+        select id,
+               supplier_code,
+               supplier_name
+        FROM srm_supplier_information
+        WHERE registration_status = 1
+    </select>
 </mapper>
