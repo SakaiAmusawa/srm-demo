@@ -30,7 +30,7 @@ import com.srm.common.core.page.TableDataInfo;
  * @author ruoyi
  * @date 2024-07-05
  */
-@Api("供应商分类")
+@Api("供应商分类列表")
 @RestController
 @RequestMapping("/supplier/clas")
 public class SrmSupplierClassListController extends BaseController
@@ -41,7 +41,7 @@ public class SrmSupplierClassListController extends BaseController
     /**
      * 查询供应商分类列表
      */
-    @ApiOperation("供应商分类定义")
+    @ApiOperation("供应商分类信息")
     @PreAuthorize("@ss.hasPermi('supplier:clas:list')")
     @GetMapping("/list")
     public TableDataInfo list(SrmSupplierClassList srmSupplierClassList)

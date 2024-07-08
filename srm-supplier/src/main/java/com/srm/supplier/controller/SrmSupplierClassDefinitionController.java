@@ -2,6 +2,9 @@ package com.srm.supplier.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,7 @@ import com.srm.common.core.page.TableDataInfo;
  * @author ruoyi
  * @date 2024-07-05
  */
+@Api(tags = "供应商分类定义")
 @RestController
 @RequestMapping("/supplier/definition")
 public class SrmSupplierClassDefinitionController extends BaseController
@@ -37,6 +41,7 @@ public class SrmSupplierClassDefinitionController extends BaseController
     /**
      * 查询供应商分类定义列表
      */
+    @ApiOperation(value = "获取供应商分类定义列表")
     @PreAuthorize("@ss.hasPermi('supplier:definition:list')")
     @GetMapping("/list")
     public TableDataInfo list(SrmSupplierClassDefinition srmSupplierClassDefinition)
