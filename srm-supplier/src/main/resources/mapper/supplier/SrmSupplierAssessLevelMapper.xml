@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supplier.mapper.SrmSupplierAssessLevelMapper">
+    
+    <resultMap type="SrmSupplierAssessLevel" id="SrmSupplierAssessLevelResult">
+        <result property="id"    column="id"    />
+        <result property="level"    column="level"    />
+        <result property="info"    column="info"    />
+    </resultMap>
+
+    <sql id="selectSrmSupplierAssessLevelVo">
+        select id, level, info from srm_supplier_assess_level
+    </sql>
+
+    <select id="selectSrmSupplierAssessLevelList" parameterType="SrmSupplierAssessLevel" resultMap="SrmSupplierAssessLevelResult">
+        <include refid="selectSrmSupplierAssessLevelVo"/>
+        <where>  
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="info != null  and info != ''"> and info = #{info}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmSupplierAssessLevelById" parameterType="Long" resultMap="SrmSupplierAssessLevelResult">
+        <include refid="selectSrmSupplierAssessLevelVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmSupplierAssessLevel" parameterType="SrmSupplierAssessLevel" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_supplier_assess_level
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="level != null and level != ''">level,</if>
+            <if test="info != null and info != ''">info,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="level != null and level != ''">#{level},</if>
+            <if test="info != null and info != ''">#{info},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmSupplierAssessLevel" parameterType="SrmSupplierAssessLevel">
+        update srm_supplier_assess_level
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="level != null and level != ''">level = #{level},</if>
+            <if test="info != null and info != ''">info = #{info},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSupplierAssessLevelById" parameterType="Long">
+        delete from srm_supplier_assess_level where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSupplierAssessLevelByIds" parameterType="String">
+        delete from srm_supplier_assess_level where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
