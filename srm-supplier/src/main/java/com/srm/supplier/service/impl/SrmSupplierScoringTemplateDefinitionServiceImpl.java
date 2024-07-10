@@ -38,7 +38,7 @@ public class SrmSupplierScoringTemplateDefinitionServiceImpl implements ISrmSupp
 
         List<SrmSupplierScoringCriteriaDefinition> srmSupplierScoringCriteria = new ArrayList<>();
         for (SrmSupplierScoringTemplateCriteria srmSupplierScoringTemplateCriterion : srmSupplierScoringTemplateCriteria) {
-            Long criteriaId = srmSupplierScoringTemplateCriterion.getCriteriaId();
+            Long criteriaId = srmSupplierScoringTemplateCriterion.getId();
             SrmSupplierScoringCriteriaDefinition srmSupplierScoringCriteriaDefinition = srmSupplierScoringTemplateDefinitionMapper.getCriteria(criteriaId);
             srmSupplierScoringCriteria.add(srmSupplierScoringCriteriaDefinition);
         }

@@ -1,23 +1,23 @@
 package com.srm.supplier.mapper;
 
-import java.util.List;
-
-import com.srm.supplier.domain.SrmSupplierClassDefinition;
 import com.srm.supplier.domain.SrmSupplierScoringCriteriaDefinition;
-import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
 import com.srm.supplier.domain.SrmSupplierScoringTemplateCriteria;
+import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 评分模板定义Mapper接口
- * 
+ *
  * @author ruoyi
  * @date 2024-07-10
  */
-public interface SrmSupplierScoringTemplateDefinitionMapper 
-{
+@Repository
+public interface SrmSupplierScoringTemplateDefinitionMapper {
     /**
      * 查询评分模板定义
-     * 
+     *
      * @param id 评分模板定义主键
      * @return 评分模板定义
      */
@@ -25,7 +25,7 @@ public interface SrmSupplierScoringTemplateDefinitionMapper
 
     /**
      * 查询评分模板定义列表
-     * 
+     *
      * @param srmSupplierScoringTemplateDefinition 评分模板定义
      * @return 评分模板定义集合
      */
@@ -33,7 +33,7 @@ public interface SrmSupplierScoringTemplateDefinitionMapper
 
     /**
      * 新增评分模板定义
-     * 
+     *
      * @param srmSupplierScoringTemplateDefinition 评分模板定义
      * @return 结果
      */
@@ -41,7 +41,7 @@ public interface SrmSupplierScoringTemplateDefinitionMapper
 
     /**
      * 修改评分模板定义
-     * 
+     *
      * @param srmSupplierScoringTemplateDefinition 评分模板定义
      * @return 结果
      */
@@ -49,7 +49,7 @@ public interface SrmSupplierScoringTemplateDefinitionMapper
 
     /**
      * 删除评分模板定义
-     * 
+     *
      * @param id 评分模板定义主键
      * @return 结果
      */
@@ -57,7 +57,7 @@ public interface SrmSupplierScoringTemplateDefinitionMapper
 
     /**
      * 批量删除评分模板定义
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
@@ -65,24 +65,24 @@ public interface SrmSupplierScoringTemplateDefinitionMapper
 
     /**
      * 批量删除供应商评分模板指标关联
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteSrmSupplierScoringTemplateCriteriaByTemplateIds(Long[] ids);
-    
+
     /**
      * 批量新增供应商评分模板指标关联
-     * 
+     *
      * @param srmSupplierScoringTemplateCriteriaList 供应商评分模板指标关联列表
      * @return 结果
      */
     public int batchSrmSupplierScoringTemplateCriteria(List<SrmSupplierScoringTemplateCriteria> srmSupplierScoringTemplateCriteriaList);
-    
+
 
     /**
      * 通过评分模板定义主键删除供应商评分模板指标关联信息
-     * 
+     *
      * @param id 评分模板定义ID
      * @return 结果
      */
