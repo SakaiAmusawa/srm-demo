@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supplier.mapper.SrmSupplierScoringCriteriaDefinitionMapper">
+    
+    <resultMap type="SrmSupplierScoringCriteriaDefinition" id="SrmSupplierScoringCriteriaDefinitionResult">
+        <result property="id"    column="id"    />
+        <result property="pointerCoding"    column="pointer_coding"    />
+        <result property="basePointTop"    column="base_point_top"    />
+        <result property="pointerName"    column="pointer_name"    />
+        <result property="scoringMethod"    column="scoring_method"    />
+        <result property="pointerType"    column="pointer_type"    />
+        <result property="standardEvaluation"    column="standard_evaluation"    />
+        <result property="scoreFrom"    column="score_from"    />
+        <result property="scoreTo"    column="score_to"    />
+        <result property="systemScoring"    column="system_scoring"    />
+        <result property="basePointLow"    column="base_point_low"    />
+        <result property="configuration"    column="configuration"    />
+        <result property="scorer"    column="scorer"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectSrmSupplierScoringCriteriaDefinitionVo">
+        select id, pointer_coding, base_point_top, pointer_name, scoring_method, pointer_type, standard_evaluation, score_from, score_to, system_scoring, base_point_low, configuration, scorer, status from srm_supplier_scoring_criteria_definition
+    </sql>
+
+    <select id="selectSrmSupplierScoringCriteriaDefinitionList" parameterType="SrmSupplierScoringCriteriaDefinition" resultMap="SrmSupplierScoringCriteriaDefinitionResult">
+        <include refid="selectSrmSupplierScoringCriteriaDefinitionVo"/>
+        <where>  
+            <if test="pointerCoding != null "> and pointer_coding = #{pointerCoding}</if>
+            <if test="basePointTop != null "> and base_point_top = #{basePointTop}</if>
+            <if test="pointerName != null  and pointerName != ''"> and pointer_name like concat('%', #{pointerName}, '%')</if>
+            <if test="scoringMethod != null  and scoringMethod != ''"> and scoring_method = #{scoringMethod}</if>
+            <if test="pointerType != null "> and pointer_type = #{pointerType}</if>
+            <if test="standardEvaluation != null  and standardEvaluation != ''"> and standard_evaluation = #{standardEvaluation}</if>
+            <if test="scoreFrom != null "> and score_from = #{scoreFrom}</if>
+            <if test="scoreTo != null "> and score_to = #{scoreTo}</if>
+            <if test="systemScoring != null "> and system_scoring = #{systemScoring}</if>
+            <if test="basePointLow != null "> and base_point_low = #{basePointLow}</if>
+            <if test="configuration != null "> and configuration = #{configuration}</if>
+            <if test="scorer != null  and scorer != ''"> and scorer = #{scorer}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmSupplierScoringCriteriaDefinitionById" parameterType="Long" resultMap="SrmSupplierScoringCriteriaDefinitionResult">
+        <include refid="selectSrmSupplierScoringCriteriaDefinitionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmSupplierScoringCriteriaDefinition" parameterType="SrmSupplierScoringCriteriaDefinition" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_supplier_scoring_criteria_definition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pointerCoding != null">pointer_coding,</if>
+            <if test="basePointTop != null">base_point_top,</if>
+            <if test="pointerName != null and pointerName != ''">pointer_name,</if>
+            <if test="scoringMethod != null and scoringMethod != ''">scoring_method,</if>
+            <if test="pointerType != null">pointer_type,</if>
+            <if test="standardEvaluation != null">standard_evaluation,</if>
+            <if test="scoreFrom != null">score_from,</if>
+            <if test="scoreTo != null">score_to,</if>
+            <if test="systemScoring != null">system_scoring,</if>
+            <if test="basePointLow != null">base_point_low,</if>
+            <if test="configuration != null">configuration,</if>
+            <if test="scorer != null">scorer,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pointerCoding != null">#{pointerCoding},</if>
+            <if test="basePointTop != null">#{basePointTop},</if>
+            <if test="pointerName != null and pointerName != ''">#{pointerName},</if>
+            <if test="scoringMethod != null and scoringMethod != ''">#{scoringMethod},</if>
+            <if test="pointerType != null">#{pointerType},</if>
+            <if test="standardEvaluation != null">#{standardEvaluation},</if>
+            <if test="scoreFrom != null">#{scoreFrom},</if>
+            <if test="scoreTo != null">#{scoreTo},</if>
+            <if test="systemScoring != null">#{systemScoring},</if>
+            <if test="basePointLow != null">#{basePointLow},</if>
+            <if test="configuration != null">#{configuration},</if>
+            <if test="scorer != null">#{scorer},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmSupplierScoringCriteriaDefinition" parameterType="SrmSupplierScoringCriteriaDefinition">
+        update srm_supplier_scoring_criteria_definition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pointerCoding != null">pointer_coding = #{pointerCoding},</if>
+            <if test="basePointTop != null">base_point_top = #{basePointTop},</if>
+            <if test="pointerName != null and pointerName != ''">pointer_name = #{pointerName},</if>
+            <if test="scoringMethod != null and scoringMethod != ''">scoring_method = #{scoringMethod},</if>
+            <if test="pointerType != null">pointer_type = #{pointerType},</if>
+            <if test="standardEvaluation != null">standard_evaluation = #{standardEvaluation},</if>
+            <if test="scoreFrom != null">score_from = #{scoreFrom},</if>
+            <if test="scoreTo != null">score_to = #{scoreTo},</if>
+            <if test="systemScoring != null">system_scoring = #{systemScoring},</if>
+            <if test="basePointLow != null">base_point_low = #{basePointLow},</if>
+            <if test="configuration != null">configuration = #{configuration},</if>
+            <if test="scorer != null">scorer = #{scorer},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSupplierScoringCriteriaDefinitionById" parameterType="Long">
+        delete from srm_supplier_scoring_criteria_definition where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSupplierScoringCriteriaDefinitionByIds" parameterType="String">
+        delete from srm_supplier_scoring_criteria_definition where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
