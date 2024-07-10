@@ -2,6 +2,9 @@ package com.srm.supplier.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,7 @@ import com.srm.common.core.page.TableDataInfo;
  * @author ruoyi
  * @date 2024-07-09
  */
+@Api(tags = "供应商指标定义")
 @RestController
 @RequestMapping("/supplier/scoring_criteria_definition")
 public class SrmSupplierScoringCriteriaDefinitionController extends BaseController
@@ -37,6 +41,7 @@ public class SrmSupplierScoringCriteriaDefinitionController extends BaseControll
     /**
      * 查询供应商评分标准定义列表
      */
+    @ApiOperation(value = "供应商评分标准定义列表-查询列表")
     @PreAuthorize("@ss.hasPermi('supplier:scoring_criteria_definition:list')")
     @GetMapping("/list")
     public TableDataInfo list(SrmSupplierScoringCriteriaDefinition srmSupplierScoringCriteriaDefinition)
@@ -49,6 +54,7 @@ public class SrmSupplierScoringCriteriaDefinitionController extends BaseControll
     /**
      * 导出供应商评分标准定义列表
      */
+    @ApiOperation(value = "供应商评分标准定义列表-导出")
     @PreAuthorize("@ss.hasPermi('supplier:scoring_criteria_definition:export')")
     @Log(title = "供应商评分标准定义", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -62,6 +68,7 @@ public class SrmSupplierScoringCriteriaDefinitionController extends BaseControll
     /**
      * 获取供应商评分标准定义详细信息
      */
+    @ApiOperation(value = "供应商评分标准定义列表-获取详细信息")
     @PreAuthorize("@ss.hasPermi('supplier:scoring_criteria_definition:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
@@ -72,6 +79,7 @@ public class SrmSupplierScoringCriteriaDefinitionController extends BaseControll
     /**
      * 新增供应商评分标准定义
      */
+    @ApiOperation(value = "供应商评分标准定义列表-新增")
     @PreAuthorize("@ss.hasPermi('supplier:scoring_criteria_definition:add')")
     @Log(title = "供应商评分标准定义", businessType = BusinessType.INSERT)
     @PostMapping
@@ -83,6 +91,7 @@ public class SrmSupplierScoringCriteriaDefinitionController extends BaseControll
     /**
      * 修改供应商评分标准定义
      */
+    @ApiOperation(value = "供应商评分标准定义列表-修改")
     @PreAuthorize("@ss.hasPermi('supplier:scoring_criteria_definition:edit')")
     @Log(title = "供应商评分标准定义", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -91,9 +100,11 @@ public class SrmSupplierScoringCriteriaDefinitionController extends BaseControll
         return toAjax(srmSupplierScoringCriteriaDefinitionService.updateSrmSupplierScoringCriteriaDefinition(srmSupplierScoringCriteriaDefinition));
     }
 
+
     /**
      * 删除供应商评分标准定义
      */
+    @ApiOperation(value = "供应商评分标准定义列表-删除")
     @PreAuthorize("@ss.hasPermi('supplier:scoring_criteria_definition:remove')")
     @Log(title = "供应商评分标准定义", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
