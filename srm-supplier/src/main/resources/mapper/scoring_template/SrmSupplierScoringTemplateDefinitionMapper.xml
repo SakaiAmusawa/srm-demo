@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.supplier.mapper.SrmSupplierScoringTemplateDefinitionMapper">
-    
+
     <resultMap type="SrmSupplierScoringTemplateDefinition" id="SrmSupplierScoringTemplateDefinitionResult">
-        <result property="id"    column="id"    />
-        <result property="templateCoding"    column="template_coding"    />
-        <result property="templateName"    column="template_name"    />
-        <result property="templateStatus"    column="template_status"    />
-        <result property="templateType"    column="template_type"    />
+        <result property="id" column="id"/>
+        <result property="templateCoding" column="template_coding"/>
+        <result property="templateName" column="template_name"/>
+        <result property="templateStatus" column="template_status"/>
+        <result property="templateType" column="template_type"/>
     </resultMap>
 
-    <resultMap id="SrmSupplierScoringTemplateDefinitionSrmSupplierScoringTemplateCriteriaResult" type="SrmSupplierScoringTemplateDefinition" extends="SrmSupplierScoringTemplateDefinitionResult">
-        <collection property="srmSupplierScoringTemplateCriteriaList" ofType="SrmSupplierScoringTemplateCriteria" column="template_id" select="selectSrmSupplierScoringTemplateCriteriaList" />
+    <resultMap id="SrmSupplierScoringTemplateDefinitionSrmSupplierScoringTemplateCriteriaResult"
+               type="SrmSupplierScoringTemplateDefinition" extends="SrmSupplierScoringTemplateDefinitionResult">
+        <collection property="srmSupplierScoringTemplateCriteriaList" ofType="SrmSupplierScoringTemplateCriteria"
+                    column="template_id" select="selectSrmSupplierScoringTemplateCriteriaList"/>
     </resultMap>
 
     <resultMap type="SrmSupplierScoringTemplateCriteria" id="SrmSupplierScoringTemplateCriteriaResult">
-        <result property="templateId"    column="template_id"    />
-        <result property="criteriaId"    column="criteria_id"    />
+        <result property="templateId" column="template_id"/>
+        <result property="id" column="id"/>
     </resultMap>
 
     <resultMap id="getCriteria" type="SrmSupplierScoringCriteriaDefinition">
-        <result property="id"    column="id"    />
-        <result property="pointerCoding"    column="pointer_coding"    />
-        <result property="basePointTop"    column="base_point_top"    />
-        <result property="pointerName"    column="pointer_name"    />
-        <result property="scoringMethod"    column="scoring_method"    />
-        <result property="pointerType"    column="pointer_type"    />
-        <result property="standardEvaluation"    column="standard_evaluation"    />
-        <result property="scoreFrom"    column="score_from"    />
-        <result property="scoreTo"    column="score_to"    />
-        <result property="systemScoring"    column="system_scoring"    />
-        <result property="basePointLow"    column="base_point_low"    />
-        <result property="configuration"    column="configuration"    />
-        <result property="scorer"    column="scorer"    />
-        <result property="status"    column="status"    />
+        <result property="id" column="id"/>
+        <result property="pointerCoding" column="pointer_coding"/>
+        <result property="basePointTop" column="base_point_top"/>
+        <result property="pointerName" column="pointer_name"/>
+        <result property="scoringMethod" column="scoring_method"/>
+        <result property="pointerType" column="pointer_type"/>
+        <result property="standardEvaluation" column="standard_evaluation"/>
+        <result property="scoreFrom" column="score_from"/>
+        <result property="scoreTo" column="score_to"/>
+        <result property="systemScoring" column="system_scoring"/>
+        <result property="basePointLow" column="base_point_low"/>
+        <result property="configuration" column="configuration"/>
+        <result property="scorer" column="scorer"/>
+        <result property="status" column="status"/>
     </resultMap>
 
     <sql id="selectSrmSupplierScoringTemplateDefinitionVo">
-        select id, template_coding, template_name, template_status, template_type from srm_supplier_scoring_template_definition
+        select id, template_coding, template_name, template_status, template_type
+        from srm_supplier_scoring_template_definition
     </sql>
 
-    <select id="selectSrmSupplierScoringTemplateDefinitionList" parameterType="SrmSupplierScoringTemplateDefinition" resultMap="SrmSupplierScoringTemplateDefinitionResult">
+    <select id="selectSrmSupplierScoringTemplateDefinitionList" parameterType="SrmSupplierScoringTemplateDefinition"
+            resultMap="SrmSupplierScoringTemplateDefinitionResult">
         <include refid="selectSrmSupplierScoringTemplateDefinitionVo"/>
-        <where>  
-            <if test="templateCoding != null  and templateCoding != ''"> and template_coding = #{templateCoding}</if>
-            <if test="templateName != null  and templateName != ''"> and template_name like concat('%', #{templateName}, '%')</if>
-            <if test="templateStatus != null "> and template_status = #{templateStatus}</if>
-            <if test="templateType != null "> and template_type = #{templateType}</if>
+        <where>
+            <if test="templateCoding != null  and templateCoding != ''">and template_coding = #{templateCoding}</if>
+            <if test="templateName != null  and templateName != ''">and template_name like concat('%', #{templateName},
+                '%')
+            </if>
+            <if test="templateStatus != null ">and template_status = #{templateStatus}</if>
+            <if test="templateType != null ">and template_type = #{templateType}</if>
         </where>
     </select>
-    
-    <select id="selectSrmSupplierScoringTemplateDefinitionById" parameterType="Long" resultMap="SrmSupplierScoringTemplateDefinitionSrmSupplierScoringTemplateCriteriaResult">
+
+    <select id="selectSrmSupplierScoringTemplateDefinitionById" parameterType="Long"
+            resultMap="SrmSupplierScoringTemplateDefinitionSrmSupplierScoringTemplateCriteriaResult">
         select id, template_coding, template_name, template_status, template_type
         from srm_supplier_scoring_template_definition
         where id = #{id}
     </select>
 
-    <select id="selectSrmSupplierScoringTemplateCriteriaList" resultType="SrmSupplierScoringTemplateCriteria" resultMap="SrmSupplierScoringTemplateCriteriaResult">
-        select template_id, criteria_id
+    <select id="selectSrmSupplierScoringTemplateCriteriaList" resultType="SrmSupplierScoringTemplateCriteria"
+            resultMap="SrmSupplierScoringTemplateCriteriaResult">
+        select template_id, id
         from srm_supplier_scoring_template_criteria
         where template_id = #{template_id}
     </select>
@@ -83,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectSrmSupplierScoringTemplateCriteriaByTemplateId"
             resultMap="SrmSupplierScoringTemplateCriteriaResult">
-        select template_id, criteria_id
+        select template_id, id
         from srm_supplier_scoring_template_criteria
         where template_id = #{id}
     </select>
@@ -103,23 +111,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                scorer,
                status
         from srm_demo.srm_supplier_scoring_criteria_definition
-        where id = #{criteriaId}
+        where id = #{id}
     </select>
 
-    <insert id="insertSrmSupplierScoringTemplateDefinition" parameterType="SrmSupplierScoringTemplateDefinition" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSrmSupplierScoringTemplateDefinition" parameterType="SrmSupplierScoringTemplateDefinition"
+            useGeneratedKeys="true" keyProperty="id">
         insert into srm_supplier_scoring_template_definition
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="templateCoding != null and templateCoding != ''">template_coding,</if>
             <if test="templateName != null and templateName != ''">template_name,</if>
             <if test="templateStatus != null">template_status,</if>
             <if test="templateType != null">template_type,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="templateCoding != null and templateCoding != ''">#{templateCoding},</if>
             <if test="templateName != null and templateName != ''">#{templateName},</if>
             <if test="templateStatus != null">#{templateStatus},</if>
             <if test="templateType != null">#{templateType},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSrmSupplierScoringTemplateDefinition" parameterType="SrmSupplierScoringTemplateDefinition">
@@ -134,31 +143,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmSupplierScoringTemplateDefinitionById" parameterType="Long">
-        delete from srm_supplier_scoring_template_definition where id = #{id}
+        delete
+        from srm_supplier_scoring_template_definition
+        where id = #{id}
     </delete>
 
     <delete id="deleteSrmSupplierScoringTemplateDefinitionByIds" parameterType="String">
-        delete from srm_supplier_scoring_template_definition where id in 
+        delete from srm_supplier_scoring_template_definition where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
     <delete id="deleteSrmSupplierScoringTemplateCriteriaByTemplateIds" parameterType="String">
-        delete from srm_supplier_scoring_template_criteria where template_id in 
+        delete from srm_supplier_scoring_template_criteria where template_id in
         <foreach item="templateId" collection="array" open="(" separator="," close=")">
             #{templateId}
         </foreach>
     </delete>
 
     <delete id="deleteSrmSupplierScoringTemplateCriteriaByTemplateId" parameterType="Long">
-        delete from srm_supplier_scoring_template_criteria where template_id = #{templateId}
+        delete
+        from srm_supplier_scoring_template_criteria
+        where template_id = #{templateId}
     </delete>
 
     <insert id="batchSrmSupplierScoringTemplateCriteria">
-        insert into srm_supplier_scoring_template_criteria( template_id, criteria_id) values
+        insert into srm_supplier_scoring_template_criteria( template_id, id) values
         <foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.templateId}, #{item.criteriaId})
+            ( #{item.templateId}, #{item.id})
         </foreach>
     </insert>
 </mapper>

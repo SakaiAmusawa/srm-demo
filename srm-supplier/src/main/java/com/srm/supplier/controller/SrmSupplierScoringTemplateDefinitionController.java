@@ -97,7 +97,6 @@ public class SrmSupplierScoringTemplateDefinitionController extends BaseControll
     @GetMapping("/getCriteria")
     public AjaxResult getCriteria() {
         List<SrmSupplierScoringCriteriaDefinition> srmSupplierScoringTemplateCriteria = srmSupplierScoringTemplateDefinitionService.getCriteria();
-        log.debug("criteria:{}", srmSupplierScoringTemplateCriteria);
         return AjaxResult.success(srmSupplierScoringTemplateCriteria);
     }
 }

@@ -21,7 +21,7 @@ public class SrmSupplierScoringTemplateCriteria extends BaseEntity {
     /**
      * 指标ID
      */
-    private Long Id;
+    private Long id;
 
     public Long getTemplateId() {
         return templateId;
@@ -32,11 +32,11 @@ public class SrmSupplierScoringTemplateCriteria extends BaseEntity {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     @Override
