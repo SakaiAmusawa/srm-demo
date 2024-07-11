@@ -1,5 +1,6 @@
 package com.srm.supplier.domain;
 
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -57,11 +58,11 @@ public class SrmSupplierPerformanceAppraisal extends BaseEntity
 
     /** 考评开始时间 */
     @Excel(name = "考评开始时间")
-    private Long kpStartTime;
+    private Date kpStartTime;
 
     /** 考评截至日期 */
     @Excel(name = "考评截至日期")
-    private Long kpEndTime;
+    private Date kpEndTime;
 
     /** 考评说明 */
     @Excel(name = "考评说明")
@@ -156,25 +157,24 @@ public class SrmSupplierPerformanceAppraisal extends BaseEntity
     {
         return kpPeriod;
     }
-    public void setKpStartTime(Long kpStartTime) 
-    {
+
+    public Date getKpStartTime() {
+        return kpStartTime;
+    }
+
+    public void setKpStartTime(Date kpStartTime) {
         this.kpStartTime = kpStartTime;
     }
 
-    public Long getKpStartTime() 
-    {
-        return kpStartTime;
+    public Date getKpEndTime() {
+        return kpEndTime;
     }
-    public void setKpEndTime(Long kpEndTime) 
-    {
+
+    public void setKpEndTime(Date kpEndTime) {
         this.kpEndTime = kpEndTime;
     }
 
-    public Long getKpEndTime() 
-    {
-        return kpEndTime;
-    }
-    public void setKpExplain(String kpExplain) 
+    public void setKpExplain(String kpExplain)
     {
         this.kpExplain = kpExplain;
     }

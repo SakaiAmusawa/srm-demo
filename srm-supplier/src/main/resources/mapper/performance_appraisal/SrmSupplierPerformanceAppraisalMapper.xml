@@ -147,8 +147,8 @@
             <if test="kpCode != null">#{kpCode},</if>
             <if test="kpName != null and kpName != ''">#{kpName},</if>
             <if test="kpStatus != null">#{kpStatus},</if>
-            <if test="templateCoding != null and templateCoding != ''">#{template_coding},</if>
-            <if test="templateName != null and templateName != ''">#{template_name},</if>
+            <if test="templateCoding != null and templateCoding != ''">#{templateCoding},</if>
+            <if test="templateName != null and templateName != ''">#{templateName},</if>
             <if test="kpType != null">#{kpType},</if>
             <if test="kpPrincipal != null and kpPrincipal != ''">#{kpPrincipal},</if>
             <if test="department != null">#{department},</if>
@@ -167,8 +167,8 @@
             <if test="kpCode != null">kp_code = #{kpCode},</if>
             <if test="kpName != null and kpName != ''">kp_name = #{kpName},</if>
             <if test="kpStatus != null">kp_status = #{kpStatus},</if>
-            <if test="templateCoding != null and templateCoding != ''">kp_template_code = #{template_coding},</if>
-            <if test="templateName != null and templateName != ''">kp_template_name = #{template_name},</if>
+            <if test="templateCoding != null and templateCoding != ''">template_code = #{templateCoding},</if>
+            <if test="templateName != null and templateName != ''">kp_template_name = #{templateName},</if>
             <if test="kpType != null">kp_type = #{kpType},</if>
             <if test="kpPrincipal != null and kpPrincipal != ''">kp_principal = #{kpPrincipal},</if>
             <if test="department != null">department = #{department},</if>
