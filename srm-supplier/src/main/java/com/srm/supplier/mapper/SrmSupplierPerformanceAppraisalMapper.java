@@ -1,8 +1,11 @@
 package com.srm.supplier.mapper;
 
 import java.util.List;
+
+import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
 import com.srm.supplier.domain.SrmSupplierPerformanceAppraisalSupplier;
+import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
 
 /**
  * 供应商绩效考评Mapper接口
@@ -84,4 +87,8 @@ public interface SrmSupplierPerformanceAppraisalMapper
      * @return 结果
      */
     public int deleteSrmSupplierPerformanceAppraisalSupplierByPerformanceAppraisalId(Long id);
+
+    List<SrmSupplierInformation> selectSupplierList();
+
+    List<SrmSupplierScoringTemplateDefinition> selectTemplateList();
 }

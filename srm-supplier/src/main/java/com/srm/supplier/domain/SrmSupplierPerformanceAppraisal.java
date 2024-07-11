@@ -33,11 +33,11 @@ public class SrmSupplierPerformanceAppraisal extends BaseEntity
 
     /** 考评模板编码 */
     @Excel(name = "考评模板编码")
-    private String kpTemplateCode;
+    private String templateCoding;
 
     /** 考评模板名称 */
     @Excel(name = "考评模板名称")
-    private String kpTemplateName;
+    private String templateName;
 
     /** 考评方式 */
     @Excel(name = "考评方式")
@@ -110,25 +110,17 @@ public class SrmSupplierPerformanceAppraisal extends BaseEntity
     {
         return kpStatus;
     }
-    public void setKpTemplateCode(String kpTemplateCode) 
-    {
-        this.kpTemplateCode = kpTemplateCode;
+
+
+    public String getTemplateName() {
+        return templateName;
     }
 
-    public String getKpTemplateCode() 
-    {
-        return kpTemplateCode;
-    }
-    public void setKpTemplateName(String kpTemplateName) 
-    {
-        this.kpTemplateName = kpTemplateName;
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
-    public String getKpTemplateName() 
-    {
-        return kpTemplateName;
-    }
-    public void setKpType(Long kpType) 
+    public void setKpType(Long kpType)
     {
         this.kpType = kpType;
     }
@@ -211,6 +203,14 @@ public class SrmSupplierPerformanceAppraisal extends BaseEntity
         this.srmSupplierPerformanceAppraisalSupplierList = srmSupplierPerformanceAppraisalSupplierList;
     }
 
+    public String getTemplateCoding() {
+        return templateCoding;
+    }
+
+    public void setTemplateCoding(String templateCoding) {
+        this.templateCoding = templateCoding;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -218,8 +218,8 @@ public class SrmSupplierPerformanceAppraisal extends BaseEntity
             .append("kpCode", getKpCode())
             .append("kpName", getKpName())
             .append("kpStatus", getKpStatus())
-            .append("kpTemplateCode", getKpTemplateCode())
-            .append("kpTemplateName", getKpTemplateName())
+            .append("templateCode", getTemplateCoding())
+            .append("templateName", getTemplateName())
             .append("kpType", getKpType())
             .append("kpPrincipal", getKpPrincipal())
             .append("department", getDepartment())

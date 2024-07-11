@@ -1,81 +1,138 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.supplier.mapper.SrmSupplierPerformanceAppraisalMapper">
-    
+
     <resultMap type="SrmSupplierPerformanceAppraisal" id="SrmSupplierPerformanceAppraisalResult">
-        <result property="id"    column="id"    />
-        <result property="kpCode"    column="kp_code"    />
-        <result property="kpName"    column="kp_name"    />
-        <result property="kpStatus"    column="kp_status"    />
-        <result property="kpTemplateCode"    column="kp_template_code"    />
-        <result property="kpTemplateName"    column="kp_template_name"    />
-        <result property="kpType"    column="kp_type"    />
-        <result property="kpPrincipal"    column="kp_principal"    />
-        <result property="department"    column="department"    />
-        <result property="kpPeriod"    column="kp_period"    />
-        <result property="kpStartTime"    column="kp_start_time"    />
-        <result property="kpEndTime"    column="kp_end_time"    />
-        <result property="kpExplain"    column="kp_explain"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="kpAttachment"    column="kp_attachment"    />
+        <result property="id" column="id"/>
+        <result property="kpCode" column="kp_code"/>
+        <result property="kpName" column="kp_name"/>
+        <result property="kpStatus" column="kp_status"/>
+        <result property="templateCoding" column="kp_template_code"/>
+        <result property="templateName" column="kp_template_name"/>
+        <result property="kpType" column="kp_type"/>
+        <result property="kpPrincipal" column="kp_principal"/>
+        <result property="department" column="department"/>
+        <result property="kpPeriod" column="kp_period"/>
+        <result property="kpStartTime" column="kp_start_time"/>
+        <result property="kpEndTime" column="kp_end_time"/>
+        <result property="kpExplain" column="kp_explain"/>
+        <result property="createTime" column="create_time"/>
+        <result property="kpAttachment" column="kp_attachment"/>
     </resultMap>
 
-    <resultMap id="SrmSupplierPerformanceAppraisalSrmSupplierPerformanceAppraisalSupplierResult" type="SrmSupplierPerformanceAppraisal" extends="SrmSupplierPerformanceAppraisalResult">
-        <collection property="srmSupplierPerformanceAppraisalSupplierList" ofType="SrmSupplierPerformanceAppraisalSupplier" column="performance_appraisal_id" select="selectSrmSupplierPerformanceAppraisalSupplierList" />
+    <resultMap id="SrmSupplierPerformanceAppraisalSrmSupplierPerformanceAppraisalSupplierResult"
+               type="SrmSupplierPerformanceAppraisal" extends="SrmSupplierPerformanceAppraisalResult">
+        <collection property="srmSupplierPerformanceAppraisalSupplierList"
+                    ofType="SrmSupplierPerformanceAppraisalSupplier" column="performance_appraisal_id"
+                    select="selectSrmSupplierPerformanceAppraisalSupplierList"/>
     </resultMap>
 
     <resultMap type="SrmSupplierPerformanceAppraisalSupplier" id="SrmSupplierPerformanceAppraisalSupplierResult">
-        <result property="id"    column="id"    />
-        <result property="performanceAppraisalId"    column="performance_appraisal_id"    />
-        <result property="supplierName"    column="supplier_name"    />
-        <result property="supplierCode"    column="supplier_code"    />
+        <result property="id" column="id"/>
+        <result property="performanceAppraisalId" column="performance_appraisal_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="supplierCode" column="supplier_code"/>
     </resultMap>
 
+    <resultMap id="supplierList" type="com.srm.supplier.domain.SrmSupplierInformation">
+        <result property="id" column="id"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+    </resultMap>
     <sql id="selectSrmSupplierPerformanceAppraisalVo">
-        select id, kp_code, kp_name, kp_status, kp_template_code, kp_template_name, kp_type, kp_principal, department, kp_period, kp_start_time, kp_end_time, kp_explain, create_time, kp_attachment from srm_supplier_performance_appraisal
+        select id,
+               kp_code,
+               kp_name,
+               kp_status,
+               template_coding,
+               template_name,
+               kp_type,
+               kp_principal,
+               department,
+               kp_period,
+               kp_start_time,
+               kp_end_time,
+               kp_explain,
+               create_time,
+               kp_attachment
+        from srm_supplier_performance_appraisal
     </sql>
 
-    <select id="selectSrmSupplierPerformanceAppraisalList" parameterType="SrmSupplierPerformanceAppraisal" resultMap="SrmSupplierPerformanceAppraisalResult">
+    <select id="selectSrmSupplierPerformanceAppraisalList" parameterType="SrmSupplierPerformanceAppraisal"
+            resultMap="SrmSupplierPerformanceAppraisalResult">
         <include refid="selectSrmSupplierPerformanceAppraisalVo"/>
-        <where>  
-            <if test="kpCode != null "> and kp_code = #{kpCode}</if>
-            <if test="kpName != null  and kpName != ''"> and kp_name like concat('%', #{kpName}, '%')</if>
-            <if test="kpStatus != null "> and kp_status = #{kpStatus}</if>
-            <if test="kpTemplateCode != null  and kpTemplateCode != ''"> and kp_template_code = #{kpTemplateCode}</if>
-            <if test="kpTemplateName != null  and kpTemplateName != ''"> and kp_template_name like concat('%', #{kpTemplateName}, '%')</if>
-            <if test="kpType != null "> and kp_type = #{kpType}</if>
-            <if test="kpPrincipal != null  and kpPrincipal != ''"> and kp_principal = #{kpPrincipal}</if>
-            <if test="department != null  and department != ''"> and department = #{department}</if>
-            <if test="kpPeriod != null "> and kp_period = #{kpPeriod}</if>
-            <if test="kpStartTime != null "> and kp_start_time = #{kpStartTime}</if>
-            <if test="kpEndTime != null "> and kp_end_time = #{kpEndTime}</if>
-            <if test="kpExplain != null  and kpExplain != ''"> and kp_explain = #{kpExplain}</if>
-            <if test="kpAttachment != null  and kpAttachment != ''"> and kp_attachment = #{kpAttachment}</if>
+        <where>
+            <if test="kpCode != null ">and kp_code = #{kpCode}</if>
+            <if test="kpName != null  and kpName != ''">and kp_name like concat('%', #{kpName}, '%')</if>
+            <if test="kpStatus != null ">and kp_status = #{kpStatus}</if>
+            <if test="templateCoding != null  and templateCoding != ''">and template_code = #{templateCoding}</if>
+            <if test="templateName != null  and templateName != ''">and template_name like concat('%',
+                #{templateName}, '%')
+            </if>
+            <if test="kpType != null ">and kp_type = #{kpType}</if>
+            <if test="kpPrincipal != null  and kpPrincipal != ''">and kp_principal = #{kpPrincipal}</if>
+            <if test="department != null  and department != ''">and department = #{department}</if>
+            <if test="kpPeriod != null ">and kp_period = #{kpPeriod}</if>
+            <if test="kpStartTime != null ">and kp_start_time = #{kpStartTime}</if>
+            <if test="kpEndTime != null ">and kp_end_time = #{kpEndTime}</if>
+            <if test="kpExplain != null  and kpExplain != ''">and kp_explain = #{kpExplain}</if>
+            <if test="kpAttachment != null  and kpAttachment != ''">and kp_attachment = #{kpAttachment}</if>
         </where>
     </select>
-    
-    <select id="selectSrmSupplierPerformanceAppraisalById" parameterType="Long" resultMap="SrmSupplierPerformanceAppraisalSrmSupplierPerformanceAppraisalSupplierResult">
-        select id, kp_code, kp_name, kp_status, kp_template_code, kp_template_name, kp_type, kp_principal, department, kp_period, kp_start_time, kp_end_time, kp_explain, create_time, kp_attachment
+
+    <select id="selectSrmSupplierPerformanceAppraisalById" parameterType="Long"
+            resultMap="SrmSupplierPerformanceAppraisalSrmSupplierPerformanceAppraisalSupplierResult">
+        select id,
+               kp_code,
+               kp_name,
+               kp_status,
+               template_coding,
+               template_name,
+               kp_type,
+               kp_principal,
+               department,
+               kp_period,
+               kp_start_time,
+               kp_end_time,
+               kp_explain,
+               create_time,
+               kp_attachment
         from srm_supplier_performance_appraisal
         where id = #{id}
     </select>
 
-    <select id="selectSrmSupplierPerformanceAppraisalSupplierList" resultType="SrmSupplierPerformanceAppraisalSupplier" resultMap="SrmSupplierPerformanceAppraisalSupplierResult">
+    <select id="selectSrmSupplierPerformanceAppraisalSupplierList" resultType="SrmSupplierPerformanceAppraisalSupplier"
+            resultMap="SrmSupplierPerformanceAppraisalSupplierResult">
         select id, performance_appraisal_id, supplier_name, supplier_code
         from srm_supplier_performance_appraisal_supplier
         where performance_appraisal_id = #{performance_appraisal_id}
     </select>
+    <select id="selectSupplierList" resultMap="supplierList">
+        select id, srm_supplier_information.supplier_name, srm_supplier_information.supplier_code
+        from srm_supplier_information
+    </select>
+    <resultMap id="getTemplateList" type="com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition">
+        <result property="id" column="id"/>
+        <result property="templateCoding" column="template_coding"/>
+        <result property="templateName" column="template_name"/>
+    </resultMap>
+    <select id="selectTemplateList" resultMap="getTemplateList">
+        select srm_supplier_scoring_template_definition.template_coding,
+               srm_supplier_scoring_template_definition.template_name
+        from srm_supplier_scoring_template_definition
+    </select>
 
-    <insert id="insertSrmSupplierPerformanceAppraisal" parameterType="SrmSupplierPerformanceAppraisal" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSrmSupplierPerformanceAppraisal" parameterType="SrmSupplierPerformanceAppraisal"
+            useGeneratedKeys="true" keyProperty="id">
         insert into srm_supplier_performance_appraisal
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="kpCode != null">kp_code,</if>
             <if test="kpName != null and kpName != ''">kp_name,</if>
             <if test="kpStatus != null">kp_status,</if>
-            <if test="kpTemplateCode != null and kpTemplateCode != ''">kp_template_code,</if>
-            <if test="kpTemplateName != null and kpTemplateName != ''">kp_template_name,</if>
+            <if test="templateCoding != null and templateCoding != ''">template_coding,</if>
+            <if test="templateName != null and templateName != ''">template_name,</if>
             <if test="kpType != null">kp_type,</if>
             <if test="kpPrincipal != null and kpPrincipal != ''">kp_principal,</if>
             <if test="department != null">department,</if>
@@ -85,13 +142,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="kpExplain != null">kp_explain,</if>
             <if test="createTime != null">create_time,</if>
             <if test="kpAttachment != null">kp_attachment,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="kpCode != null">#{kpCode},</if>
             <if test="kpName != null and kpName != ''">#{kpName},</if>
             <if test="kpStatus != null">#{kpStatus},</if>
-            <if test="kpTemplateCode != null and kpTemplateCode != ''">#{kpTemplateCode},</if>
-            <if test="kpTemplateName != null and kpTemplateName != ''">#{kpTemplateName},</if>
+            <if test="templateCoding != null and templateCoding != ''">#{template_coding},</if>
+            <if test="templateName != null and templateName != ''">#{template_name},</if>
             <if test="kpType != null">#{kpType},</if>
             <if test="kpPrincipal != null and kpPrincipal != ''">#{kpPrincipal},</if>
             <if test="department != null">#{department},</if>
@@ -101,7 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="kpExplain != null">#{kpExplain},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="kpAttachment != null">#{kpAttachment},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSrmSupplierPerformanceAppraisal" parameterType="SrmSupplierPerformanceAppraisal">
@@ -110,8 +167,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="kpCode != null">kp_code = #{kpCode},</if>
             <if test="kpName != null and kpName != ''">kp_name = #{kpName},</if>
             <if test="kpStatus != null">kp_status = #{kpStatus},</if>
-            <if test="kpTemplateCode != null and kpTemplateCode != ''">kp_template_code = #{kpTemplateCode},</if>
-            <if test="kpTemplateName != null and kpTemplateName != ''">kp_template_name = #{kpTemplateName},</if>
+            <if test="templateCoding != null and templateCoding != ''">kp_template_code = #{template_coding},</if>
+            <if test="templateName != null and templateName != ''">kp_template_name = #{template_name},</if>
             <if test="kpType != null">kp_type = #{kpType},</if>
             <if test="kpPrincipal != null and kpPrincipal != ''">kp_principal = #{kpPrincipal},</if>
             <if test="department != null">department = #{department},</if>
@@ -126,29 +183,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmSupplierPerformanceAppraisalById" parameterType="Long">
-        delete from srm_supplier_performance_appraisal where id = #{id}
+        delete
+        from srm_supplier_performance_appraisal
+        where id = #{id}
     </delete>
 
     <delete id="deleteSrmSupplierPerformanceAppraisalByIds" parameterType="String">
-        delete from srm_supplier_performance_appraisal where id in 
+        delete from srm_supplier_performance_appraisal where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
     <delete id="deleteSrmSupplierPerformanceAppraisalSupplierByPerformanceAppraisalIds" parameterType="String">
-        delete from srm_supplier_performance_appraisal_supplier where performance_appraisal_id in 
+        delete from srm_supplier_performance_appraisal_supplier where performance_appraisal_id in
         <foreach item="performanceAppraisalId" collection="array" open="(" separator="," close=")">
             #{performanceAppraisalId}
         </foreach>
     </delete>
 
     <delete id="deleteSrmSupplierPerformanceAppraisalSupplierByPerformanceAppraisalId" parameterType="Long">
-        delete from srm_supplier_performance_appraisal_supplier where performance_appraisal_id = #{performanceAppraisalId}
+        delete
+        from srm_supplier_performance_appraisal_supplier
+        where performance_appraisal_id = #{performanceAppraisalId}
     </delete>
 
     <insert id="batchSrmSupplierPerformanceAppraisalSupplier">
-        insert into srm_supplier_performance_appraisal_supplier( id, performance_appraisal_id, supplier_name, supplier_code) values
+        insert into srm_supplier_performance_appraisal_supplier( id, performance_appraisal_id, supplier_name,
+        supplier_code) values
         <foreach item="item" index="index" collection="list" separator=",">
             ( #{item.id}, #{item.performanceAppraisalId}, #{item.supplierName}, #{item.supplierCode})
         </foreach>
