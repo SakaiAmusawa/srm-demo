@@ -2,12 +2,10 @@ package com.srm.supplier.service.impl;
 
 import com.srm.common.utils.DateUtils;
 import com.srm.common.utils.StringUtils;
-import com.srm.supplier.domain.SrmSupplierInformation;
-import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
-import com.srm.supplier.domain.SrmSupplierPerformanceAppraisalSupplier;
-import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
+import com.srm.supplier.domain.*;
 import com.srm.supplier.mapper.SrmSupplierPerformanceAppraisalMapper;
 import com.srm.supplier.service.ISrmSupplierPerformanceAppraisalService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +20,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-07-11
  */
+@Slf4j
 @Service
 public class SrmSupplierPerformanceAppraisalServiceImpl implements ISrmSupplierPerformanceAppraisalService {
     @Autowired
@@ -112,6 +111,17 @@ public class SrmSupplierPerformanceAppraisalServiceImpl implements ISrmSupplierP
     @Override
     public List<SrmSupplierScoringTemplateDefinition> selectTemplateList() {
         return srmSupplierPerformanceAppraisalMapper.selectTemplateList();
+    }
+
+    @Override
+    public List<SrmSupplierScoringCriteriaDefinition> selectCriterList(Long id) {
+        List<Long> criteriaIds = srmSupplierPerformanceAppraisalMapper.selectCriterIdByTemplateId(id);
+        log.debug("criteriaIds:{}", criteriaIds);
+        List<SrmSupplierScoringCriteriaDefinition> supplierScoringCriteriaDefinitions = new ArrayList<>();
+        for (Long criteriaId : criteriaIds) {
+            supplierScoringCriteriaDefinitions.add(srmSupplierPerformanceAppraisalMapper.selectCriteriaById(criteriaId));
+        }
+        return supplierScoringCriteriaDefinitions;
     }
 
     /**

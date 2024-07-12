@@ -2,6 +2,7 @@ package com.srm.supplier.service;
 
 import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
+import com.srm.supplier.domain.SrmSupplierScoringCriteriaDefinition;
 import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
 
 import java.util.List;
@@ -64,4 +65,6 @@ public interface ISrmSupplierPerformanceAppraisalService {
     List<SrmSupplierInformation> selectSupplierList();
 
     List<SrmSupplierScoringTemplateDefinition> selectTemplateList();
+
+    List<SrmSupplierScoringCriteriaDefinition> selectCriterList(Long id);
 }

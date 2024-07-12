@@ -2,10 +2,7 @@ package com.srm.supplier.mapper;
 
 import java.util.List;
 
-import com.srm.supplier.domain.SrmSupplierInformation;
-import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
-import com.srm.supplier.domain.SrmSupplierPerformanceAppraisalSupplier;
-import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
+import com.srm.supplier.domain.*;
 
 /**
  * 供应商绩效考评Mapper接口
@@ -91,4 +88,8 @@ public interface SrmSupplierPerformanceAppraisalMapper
     List<SrmSupplierInformation> selectSupplierList();
 
     List<SrmSupplierScoringTemplateDefinition> selectTemplateList();
+
+    List<Long> selectCriterIdByTemplateId(Long id);
+
+    SrmSupplierScoringCriteriaDefinition selectCriteriaById(Long criteriaId);
 }

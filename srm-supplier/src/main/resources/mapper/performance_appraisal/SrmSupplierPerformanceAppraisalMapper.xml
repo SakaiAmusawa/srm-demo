@@ -124,9 +124,51 @@
         <result property="templateName" column="template_name"/>
     </resultMap>
     <select id="selectTemplateList" resultMap="getTemplateList">
-        select srm_supplier_scoring_template_definition.template_coding,
+        select srm_supplier_scoring_template_definition.id,
+               srm_supplier_scoring_template_definition.template_coding,
                srm_supplier_scoring_template_definition.template_name
         from srm_supplier_scoring_template_definition
+    </select>
+    <select id="selectCriterIdByTemplateId" resultType="java.lang.Long">
+        select srm_supplier_scoring_template_criteria.id
+        from srm_supplier_scoring_template_criteria
+        where template_id = #{id}
+    </select>
+
+    <resultMap id="getCriteria" type="SrmSupplierScoringCriteriaDefinition">
+        <result property="id" column="id"/>
+        <result property="pointerCoding" column="pointer_coding"/>
+        <result property="basePointTop" column="base_point_top"/>
+        <result property="pointerName" column="pointer_name"/>
+        <result property="scoringMethod" column="scoring_method"/>
+        <result property="pointerType" column="pointer_type"/>
+        <result property="standardEvaluation" column="standard_evaluation"/>
+        <result property="scoreFrom" column="score_from"/>
+        <result property="scoreTo" column="score_to"/>
+        <result property="systemScoring" column="system_scoring"/>
+        <result property="basePointLow" column="base_point_low"/>
+        <result property="configuration" column="configuration"/>
+        <result property="scorer" column="scorer"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectCriteriaById" resultMap="getCriteria">
+        select id,
+               pointer_coding,
+               base_point_top,
+               pointer_name,
+               scoring_method,
+               pointer_type,
+               standard_evaluation,
+               score_from,
+               score_to,
+               system_scoring,
+               base_point_low,
+               configuration,
+               scorer,
+               status
+        from srm_supplier_scoring_criteria_definition
+        where id = #{criteriaId}
     </select>
 
     <insert id="insertSrmSupplierPerformanceAppraisal" parameterType="SrmSupplierPerformanceAppraisal"

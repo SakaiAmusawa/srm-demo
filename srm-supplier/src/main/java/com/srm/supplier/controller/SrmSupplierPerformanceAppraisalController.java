@@ -8,8 +8,10 @@ import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
 import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
+import com.srm.supplier.domain.SrmSupplierScoringCriteriaDefinition;
 import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
 import com.srm.supplier.service.ISrmSupplierPerformanceAppraisalService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-07-11
  */
+@Slf4j
 @RestController
 @RequestMapping("/performance_appraisal/appraisal")
 public class SrmSupplierPerformanceAppraisalController extends BaseController {
@@ -101,5 +104,12 @@ public class SrmSupplierPerformanceAppraisalController extends BaseController {
     public AjaxResult getTemplate() {
         List<SrmSupplierScoringTemplateDefinition> srmSupplierScoringTemplateDefinitions = srmSupplierPerformanceAppraisalService.selectTemplateList();
         return AjaxResult.success(srmSupplierScoringTemplateDefinitions);
+    }
+
+    @GetMapping("/getCriteriaListById/{id}")
+    public AjaxResult getCriteriaListById(@PathVariable Long id) {
+        List<SrmSupplierScoringCriteriaDefinition> supplierScoringCriteriaDefinitions = srmSupplierPerformanceAppraisalService.selectCriterList(id);
+        log.debug("supplierScoringCriteriaDefinitions:{}", supplierScoringCriteriaDefinitions);
+        return AjaxResult.success(supplierScoringCriteriaDefinitions);
     }
 }
