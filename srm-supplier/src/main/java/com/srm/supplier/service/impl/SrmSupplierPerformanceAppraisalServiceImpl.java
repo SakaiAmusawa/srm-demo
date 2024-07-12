@@ -124,6 +124,19 @@ public class SrmSupplierPerformanceAppraisalServiceImpl implements ISrmSupplierP
         return supplierScoringCriteriaDefinitions;
     }
 
+    @Override
+    public List<SrmSupplierScoringCriteriaDefinition> selectCriterListByTemplateName(String templateName) {
+        //根据名字找ID
+        Long id = srmSupplierPerformanceAppraisalMapper.selectTemplateIdByTemplateName(templateName);
+        List<Long> criteriaIds = srmSupplierPerformanceAppraisalMapper.selectCriterIdByTemplateId(id);
+        log.debug("criteriaIds:{}", criteriaIds);
+        List<SrmSupplierScoringCriteriaDefinition> supplierScoringCriteriaDefinitions = new ArrayList<>();
+        for (Long criteriaId : criteriaIds) {
+            supplierScoringCriteriaDefinitions.add(srmSupplierPerformanceAppraisalMapper.selectCriteriaById(criteriaId));
+        }
+        return supplierScoringCriteriaDefinitions;
+    }
+
     /**
      * 新增绩效考评参评供应商信息
      *

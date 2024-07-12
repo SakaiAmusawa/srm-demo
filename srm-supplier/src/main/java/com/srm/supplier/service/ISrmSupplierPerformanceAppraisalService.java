@@ -67,4 +67,6 @@ public interface ISrmSupplierPerformanceAppraisalService {
     List<SrmSupplierScoringTemplateDefinition> selectTemplateList();
 
     List<SrmSupplierScoringCriteriaDefinition> selectCriterList(Long id);
+
+    List<SrmSupplierScoringCriteriaDefinition> selectCriterListByTemplateName(String templateName);
 }

@@ -170,6 +170,11 @@
         from srm_supplier_scoring_criteria_definition
         where id = #{criteriaId}
     </select>
+    <select id="selectTemplateIdByTemplateName" resultType="java.lang.Long">
+        select id
+        from srm_supplier_scoring_template_definition
+        where template_name = #{templateName}
+    </select>
 
     <insert id="insertSrmSupplierPerformanceAppraisal" parameterType="SrmSupplierPerformanceAppraisal"
             useGeneratedKeys="true" keyProperty="id">

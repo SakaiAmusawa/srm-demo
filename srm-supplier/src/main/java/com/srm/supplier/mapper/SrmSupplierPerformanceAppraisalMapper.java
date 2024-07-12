@@ -92,4 +92,6 @@ public interface SrmSupplierPerformanceAppraisalMapper
     List<Long> selectCriterIdByTemplateId(Long id);
 
     SrmSupplierScoringCriteriaDefinition selectCriteriaById(Long criteriaId);
+
+    Long selectTemplateIdByTemplateName(String templateName);
 }

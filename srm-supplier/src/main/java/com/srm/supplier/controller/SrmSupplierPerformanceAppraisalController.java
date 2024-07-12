@@ -112,4 +112,10 @@ public class SrmSupplierPerformanceAppraisalController extends BaseController {
         log.debug("supplierScoringCriteriaDefinitions:{}", supplierScoringCriteriaDefinitions);
         return AjaxResult.success(supplierScoringCriteriaDefinitions);
     }
+
+    @GetMapping("/getCriteriaListByTemplateName/{templateName}")
+    public AjaxResult getCriteriaByTemplateName(@PathVariable String templateName) {
+        List<SrmSupplierScoringCriteriaDefinition> supplierScoringCriteriaDefinitions = srmSupplierPerformanceAppraisalService.selectCriterListByTemplateName(templateName);
+        return AjaxResult.success(supplierScoringCriteriaDefinitions);
+    }
 }
