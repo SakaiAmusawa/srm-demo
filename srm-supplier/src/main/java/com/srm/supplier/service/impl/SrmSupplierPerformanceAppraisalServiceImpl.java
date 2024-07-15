@@ -3,6 +3,8 @@ package com.srm.supplier.service.impl;
 import com.srm.common.utils.DateUtils;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
+import com.srm.supplier.domain.param.ScoreParam;
+import com.srm.supplier.domain.vo.CalculateResultVO;
 import com.srm.supplier.mapper.SrmSupplierPerformanceAppraisalMapper;
 import com.srm.supplier.service.ISrmSupplierPerformanceAppraisalService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -135,6 +136,29 @@ public class SrmSupplierPerformanceAppraisalServiceImpl implements ISrmSupplierP
             supplierScoringCriteriaDefinitions.add(srmSupplierPerformanceAppraisalMapper.selectCriteriaById(criteriaId));
         }
         return supplierScoringCriteriaDefinitions;
+    }
+
+    @Override
+    public CalculateResultVO getTotal(List<ScoreParam> scoreParams) {
+        double total = 0;
+        for (ScoreParam scoreParam : scoreParams) {
+            total += scoreParam.getFinalScore();
+        }
+
+        String level = null;
+        if (total >= 90) {
+            level = "A";
+        } else if (total >= 80) {
+            level = "B";
+        } else if (total >= 60) {
+            level = "C";
+        } else {
+            level = "D";
+        }
+        CalculateResultVO calculateResultVO = new CalculateResultVO();
+        calculateResultVO.setTotalScore(total);
+        calculateResultVO.setLevel(level);
+        return calculateResultVO;
     }
 
     /**
