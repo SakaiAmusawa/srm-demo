@@ -10,6 +10,7 @@ import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
 import com.srm.supplier.domain.SrmSupplierScoringCriteriaDefinition;
 import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
+import com.srm.supplier.domain.param.AppraisalResult;
 import com.srm.supplier.domain.param.ScoreParam;
 import com.srm.supplier.domain.vo.CalculateResultVO;
 import com.srm.supplier.service.ISrmSupplierPerformanceAppraisalService;
@@ -126,5 +127,12 @@ public class SrmSupplierPerformanceAppraisalController extends BaseController {
         log.debug("scoreParams:{}", scoreParams);
         CalculateResultVO calculateResultVO = srmSupplierPerformanceAppraisalService.getTotal(scoreParams);
         return AjaxResult.success(calculateResultVO);
+    }
+
+    @PostMapping("/subScoreData")
+    public AjaxResult subScoreData(@RequestBody AppraisalResult appraisalResult) {
+        log.debug("appraisalResult:{}", appraisalResult);
+        srmSupplierPerformanceAppraisalService.saveAppraisalResult(appraisalResult);
+        return AjaxResult.success();
     }
 }

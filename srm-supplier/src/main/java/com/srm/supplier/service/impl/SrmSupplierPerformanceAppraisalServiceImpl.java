@@ -1,8 +1,11 @@
 package com.srm.supplier.service.impl;
 
+import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.DateUtils;
 import com.srm.common.utils.StringUtils;
 import com.srm.supplier.domain.*;
+import com.srm.supplier.domain.param.AppraisalResult;
+import com.srm.supplier.domain.param.CriteriaList;
 import com.srm.supplier.domain.param.ScoreParam;
 import com.srm.supplier.domain.vo.CalculateResultVO;
 import com.srm.supplier.mapper.SrmSupplierPerformanceAppraisalMapper;
@@ -159,6 +162,26 @@ public class SrmSupplierPerformanceAppraisalServiceImpl implements ISrmSupplierP
         calculateResultVO.setTotalScore(total);
         calculateResultVO.setLevel(level);
         return calculateResultVO;
+    }
+
+    @Override
+    public void saveAppraisalResult(AppraisalResult appraisalResult) {
+        List<CriteriaList> criteriaList = appraisalResult.getCriteriaList();
+        Integer totalWeight = 0;
+        for (CriteriaList list : criteriaList) {
+            Integer score = list.getScore();
+            if (score > 100) {
+                throw new ServiceException("分数不能大于100");
+            }
+            totalWeight += list.getWeight();
+            if (totalWeight > 100) {
+                throw new ServiceException("总权重不能大于100");
+            }
+            list.setKpId(appraisalResult.getKpId());
+            srmSupplierPerformanceAppraisalMapper.saveCriteriaList(list);
+        }
+        srmSupplierPerformanceAppraisalMapper.saveAppraisalResult(appraisalResult);
+        srmSupplierPerformanceAppraisalMapper.changeKpStatusByKpId(appraisalResult.getKpId());
     }
 
     /**

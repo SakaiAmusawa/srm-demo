@@ -4,6 +4,7 @@ import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierPerformanceAppraisal;
 import com.srm.supplier.domain.SrmSupplierScoringCriteriaDefinition;
 import com.srm.supplier.domain.SrmSupplierScoringTemplateDefinition;
+import com.srm.supplier.domain.param.AppraisalResult;
 import com.srm.supplier.domain.param.ScoreParam;
 import com.srm.supplier.domain.vo.CalculateResultVO;
 
@@ -73,4 +74,6 @@ public interface ISrmSupplierPerformanceAppraisalService {
     List<SrmSupplierScoringCriteriaDefinition> selectCriterListByTemplateName(String templateName);
 
     CalculateResultVO getTotal(List<ScoreParam> scoreParams);
+
+    void saveAppraisalResult(AppraisalResult appraisalResult);
 }
