@@ -235,14 +235,14 @@
     </update>
 
     <update id="changeKpStatusByKpId">
-        UPDATE srm_supplier_performance_appraisal
+        UPDATE srm_demo.srm_supplier_performance_appraisal
         SET kp_status = 1
         where id = #{kpId}
     </update>
 
     <delete id="deleteSrmSupplierPerformanceAppraisalById" parameterType="Long">
         delete
-        from srm_supplier_performance_appraisal
+        from srm_demo.srm_supplier_performance_appraisal
         where id = #{id}
     </delete>
 
@@ -262,7 +262,7 @@
 
     <delete id="deleteSrmSupplierPerformanceAppraisalSupplierByPerformanceAppraisalId" parameterType="Long">
         delete
-        from srm_supplier_performance_appraisal_supplier
+        from srm_demo.srm_supplier_performance_appraisal_supplier
         where performance_appraisal_id = #{performanceAppraisalId}
     </delete>
 
@@ -274,11 +274,11 @@
         </foreach>
     </insert>
     <insert id="saveCriteriaList">
-        INSERT INTO srm_supplier_appraisal_result_criterialist (criteria_id, weight, score, final_score, kp_id)
+        INSERT INTO srm_demo.srm_supplier_appraisal_result_criterialist (criteria_id, weight, score, final_score, kp_id)
         values (#{id}, #{weight}, #{score}, #{finalScore}, #{kpId})
     </insert>
     <insert id="saveAppraisalResult">
-        INSERT INTO srm_supplier_appraisal_result(kp_id, level, supplier_code, total_score)
+        INSERT INTO srm_demo.srm_supplier_appraisal_result(kp_id, level, supplier_code, total_score)
         values (#{kpId}, #{level}, #{supplierCode}, #{totalScore})
     </insert>
 </mapper>
