@@ -126,6 +126,7 @@ public class SrmSupplierSiteVisit extends BaseEntity {
      */
     private List<SrmSupplierSiteVisitUser> srmSupplierSiteVisitUserList;
 
+
     public List<SrmSupplierSiteVisitUser> getSrmSupplierSiteVisitUserList() {
         return srmSupplierSiteVisitUserList;
     }

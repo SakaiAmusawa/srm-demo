@@ -2,6 +2,8 @@ package com.srm.inspect.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,7 @@ import com.srm.common.core.page.TableDataInfo;
  * @author sakai
  * @date 2024-07-16
  */
+@Slf4j
 @RestController
 @RequestMapping("/inspect/visit")
 public class SrmSupplierSiteVisitController extends BaseController
@@ -77,6 +80,7 @@ public class SrmSupplierSiteVisitController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SrmSupplierSiteVisit srmSupplierSiteVisit)
     {
+        log.debug("srmSupplierSiteVisit:{}" , srmSupplierSiteVisit);
         return toAjax(srmSupplierSiteVisitService.insertSrmSupplierSiteVisit(srmSupplierSiteVisit));
     }
 
