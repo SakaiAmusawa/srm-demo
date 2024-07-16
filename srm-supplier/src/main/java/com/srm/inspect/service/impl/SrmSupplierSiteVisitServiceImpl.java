@@ -1,6 +1,8 @@
 package com.srm.inspect.service.impl;
 
 import java.util.List;
+
+import com.srm.inspect.domain.SrmSupplierSiteVisitUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
     {
         int rows = srmSupplierSiteVisitMapper.insertSrmSupplierSiteVisit(srmSupplierSiteVisit);
         insertSrmSupplierSiteVisitMaterial(srmSupplierSiteVisit);
+        insertSrmSupplierSiteVisitUser(srmSupplierSiteVisit);
         return rows;
     }
 
@@ -73,7 +76,9 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
     public int updateSrmSupplierSiteVisit(SrmSupplierSiteVisit srmSupplierSiteVisit)
     {
         srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitMaterialByInvestigateId(srmSupplierSiteVisit.getId());
+        srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitUserByInvestigateId(srmSupplierSiteVisit.getId());
         insertSrmSupplierSiteVisitMaterial(srmSupplierSiteVisit);
+        insertSrmSupplierSiteVisitUser(srmSupplierSiteVisit);
         return srmSupplierSiteVisitMapper.updateSrmSupplierSiteVisit(srmSupplierSiteVisit);
     }
 
@@ -88,6 +93,7 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
     public int deleteSrmSupplierSiteVisitByIds(Long[] ids)
     {
         srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitMaterialByInvestigateIds(ids);
+        srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitUserByInvestigateIds(ids);
         return srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitByIds(ids);
     }
 
@@ -102,6 +108,7 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
     public int deleteSrmSupplierSiteVisitById(Long id)
     {
         srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitMaterialByInvestigateId(id);
+        srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitUserByInvestigateId(id);
         return srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitById(id);
     }
 
@@ -125,6 +132,30 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
             if (list.size() > 0)
             {
                 srmSupplierSiteVisitMapper.batchSrmSupplierSiteVisitMaterial(list);
+            }
+        }
+    }
+
+    /**
+     * 新增供应商现场考察人员信息
+     *
+     * @param srmSupplierSiteVisit 供应商现场考察对象
+     */
+    public void insertSrmSupplierSiteVisitUser(SrmSupplierSiteVisit srmSupplierSiteVisit)
+    {
+        List<SrmSupplierSiteVisitUser> srmSupplierSiteVisitUserList = srmSupplierSiteVisit.getSrmSupplierSiteVisitUserList();
+        Long id = srmSupplierSiteVisit.getId();
+        if (StringUtils.isNotNull(srmSupplierSiteVisitUserList))
+        {
+            List<SrmSupplierSiteVisitUser> list = new ArrayList<SrmSupplierSiteVisitUser>();
+            for (SrmSupplierSiteVisitUser srmSupplierSiteVisitUser : srmSupplierSiteVisitUserList)
+            {
+                srmSupplierSiteVisitUser.setInvestigateId(id);
+                list.add(srmSupplierSiteVisitUser);
+            }
+            if (list.size() > 0)
+            {
+                srmSupplierSiteVisitMapper.batchSrmSupplierSiteVisitUser(list);
             }
         }
     }
