@@ -6,6 +6,7 @@ import com.srm.inspect.domain.SrmSupplierSiteVisitMaterial;
 import com.srm.inspect.domain.SrmSupplierSiteVisitUser;
 import com.srm.inspect.mapper.SrmSupplierSiteVisitMapper;
 import com.srm.inspect.service.ISrmSupplierSiteVisitService;
+import com.srm.supplier.domain.SrmSupplierInformation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,6 +109,11 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
         srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitMaterialByInvestigateId(id);
         srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitUserByInvestigateId(id);
         return srmSupplierSiteVisitMapper.deleteSrmSupplierSiteVisitById(id);
+    }
+
+    @Override
+    public List<SrmSupplierInformation> selectSrmSupplierInfoList() {
+        return srmSupplierSiteVisitMapper.selectSrmSupplierInfoList();
     }
 
     /**

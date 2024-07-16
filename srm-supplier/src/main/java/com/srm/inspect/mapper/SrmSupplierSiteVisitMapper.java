@@ -3,6 +3,7 @@ package com.srm.inspect.mapper;
 import com.srm.inspect.domain.SrmSupplierSiteVisit;
 import com.srm.inspect.domain.SrmSupplierSiteVisitMaterial;
 import com.srm.inspect.domain.SrmSupplierSiteVisitUser;
+import com.srm.supplier.domain.SrmSupplierInformation;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -112,4 +113,6 @@ public interface SrmSupplierSiteVisitMapper {
      * @return 结果
      */
     public int deleteSrmSupplierSiteVisitUserByInvestigateId(Long id);
+
+    List<SrmSupplierInformation> selectSrmSupplierInfoList();
 }

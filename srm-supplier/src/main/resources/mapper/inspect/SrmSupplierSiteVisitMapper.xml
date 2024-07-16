@@ -148,6 +148,17 @@
         where investigate_id = #{investigate_id}
     </select>
 
+    <resultMap id="supplier" type="com.srm.supplier.domain.SrmSupplierInformation">
+        <id column="id" property="id"/>
+        <result column="supplier_code" property="supplierCode"/>
+        <result column="supplier_name" property="supplierName"/>
+    </resultMap>
+
+    <select id="selectSrmSupplierInfoList" resultMap="supplier">
+        select id, supplier_code, supplier_name
+        from srm_demo.srm_supplier_information
+    </select>
+
     <insert id="insertSrmSupplierSiteVisit" parameterType="SrmSupplierSiteVisit" useGeneratedKeys="true"
             keyProperty="id">
         insert into srm_supplier_site_visit
