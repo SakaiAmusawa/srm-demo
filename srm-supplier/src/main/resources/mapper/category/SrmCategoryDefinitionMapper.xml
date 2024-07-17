@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supplier.mapper.SrmCategoryDefinitionMapper">
+    
+    <resultMap type="SrmCategoryDefinition" id="SrmCategoryDefinitionResult">
+        <result property="id"    column="id"    />
+        <result property="categoryCode"    column="category_code"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="unity"    column="unity"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="excess"    column="excess"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="categoryRequire"    column="category_require"    />
+        <result property="buyer"    column="buyer"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectSrmCategoryDefinitionVo">
+        select id, category_code, category_name, unity, update_by, excess, parent_id, category_require, buyer, update_time, create_time, status from srm_category_definition
+    </sql>
+
+    <select id="selectSrmCategoryDefinitionList" parameterType="SrmCategoryDefinition" resultMap="SrmCategoryDefinitionResult">
+        <include refid="selectSrmCategoryDefinitionVo"/>
+        <where>  
+            <if test="categoryCode != null  and categoryCode != ''"> and category_code = #{categoryCode}</if>
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="unity != null  and unity != ''"> and unity = #{unity}</if>
+            <if test="excess != null "> and excess = #{excess}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="categoryRequire != null "> and category_require = #{categoryRequire}</if>
+            <if test="buyer != null  and buyer != ''"> and buyer = #{buyer}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmCategoryDefinitionById" parameterType="Long" resultMap="SrmCategoryDefinitionResult">
+        <include refid="selectSrmCategoryDefinitionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmCategoryDefinition" parameterType="SrmCategoryDefinition" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_category_definition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryCode != null and categoryCode != ''">category_code,</if>
+            <if test="categoryName != null and categoryName != ''">category_name,</if>
+            <if test="unity != null">unity,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="excess != null">excess,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="categoryRequire != null">category_require,</if>
+            <if test="buyer != null">buyer,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryCode != null and categoryCode != ''">#{categoryCode},</if>
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="unity != null">#{unity},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="excess != null">#{excess},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="categoryRequire != null">#{categoryRequire},</if>
+            <if test="buyer != null">#{buyer},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmCategoryDefinition" parameterType="SrmCategoryDefinition">
+        update srm_category_definition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryCode != null and categoryCode != ''">category_code = #{categoryCode},</if>
+            <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="unity != null">unity = #{unity},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="excess != null">excess = #{excess},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="categoryRequire != null">category_require = #{categoryRequire},</if>
+            <if test="buyer != null">buyer = #{buyer},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmCategoryDefinitionById" parameterType="Long">
+        delete from srm_category_definition where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmCategoryDefinitionByIds" parameterType="String">
+        delete from srm_category_definition where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
