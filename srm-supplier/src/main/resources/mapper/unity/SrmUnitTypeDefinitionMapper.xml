@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.unity.mapper.SrmUnitTypeDefinitionMapper">
+    
+    <resultMap type="SrmUnitTypeDefinition" id="SrmUnitTypeDefinitionResult">
+        <result property="id"    column="id"    />
+        <result property="unitTypeName"    column="unit_type_name"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectSrmUnitTypeDefinitionVo">
+        select id, unit_type_name, status from srm_unit_type_definition
+    </sql>
+
+    <select id="selectSrmUnitTypeDefinitionList" parameterType="SrmUnitTypeDefinition" resultMap="SrmUnitTypeDefinitionResult">
+        <include refid="selectSrmUnitTypeDefinitionVo"/>
+        <where>  
+            <if test="unitTypeName != null  and unitTypeName != ''"> and unit_type_name like concat('%', #{unitTypeName}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmUnitTypeDefinitionById" parameterType="Long" resultMap="SrmUnitTypeDefinitionResult">
+        <include refid="selectSrmUnitTypeDefinitionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmUnitTypeDefinition" parameterType="SrmUnitTypeDefinition" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_unit_type_definition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="unitTypeName != null and unitTypeName != ''">unit_type_name,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="unitTypeName != null and unitTypeName != ''">#{unitTypeName},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmUnitTypeDefinition" parameterType="SrmUnitTypeDefinition">
+        update srm_unit_type_definition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="unitTypeName != null and unitTypeName != ''">unit_type_name = #{unitTypeName},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmUnitTypeDefinitionById" parameterType="Long">
+        delete from srm_unit_type_definition where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmUnitTypeDefinitionByIds" parameterType="String">
+        delete from srm_unit_type_definition where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

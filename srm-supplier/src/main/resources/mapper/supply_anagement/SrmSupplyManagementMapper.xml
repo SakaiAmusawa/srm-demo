@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supply_anagement.mapper.SrmSupplyManagementMapper">
+    
+    <resultMap type="SrmSupplyManagement" id="SrmSupplyManagementResult">
+        <result property="id"    column="id"    />
+        <result property="companyCode"    column="company_code"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="lifecycle"    column="lifecycle"    />
+        <result property="company"    column="company"    />
+        <result property="creator"    column="creator"    />
+        <result property="creatorDept"    column="creator_dept"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="remarks"    column="remarks"    />
+    </resultMap>
+
+    <resultMap id="SrmSupplyManagementSrmMaterialInformationResult" type="SrmSupplyManagement" extends="SrmSupplyManagementResult">
+        <collection property="srmMaterialInformationList" ofType="SrmMaterialInformation" column="material_code" select="selectSrmMaterialInformationList" />
+    </resultMap>
+
+    <resultMap type="SrmMaterialInformation" id="SrmMaterialInformationResult">
+        <result property="id"    column="id"    />
+        <result property="materialCode"    column="material_code"    />
+        <result property="material"    column="material"    />
+        <result property="categoryCode"    column="category_code"    />
+        <result property="category"    column="category"    />
+        <result property="available"    column="available"    />
+        <result property="manufacturer"    column="manufacturer"    />
+        <result property="isInspection"    column="is_inspection"    />
+        <result property="rating"    column="rating"    />
+        <result property="capability"    column="capability"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="attachment"    column="attachment"    />
+        <result property="supplyId"    column="supply_id"    />
+    </resultMap>
+
+    <sql id="selectSrmSupplyManagementVo">
+        select id, company_code, enterprise, lifecycle, company, creator, creator_dept, create_date, update_by, update_date, remarks from srm_supply_management
+    </sql>
+
+    <select id="selectSrmSupplyManagementList" parameterType="SrmSupplyManagement" resultMap="SrmSupplyManagementResult">
+        <include refid="selectSrmSupplyManagementVo"/>
+        <where>  
+            <if test="companyCode != null  and companyCode != ''"> and company_code = #{companyCode}</if>
+            <if test="enterprise != null  and enterprise != ''"> and enterprise = #{enterprise}</if>
+            <if test="lifecycle != null  and lifecycle != ''"> and lifecycle = #{lifecycle}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="creatorDept != null  and creatorDept != ''"> and creator_dept = #{creatorDept}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmSupplyManagementById" parameterType="Long" resultMap="SrmSupplyManagementSrmMaterialInformationResult">
+        select id, company_code, enterprise, lifecycle, company, creator, creator_dept, create_date, update_by, update_date, remarks
+        from srm_supply_management
+        where id = #{id}
+    </select>
+
+    <select id="selectSrmMaterialInformationList" resultType="SrmMaterialInformation" resultMap="SrmMaterialInformationResult">
+        select id, material_code, material, category_code, category, available, manufacturer, is_inspection, rating, capability, remarks, attachment, supply_id
+        from srm_material_information
+        where material_code = #{material_code}
+    </select>
+
+    <insert id="insertSrmSupplyManagement" parameterType="SrmSupplyManagement" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_supply_management
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyCode != null and companyCode != ''">company_code,</if>
+            <if test="enterprise != null and enterprise != ''">enterprise,</if>
+            <if test="lifecycle != null and lifecycle != ''">lifecycle,</if>
+            <if test="company != null and company != ''">company,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="creatorDept != null and creatorDept != ''">creator_dept,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateDate != null">update_date,</if>
+            <if test="remarks != null">remarks,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyCode != null and companyCode != ''">#{companyCode},</if>
+            <if test="enterprise != null and enterprise != ''">#{enterprise},</if>
+            <if test="lifecycle != null and lifecycle != ''">#{lifecycle},</if>
+            <if test="company != null and company != ''">#{company},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="creatorDept != null and creatorDept != ''">#{creatorDept},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmSupplyManagement" parameterType="SrmSupplyManagement">
+        update srm_supply_management
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyCode != null and companyCode != ''">company_code = #{companyCode},</if>
+            <if test="enterprise != null and enterprise != ''">enterprise = #{enterprise},</if>
+            <if test="lifecycle != null and lifecycle != ''">lifecycle = #{lifecycle},</if>
+            <if test="company != null and company != ''">company = #{company},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="creatorDept != null and creatorDept != ''">creator_dept = #{creatorDept},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSupplyManagementById" parameterType="Long">
+        delete from srm_supply_management where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSupplyManagementByIds" parameterType="String">
+        delete from srm_supply_management where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteSrmMaterialInformationByMaterialCodes" parameterType="String">
+        delete from srm_material_information where material_code in 
+        <foreach item="materialCode" collection="array" open="(" separator="," close=")">
+            #{materialCode}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmMaterialInformationByMaterialCode" parameterType="Long">
+        delete from srm_material_information where material_code = #{materialCode}
+    </delete>
+
+    <insert id="batchSrmMaterialInformation">
+        insert into srm_material_information( id, material_code, material, category_code, category, available, manufacturer, is_inspection, rating, capability, remarks, attachment, supply_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.materialCode}, #{item.material}, #{item.categoryCode}, #{item.category}, #{item.available}, #{item.manufacturer}, #{item.isInspection}, #{item.rating}, #{item.capability}, #{item.remarks}, #{item.attachment}, #{item.supplyId})
+        </foreach>
+    </insert>
+</mapper>
