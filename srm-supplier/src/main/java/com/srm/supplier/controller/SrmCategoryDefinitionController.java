@@ -99,4 +99,10 @@ public class SrmCategoryDefinitionController extends BaseController
     {
         return toAjax(srmCategoryDefinitionService.deleteSrmCategoryDefinitionByIds(ids));
     }
+
+    @GetMapping("/unit")
+    public AjaxResult getUnit()
+    {
+    	return success(srmCategoryDefinitionService.selectUnitList());
+    }
 }

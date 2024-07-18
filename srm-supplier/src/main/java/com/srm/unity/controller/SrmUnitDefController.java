@@ -7,6 +7,7 @@ import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
 import com.srm.unity.domain.SrmUnitDef;
+import com.srm.unity.domain.SrmUnitTypeDefinition;
 import com.srm.unity.service.ISrmUnitDefService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class SrmUnitDefController extends BaseController {
     public TableDataInfo list(SrmUnitDef srmUnitDef) {
         startPage();
         List<SrmUnitDef> list = srmUnitDefService.selectSrmUnitDefList(srmUnitDef);
+        log.debug("list:{}", list);
         return getDataTable(list);
     }
 
@@ -91,5 +93,11 @@ public class SrmUnitDefController extends BaseController {
     @DeleteMapping("/{unitCodes}")
     public AjaxResult remove(@PathVariable Long[] unitCodes) {
         return toAjax(srmUnitDefService.deleteSrmUnitDefByUnitCodes(unitCodes));
+    }
+
+    @GetMapping("/listUT")
+    public AjaxResult listUnitType() {
+        List<SrmUnitTypeDefinition> srmUnitTypeDefinition = srmUnitDefService.selectUnitTypeList();
+        return AjaxResult.success(srmUnitTypeDefinition);
     }
 }

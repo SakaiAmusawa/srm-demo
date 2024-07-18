@@ -2,6 +2,7 @@ package com.srm.supplier.mapper;
 
 import java.util.List;
 import com.srm.supplier.domain.SrmCategoryDefinition;
+import com.srm.unity.domain.SrmUnitDef;
 
 /**
  * 品类定义Mapper接口
@@ -58,4 +59,6 @@ public interface SrmCategoryDefinitionMapper
      * @return 结果
      */
     public int deleteSrmCategoryDefinitionByIds(Long[] ids);
+
+    List<SrmUnitDef> selectUnitList();
 }

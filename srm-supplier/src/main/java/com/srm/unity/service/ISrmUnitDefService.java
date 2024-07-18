@@ -2,6 +2,7 @@ package com.srm.unity.service;
 
 import java.util.List;
 import com.srm.unity.domain.SrmUnitDef;
+import com.srm.unity.domain.SrmUnitTypeDefinition;
 
 /**
  * 计量单位定义Service接口
@@ -58,4 +59,6 @@ public interface ISrmUnitDefService
      * @return 结果
      */
     public int deleteSrmUnitDefByUnitCode(Long unitCode);
+
+    List<SrmUnitTypeDefinition> selectUnitTypeList();
 }

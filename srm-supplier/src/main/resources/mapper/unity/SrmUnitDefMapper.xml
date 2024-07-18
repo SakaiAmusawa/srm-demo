@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.unity.mapper.SrmUnitDefMapper">
-    
+
     <resultMap type="SrmUnitDef" id="SrmUnitDefResult">
-        <result property="unitCode"    column="unit_code"    />
-        <result property="unit"    column="unit"    />
-        <result property="convertUnit"    column="convert_unit"    />
-        <result property="convertRate"    column="convert_rate"    />
-        <result property="unitPrecision"    column="unit_precision"    />
-        <result property="unitTypeName"    column="unit_type_name"    />
-        <result property="sourceSys"    column="source_sys"    />
-        <result property="unitStatus"    column="unit_status"    />
+        <result property="unitCode" column="unit_code"/>
+        <result property="unit" column="unit"/>
+        <result property="convertUnit" column="convert_unit"/>
+        <result property="convertRate" column="convert_rate"/>
+        <result property="unitPrecision" column="unit_precision"/>
+        <result property="unitTypeName" column="unit_type_name"/>
+        <result property="sourceSys" column="source_sys"/>
+        <result property="unitStatus" column="unit_status"/>
+        <result property="useDescribe" column="use_describe"/>
+    </resultMap>
+    <resultMap id="unitType" type="com.srm.unity.domain.SrmUnitTypeDefinition">
+        <result property="id" column="id"/>
+        <result property="unitTypeName" column="unit_type_name"/>
+        <result property="status" column="status"/>
     </resultMap>
 
     <sql id="selectSrmUnitDefVo">
-        select unit_code, unit, convert_unit, convert_rate, unit_precision, unit_type_name, source_sys, unit_status,use_describe from srm_unit_def
+        select unit_code,
+               unit,
+               convert_unit,
+               convert_rate,
+               unit_precision,
+               unit_type_name,
+               source_sys,
+               unit_status,
+               use_describe
+        from srm_unit_def
     </sql>
 
     <select id="selectSrmUnitDefList" parameterType="SrmUnitDef" resultMap="SrmUnitDefResult">
@@ -34,10 +49,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useDescribe!=null">and use_describe = #{useDescribe}</if>
         </where>
     </select>
-    
+
     <select id="selectSrmUnitDefByUnitCode" parameterType="Long" resultMap="SrmUnitDefResult">
         <include refid="selectSrmUnitDefVo"/>
         where unit_code = #{unitCode}
+    </select>
+
+
+    <select id="selectUnitTypeList" resultMap="unitType">
+        select id, unit_type_name, status
+        from srm_demo.srm_unit_type_definition
     </select>
 
     <insert id="insertSrmUnitDef" parameterType="SrmUnitDef" useGeneratedKeys="true" keyProperty="unitCode">
@@ -80,11 +101,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmUnitDefByUnitCode" parameterType="Long">
-        delete from srm_unit_def where unit_code = #{unitCode}
+        delete
+        from srm_unit_def
+        where unit_code = #{unitCode}
     </delete>
 
     <delete id="deleteSrmUnitDefByUnitCodes" parameterType="String">
-        delete from srm_unit_def where unit_code in 
+        delete from srm_unit_def where unit_code in
         <foreach item="unitCode" collection="array" open="(" separator="," close=")">
             #{unitCode}
         </foreach>
