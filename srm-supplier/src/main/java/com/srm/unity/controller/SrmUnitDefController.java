@@ -1,36 +1,31 @@
 package com.srm.unity.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.srm.common.annotation.Log;
 import com.srm.common.core.controller.BaseController;
 import com.srm.common.core.domain.AjaxResult;
+import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
+import com.srm.common.utils.poi.ExcelUtil;
 import com.srm.unity.domain.SrmUnitDef;
 import com.srm.unity.service.ISrmUnitDefService;
-import com.srm.common.utils.poi.ExcelUtil;
-import com.srm.common.core.page.TableDataInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 计量单位定义Controller
- * 
+ *
  * @author ruoyi
  * @date 2024-07-18
  */
+@Slf4j
 @RestController
 @RequestMapping("/unity/unity_def")
-public class SrmUnitDefController extends BaseController
-{
+public class SrmUnitDefController extends BaseController {
     @Autowired
     private ISrmUnitDefService srmUnitDefService;
 
@@ -39,8 +34,7 @@ public class SrmUnitDefController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('unity:unity_def:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SrmUnitDef srmUnitDef)
-    {
+    public TableDataInfo list(SrmUnitDef srmUnitDef) {
         startPage();
         List<SrmUnitDef> list = srmUnitDefService.selectSrmUnitDefList(srmUnitDef);
         return getDataTable(list);
@@ -52,8 +46,7 @@ public class SrmUnitDefController extends BaseController
     @PreAuthorize("@ss.hasPermi('unity:unity_def:export')")
     @Log(title = "计量单位定义", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SrmUnitDef srmUnitDef)
-    {
+    public void export(HttpServletResponse response, SrmUnitDef srmUnitDef) {
         List<SrmUnitDef> list = srmUnitDefService.selectSrmUnitDefList(srmUnitDef);
         ExcelUtil<SrmUnitDef> util = new ExcelUtil<SrmUnitDef>(SrmUnitDef.class);
         util.exportExcel(response, list, "计量单位定义数据");
@@ -64,8 +57,7 @@ public class SrmUnitDefController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('unity:unity_def:query')")
     @GetMapping(value = "/{unitCode}")
-    public AjaxResult getInfo(@PathVariable("unitCode") Long unitCode)
-    {
+    public AjaxResult getInfo(@PathVariable("unitCode") Long unitCode) {
         return success(srmUnitDefService.selectSrmUnitDefByUnitCode(unitCode));
     }
 
@@ -75,8 +67,8 @@ public class SrmUnitDefController extends BaseController
     @PreAuthorize("@ss.hasPermi('unity:unity_def:add')")
     @Log(title = "计量单位定义", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SrmUnitDef srmUnitDef)
-    {
+    public AjaxResult add(@RequestBody SrmUnitDef srmUnitDef) {
+        log.debug("srmUnitDef:{}", srmUnitDef);
         return toAjax(srmUnitDefService.insertSrmUnitDef(srmUnitDef));
     }
 
@@ -86,8 +78,8 @@ public class SrmUnitDefController extends BaseController
     @PreAuthorize("@ss.hasPermi('unity:unity_def:edit')")
     @Log(title = "计量单位定义", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SrmUnitDef srmUnitDef)
-    {
+    public AjaxResult edit(@RequestBody SrmUnitDef srmUnitDef) {
+        log.debug("srmUnitDef:{}", srmUnitDef);
         return toAjax(srmUnitDefService.updateSrmUnitDef(srmUnitDef));
     }
 
@@ -96,9 +88,8 @@ public class SrmUnitDefController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('unity:unity_def:remove')")
     @Log(title = "计量单位定义", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{unitCodes}")
-    public AjaxResult remove(@PathVariable Long[] unitCodes)
-    {
+    @DeleteMapping("/{unitCodes}")
+    public AjaxResult remove(@PathVariable Long[] unitCodes) {
         return toAjax(srmUnitDefService.deleteSrmUnitDefByUnitCodes(unitCodes));
     }
 }

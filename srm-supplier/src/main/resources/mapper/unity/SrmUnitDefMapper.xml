@@ -9,26 +9,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="unit"    column="unit"    />
         <result property="convertUnit"    column="convert_unit"    />
         <result property="convertRate"    column="convert_rate"    />
-        <result property="precision"    column="precision"    />
+        <result property="unitPrecision"    column="unit_precision"    />
         <result property="unitTypeName"    column="unit_type_name"    />
         <result property="sourceSys"    column="source_sys"    />
         <result property="unitStatus"    column="unit_status"    />
     </resultMap>
 
     <sql id="selectSrmUnitDefVo">
-        select unit_code, unit, convert_unit, convert_rate, precision, unit_type_name, source_sys, unit_status from srm_unit_def
+        select unit_code, unit, convert_unit, convert_rate, unit_precision, unit_type_name, source_sys, unit_status,use_describe from srm_unit_def
     </sql>
 
     <select id="selectSrmUnitDefList" parameterType="SrmUnitDef" resultMap="SrmUnitDefResult">
         <include refid="selectSrmUnitDefVo"/>
-        <where>  
-            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
-            <if test="convertUnit != null  and convertUnit != ''"> and convert_unit = #{convertUnit}</if>
-            <if test="convertRate != null "> and convert_rate = #{convertRate}</if>
-            <if test="precision != null "> and precision = #{precision}</if>
-            <if test="unitTypeName != null  and unitTypeName != ''"> and unit_type_name like concat('%', #{unitTypeName}, '%')</if>
-            <if test="sourceSys != null  and sourceSys != ''"> and source_sys = #{sourceSys}</if>
-            <if test="unitStatus != null "> and unit_status = #{unitStatus}</if>
+        <where>
+            <if test="unit != null  and unit != ''">and unit = #{unit}</if>
+            <if test="convertUnit != null  and convertUnit != ''">and convert_unit = #{convertUnit}</if>
+            <if test="convertRate != null ">and convert_rate = #{convertRate}</if>
+            <if test="unitPrecision != null ">and unitPrecision = #{unit_precision}</if>
+            <if test="unitTypeName != null  and unitTypeName != ''">and unit_type_name like concat('%', #{unitTypeName},
+                '%')
+            </if>
+            <if test="sourceSys != null  and sourceSys != ''">and source_sys = #{sourceSys}</if>
+            <if test="unitStatus != null ">and unit_status = #{unitStatus}</if>
+            <if test="useDescribe!=null">and use_describe = #{useDescribe}</if>
         </where>
     </select>
     
@@ -43,20 +46,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="unit != null and unit != ''">unit,</if>
             <if test="convertUnit != null">convert_unit,</if>
             <if test="convertRate != null">convert_rate,</if>
-            <if test="precision != null">precision,</if>
+            <if test="unitPrecision != null">unit_precision,</if>
             <if test="unitTypeName != null">unit_type_name,</if>
             <if test="sourceSys != null">source_sys,</if>
             <if test="unitStatus != null">unit_status,</if>
-         </trim>
+            <if test="useDescribe !=null">use_describe,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="unit != null and unit != ''">#{unit},</if>
             <if test="convertUnit != null">#{convertUnit},</if>
             <if test="convertRate != null">#{convertRate},</if>
-            <if test="precision != null">#{precision},</if>
+            <if test="unitPrecision != null">#{unit_precision},</if>
             <if test="unitTypeName != null">#{unitTypeName},</if>
             <if test="sourceSys != null">#{sourceSys},</if>
             <if test="unitStatus != null">#{unitStatus},</if>
-         </trim>
+            <if test="useDescribe !=null">#{useDescribe},</if>
+        </trim>
     </insert>
 
     <update id="updateSrmUnitDef" parameterType="SrmUnitDef">
@@ -65,10 +70,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="unit != null and unit != ''">unit = #{unit},</if>
             <if test="convertUnit != null">convert_unit = #{convertUnit},</if>
             <if test="convertRate != null">convert_rate = #{convertRate},</if>
-            <if test="precision != null">precision = #{precision},</if>
+            <if test="unitPrecision != null">precision = #{unit_precision},</if>
             <if test="unitTypeName != null">unit_type_name = #{unitTypeName},</if>
             <if test="sourceSys != null">source_sys = #{sourceSys},</if>
             <if test="unitStatus != null">unit_status = #{unitStatus},</if>
+            <if test="useDescribe !=null">use_describe=#{useDescribe},</if>
         </trim>
         where unit_code = #{unitCode}
     </update>
