@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.material.mapper.SrmMaterialManagementMapper">
+    
+    <resultMap type="SrmMaterialManagement" id="SrmMaterialManagementResult">
+        <result property="id"    column="id"    />
+        <result property="materialCode"    column="material_code"    />
+        <result property="materialName"    column="material_name"    />
+        <result property="unit"    column="unit"    />
+        <result property="brand"    column="brand"    />
+        <result property="materialPicture"    column="material_picture"    />
+        <result property="materialProp"    column="material_prop"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="categoryCode" column="category_code"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+
+    <sql id="selectSrmMaterialManagementVo">
+        select id,
+               material_code,
+               material_name,
+               unit,
+               brand,
+               material_picture,
+               material_prop,
+               update_by,
+               update_time,
+               status,
+               category_code,
+               category_name
+        from srm_material_management
+    </sql>
+
+    <select id="selectSrmMaterialManagementList" parameterType="SrmMaterialManagement" resultMap="SrmMaterialManagementResult">
+        <include refid="selectSrmMaterialManagementVo"/>
+        <where>  
+            <if test="materialCode != null  and materialCode != ''"> and material_code = #{materialCode}</if>
+            <if test="materialName != null  and materialName != ''"> and material_name like concat('%', #{materialName}, '%')</if>
+            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
+            <if test="materialPicture != null  and materialPicture != ''"> and material_picture = #{materialPicture}</if>
+            <if test="materialProp != null  and materialProp != ''"> and material_prop = #{materialProp}</if>
+            <if test="status != null "> and status = #{status}</if>
+             <if test="categoryCode != null and categoryCode != ''"> and category_code = #{categoryCode}</if>
+              <if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmMaterialManagementById" parameterType="Long" resultMap="SrmMaterialManagementResult">
+        <include refid="selectSrmMaterialManagementVo"/>
+        where id = #{id}
+    </select>
+
+    <resultMap id="category" type="com.srm.supplier.domain.SrmCategoryDefinition">
+        <result column="id" property="id"/>
+        <result column="category_code" property="categoryCode"/>
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+
+    <select id="selectCatrgoryList" resultMap="category" >
+        select id, category_code, category_name
+        from srm_category_definition
+    </select>
+
+    <insert id="insertSrmMaterialManagement" parameterType="SrmMaterialManagement" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_material_management
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialCode != null and materialCode != ''">material_code,</if>
+            <if test="materialName != null and materialName != ''">material_name,</if>
+            <if test="unit != null">unit,</if>
+            <if test="brand != null">brand,</if>
+            <if test="materialPicture != null">material_picture,</if>
+            <if test="materialProp != null">material_prop,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="categoryCode != null">category_code,</if>
+            <if test="categoryName != null">category_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialCode != null and materialCode != ''">#{materialCode},</if>
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="materialPicture != null">#{materialPicture},</if>
+            <if test="materialProp != null">#{materialProp},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="categoryCode != null">#{categoryCode},</if>
+            <if test="categoryName != null">#{categoryName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmMaterialManagement" parameterType="SrmMaterialManagement">
+        update srm_material_management
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialCode != null and materialCode != ''">material_code = #{materialCode},</if>
+            <if test="materialName != null and materialName != ''">material_name = #{materialName},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="materialPicture != null">material_picture = #{materialPicture},</if>
+            <if test="materialProp != null">material_prop = #{materialProp},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="categoryCode != null">category_code = #{categoryCode},</if>
+            <if test="categoryName != null">category_name = #{categoryName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmMaterialManagementById" parameterType="Long">
+        delete from srm_material_management where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmMaterialManagementByIds" parameterType="String">
+        delete from srm_material_management where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
