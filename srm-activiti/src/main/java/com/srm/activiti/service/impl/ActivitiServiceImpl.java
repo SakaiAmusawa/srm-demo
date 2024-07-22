@@ -48,4 +48,24 @@ public class ActivitiServiceImpl implements IActivitiService {
         //通过流程定义ID来启动流程，获取流程实例
         ProcessInstance processInstance = runtimeService.startProcessInstanceById("test01:1:4");
     }
+
+    @Override
+    public List<Task> getTask() {
+
+        String username = SecurityUtils.getUsername();
+
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = engine.getTaskService();
+        //对应act_ru_task这张表的记录
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee(username).list();
+        if (tasks != null && !tasks.isEmpty()) {
+            for (Task task : tasks) {
+                String id = task.getId();
+                System.out.println("id = " + id);
+                String name = task.getName();
+                System.out.println("name = " + name);
+            }
+        }
+        return tasks;
+    }
 }

@@ -52,4 +52,15 @@ public class ActivitiController {
         activitiService.apply();
         return AjaxResult.success();
     }
+
+
+    /**
+     * 测试Task返回
+     */
+
+    @PostMapping("/test")
+    public List<Task> test() {
+        List<Task> tasks = activitiService.getTask();
+        return tasks;
+    }
 }
