@@ -4,6 +4,7 @@ import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.core.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +33,23 @@ public class ActivitiController {
         return AjaxResult.success(taskVOList);
     }
 
-    @PostMapping("completeTask")
+    /**
+     * 审批流程
+     *
+     * @return code200
+     */
+    @PostMapping("/completeTask")
     public AjaxResult completeTask() {
         activitiService.completeTask();
+        return AjaxResult.success();
+    }
+
+    /**
+     * 发起审查
+     */
+    @PostMapping("/apply")
+    public AjaxResult apply() {
+        activitiService.apply();
         return AjaxResult.success();
     }
 }

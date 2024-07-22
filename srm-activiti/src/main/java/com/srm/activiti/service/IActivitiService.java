@@ -8,4 +8,6 @@ public interface IActivitiService {
     List<TaskVO> getAllTask();
 
     void completeTask();
+
+    void apply();
 }
