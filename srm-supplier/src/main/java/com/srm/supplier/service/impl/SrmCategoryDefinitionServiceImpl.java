@@ -8,6 +8,7 @@ import com.srm.unity.domain.SrmUnitDef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -92,5 +93,10 @@ public class SrmCategoryDefinitionServiceImpl implements ISrmCategoryDefinitionS
     @Override
     public List<SrmUnitDef> selectUnitList() {
         return srmCategoryDefinitionMapper.selectUnitList();
+    }
+
+    @Override
+    public List<SrmCategoryDefinition> getAllCategory() {
+        return srmCategoryDefinitionMapper.selectSrmCategoryDefinitionList(null);
     }
 }

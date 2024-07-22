@@ -1,10 +1,12 @@
 package com.srm.material.service.impl;
 
+import com.srm.common.core.domain.entity.SysUser;
 import com.srm.common.utils.DateUtils;
 import com.srm.material.domain.SrmMaterialManagement;
 import com.srm.material.mapper.SrmMaterialManagementMapper;
 import com.srm.material.service.ISrmMaterialManagementService;
 import com.srm.supplier.domain.SrmCategoryDefinition;
+import com.srm.system.mapper.SysUserMapper;
 import com.srm.unity.domain.SrmUnitDef;
 import com.srm.unity.mapper.SrmUnitDefMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class SrmMaterialManagementServiceImpl implements ISrmMaterialManagementS
     private SrmMaterialManagementMapper srmMaterialManagementMapper;
     @Autowired
     private SrmUnitDefMapper srmUnitDefMapper;
+    @Autowired
+    private SysUserMapper userMapper;
 
     /**
      * 查询物料管理
@@ -101,5 +105,16 @@ public class SrmMaterialManagementServiceImpl implements ISrmMaterialManagementS
     public List<SrmUnitDef> selectUnitList() {
         List<SrmUnitDef> srmUnitDefs = srmUnitDefMapper.selectSrmUnitDefList(null);
         return srmUnitDefs;
+    }
+
+    @Override
+    public List<SrmMaterialManagement> getAllMaterial() {
+
+        return srmMaterialManagementMapper.selectSrmMaterialManagementList(null);
+    }
+
+    @Override
+    public List<SysUser> getAllUser() {
+        return srmMaterialManagementMapper.selectAllUser();
     }
 }

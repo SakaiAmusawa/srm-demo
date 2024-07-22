@@ -4,13 +4,18 @@ import com.srm.common.annotation.Log;
 import com.srm.common.core.controller.BaseController;
 import com.srm.common.core.domain.AjaxResult;
 import com.srm.common.core.domain.entity.SysDept;
+import com.srm.common.core.domain.entity.SysUser;
 import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
+import com.srm.material.domain.SrmMaterialManagement;
+import com.srm.material.service.ISrmMaterialManagementService;
 import com.srm.sample.domain.SrmSupplierSampleDelivery;
 import com.srm.sample.service.ISrmSupplierSampleDeliveryService;
+import com.srm.supplier.domain.SrmCategoryDefinition;
 import com.srm.supplier.domain.SrmSupplierContactInformation;
 import com.srm.supplier.domain.SrmSupplierInformation;
+import com.srm.supplier.service.ISrmCategoryDefinitionService;
 import com.srm.supplier.service.ISrmSupplierInformationService;
 import com.srm.system.service.ISysDeptService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +44,12 @@ public class SrmSupplierSampleDeliveryController extends BaseController {
 
     @Autowired
     private ISrmSupplierInformationService srmSupplierInformationService;
+
+    @Autowired
+    private ISrmMaterialManagementService materialManagementService;
+
+    @Autowired
+    private ISrmCategoryDefinitionService categoryDefinitionService;
 
     /**
      * 查询供应商送样列表
@@ -119,5 +130,24 @@ public class SrmSupplierSampleDeliveryController extends BaseController {
         SrmSupplierContactInformation srmSupplierContactInformation = srmSupplierSampleDeliveryService.selectContactById(id);
         log.debug("srmSupplierContactInformation:{}", srmSupplierContactInformation);
         return AjaxResult.success(srmSupplierContactInformation);
+    }
+
+    @GetMapping("/listMaterials")
+    public AjaxResult listMaterials() {
+        List<SrmMaterialManagement> materials = materialManagementService.getAllMaterial();
+        log.debug("materials :{}", materials);
+        return AjaxResult.success(materials);
+    }
+
+    @GetMapping("/listCategory")
+    public AjaxResult listCategory() {
+        List<SrmCategoryDefinition> categories = categoryDefinitionService.getAllCategory();
+        return AjaxResult.success(categories);
+    }
+
+    @GetMapping("/allUser")
+    public AjaxResult allUser() {
+        List<SysUser> users = materialManagementService.getAllUser();
+        return AjaxResult.success(users);
     }
 }

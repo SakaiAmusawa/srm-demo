@@ -1,6 +1,8 @@
 package com.srm.material.mapper;
 
 import java.util.List;
+
+import com.srm.common.core.domain.entity.SysUser;
 import com.srm.material.domain.SrmMaterialManagement;
 import com.srm.supplier.domain.SrmCategoryDefinition;
 
@@ -61,4 +63,6 @@ public interface SrmMaterialManagementMapper
     public int deleteSrmMaterialManagementByIds(Long[] ids);
 
     List<SrmCategoryDefinition> selectCatrgoryList();
+
+    List<SysUser> selectAllUser();
 }

@@ -1,5 +1,6 @@
 package com.srm.material.service;
 
+import com.srm.common.core.domain.entity.SysUser;
 import com.srm.material.domain.SrmMaterialManagement;
 import com.srm.supplier.domain.SrmCategoryDefinition;
 import com.srm.unity.domain.SrmUnitDef;
@@ -64,4 +65,8 @@ public interface ISrmMaterialManagementService {
     List<SrmCategoryDefinition> selectCategoryList();
 
     List<SrmUnitDef> selectUnitList();
+
+    List<SrmMaterialManagement> getAllMaterial();
+
+    List<SysUser> getAllUser();
 }

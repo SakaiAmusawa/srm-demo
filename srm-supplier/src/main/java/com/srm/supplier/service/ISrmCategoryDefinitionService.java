@@ -61,4 +61,6 @@ public interface ISrmCategoryDefinitionService {
     public int deleteSrmCategoryDefinitionById(Long id);
 
     List<SrmUnitDef> selectUnitList();
+
+    List<SrmCategoryDefinition> getAllCategory();
 }
