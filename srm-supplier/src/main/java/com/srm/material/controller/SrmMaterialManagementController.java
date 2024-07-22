@@ -95,7 +95,11 @@ public class SrmMaterialManagementController extends BaseController {
     @GetMapping("/categoryList")
     public AjaxResult categoryList() {
         List<SrmCategoryDefinition> categoryList = srmMaterialManagementService.selectCategoryList();
-        log.debug("categoryList:{}", categoryList());
         return AjaxResult.success(categoryList);
+    }
+
+    @GetMapping("/unitList")
+    public AjaxResult unitList() {
+        return AjaxResult.success(srmMaterialManagementService.selectUnitList());
     }
 }

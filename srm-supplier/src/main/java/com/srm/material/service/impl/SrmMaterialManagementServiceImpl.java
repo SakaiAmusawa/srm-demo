@@ -5,10 +5,11 @@ import com.srm.material.domain.SrmMaterialManagement;
 import com.srm.material.mapper.SrmMaterialManagementMapper;
 import com.srm.material.service.ISrmMaterialManagementService;
 import com.srm.supplier.domain.SrmCategoryDefinition;
+import com.srm.unity.domain.SrmUnitDef;
+import com.srm.unity.mapper.SrmUnitDefMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +22,8 @@ import java.util.List;
 public class SrmMaterialManagementServiceImpl implements ISrmMaterialManagementService {
     @Autowired
     private SrmMaterialManagementMapper srmMaterialManagementMapper;
+    @Autowired
+    private SrmUnitDefMapper srmUnitDefMapper;
 
     /**
      * 查询物料管理
@@ -92,5 +95,11 @@ public class SrmMaterialManagementServiceImpl implements ISrmMaterialManagementS
     @Override
     public List<SrmCategoryDefinition> selectCategoryList() {
         return srmMaterialManagementMapper.selectCatrgoryList();
+    }
+
+    @Override
+    public List<SrmUnitDef> selectUnitList() {
+        List<SrmUnitDef> srmUnitDefs = srmUnitDefMapper.selectSrmUnitDefList(null);
+        return srmUnitDefs;
     }
 }
