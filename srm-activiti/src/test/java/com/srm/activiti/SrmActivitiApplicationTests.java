@@ -79,7 +79,7 @@ class SrmActivitiApplicationTests {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
         //对应act_ru_task这张表的记录
-        List<Task> tasks = taskService.createTaskQuery().taskAssignee("admin").list();
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee("sakai").list();
         if (tasks != null && !tasks.isEmpty()) {
             for (Task task : tasks) {
                 String id = task.getId();
