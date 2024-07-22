@@ -179,6 +179,12 @@
                 <version>${srm.version}</version>
             </dependency>
 
+            <!--activiti-->
+            <dependency>
+                <groupId>com.srm</groupId>
+                <artifactId>srm-activiti</artifactId>
+                <version>${srm.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
