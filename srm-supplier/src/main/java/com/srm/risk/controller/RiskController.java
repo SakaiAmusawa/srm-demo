@@ -26,8 +26,8 @@ public class RiskController {
     }
 
     @GetMapping("operate-data")
-    public AjaxResult operateData(@RequestParam String supplierName) {
+    public OperateResponse operateData(@RequestParam String supplierName) {
         OperateResponse operateResponse = riskService.executeGetOperate(supplierName);
-        return AjaxResult.success(operateResponse);
+        return operateResponse;
     }
 }
