@@ -1,7 +1,9 @@
 package com.srm.risk.service.impl;
 
+import com.srm.risk.domain.entity.OperateRisk;
 import com.srm.risk.domain.entity.TaxRisk;
 import com.srm.risk.mapper.RiskMapper;
+import com.srm.risk.response.OperateResponse;
 import com.srm.risk.response.TaxResponse;
 import com.srm.risk.service.IRiskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,36 @@ public class RiskServiceImpl implements IRiskService {
                 item.setSupplierName(supplierName);
                 riskMapper.insertTaskRisk(item);
             }
+            return response.getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 历史经营风险
+     * @param supplierName 供应商名称
+     * @return  响应体
+     */
+    @Override
+    public OperateResponse executeGetOperate(String supplierName) {
+        String url = "http://open.api.tianyancha.com/services/open/hi/abnormal/2.0?pageSize=20&keyword=" + supplierName + "&pageNum=1";
+        String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", token);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            ResponseEntity<OperateResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, OperateResponse.class);
+            OperateResponse operateResponse = response.getBody();
+            assert operateResponse != null;
+            List<OperateRisk> operateRisks = operateResponse.getResult().getOperateRisks();
+
+            for (OperateRisk operateRisk : operateRisks) {
+                operateRisk.setSupplierName(supplierName);
+                riskMapper.insertOperateRisk(operateRisks);
+            }
+
             return response.getBody();
         } catch (Exception e) {
             e.printStackTrace();

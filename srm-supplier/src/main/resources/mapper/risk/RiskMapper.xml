@@ -5,8 +5,14 @@
 <mapper namespace="com.srm.risk.mapper.RiskMapper">
 
     <insert id="insertTaskRisk">
-        INSERT INTO srm_demo.srm_supplier_tax_risk_case(publish_time, case_type, department, taxpayer_name)
-        values (#{publishTime}, #{caseType}, #{department}, #{taxpayerName})
+        INSERT INTO srm_demo.srm_supplier_tax_risk_case(publish_time, case_type, department, taxpayer_name, supplier_name)
+        values (#{publishTime}, #{caseType}, #{department}, #{taxpayerName}, supplier_name)
+    </insert>
+    <insert id="insertOperateRisk">
+        INSERT INTO srm_demo.srm_supplier_operate_risk(ID, PUT_DATE, PUT_REASON, CREATE_TIME, PUT_DEPARTMENT,
+                                                       REMOVE_DEPARTMENT, REMOVE_DATE, REMOVE_REASON, SUPPLIER_NAME)
+        VALUES (#{id}, #{putDate}, #{putReason}, #{createTime}, #{putDepartment}, #{removeDepartment}, #{removeDate},
+                #{removeReason}, #{supplierName})
     </insert>
 
 </mapper>
