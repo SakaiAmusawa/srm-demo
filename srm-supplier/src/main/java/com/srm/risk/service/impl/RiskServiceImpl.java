@@ -25,6 +25,7 @@ public class RiskServiceImpl implements IRiskService {
 
     /**
      * 税务风险查询
+     *
      * @param supplierName 供应商名称
      * @return
      */
@@ -41,6 +42,7 @@ public class RiskServiceImpl implements IRiskService {
             assert body != null;
             List<TaxRisk> items = body.getResult().getItems();
             for (TaxRisk item : items) {
+                item.setSupplierName(supplierName);
                 riskMapper.insertTaskRisk(item);
             }
             return response.getBody();

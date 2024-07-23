@@ -14,5 +14,6 @@ public class TaxRisk extends BaseEntity {
     String caseType;
     String department;
     String taxpayerName;
+    String supplierName;
 
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.supplier.mapper.SrmSupplierTaxRiskCaseMapper">
+    
+    <resultMap type="SrmSupplierTaxRiskCase" id="SrmSupplierTaxRiskCaseResult">
+        <result property="id"    column="id"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="caseType"    column="case_type"    />
+        <result property="department"    column="department"    />
+        <result property="taxpayerName"    column="taxpayer_name"    />
+        <result property="supplierName"    column="supplier_name"    />
+    </resultMap>
+
+    <sql id="selectSrmSupplierTaxRiskCaseVo">
+        select id, publish_time, case_type, department, taxpayer_name, supplier_name from srm_supplier_tax_risk_case
+    </sql>
+
+    <select id="selectSrmSupplierTaxRiskCaseList" parameterType="SrmSupplierTaxRiskCase" resultMap="SrmSupplierTaxRiskCaseResult">
+        <include refid="selectSrmSupplierTaxRiskCaseVo"/>
+        <where>  
+            <if test="publishTime != null "> and publish_time = #{publishTime}</if>
+            <if test="caseType != null  and caseType != ''"> and case_type = #{caseType}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="taxpayerName != null  and taxpayerName != ''"> and taxpayer_name like concat('%', #{taxpayerName}, '%')</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmSupplierTaxRiskCaseById" parameterType="Long" resultMap="SrmSupplierTaxRiskCaseResult">
+        <include refid="selectSrmSupplierTaxRiskCaseVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmSupplierTaxRiskCase" parameterType="SrmSupplierTaxRiskCase" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_supplier_tax_risk_case
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="publishTime != null">publish_time,</if>
+            <if test="caseType != null">case_type,</if>
+            <if test="department != null">department,</if>
+            <if test="taxpayerName != null">taxpayer_name,</if>
+            <if test="supplierName != null">supplier_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="caseType != null">#{caseType},</if>
+            <if test="department != null">#{department},</if>
+            <if test="taxpayerName != null">#{taxpayerName},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmSupplierTaxRiskCase" parameterType="SrmSupplierTaxRiskCase">
+        update srm_supplier_tax_risk_case
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="caseType != null">case_type = #{caseType},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="taxpayerName != null">taxpayer_name = #{taxpayerName},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSupplierTaxRiskCaseById" parameterType="Long">
+        delete from srm_supplier_tax_risk_case where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSupplierTaxRiskCaseByIds" parameterType="String">
+        delete from srm_supplier_tax_risk_case where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
