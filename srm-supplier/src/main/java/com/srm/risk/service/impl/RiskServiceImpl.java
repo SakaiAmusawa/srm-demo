@@ -31,7 +31,9 @@ public class RiskServiceImpl implements IRiskService {
      */
     @Override
     public TaxResponse executeGet(String supplierName) {
+        //API地址
         String url = "http://open.api.tianyancha.com/services/open/mr/taxContravention/2.0?pageSize=20&keyword=" + supplierName + "&pageNum=1";
+        //天眼查API的TOKEN
         String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -41,6 +43,7 @@ public class RiskServiceImpl implements IRiskService {
             TaxResponse body = response.getBody();
             assert body != null;
             List<TaxRisk> items = body.getResult().getItems();
+            //存入数据库
             for (TaxRisk item : items) {
                 item.setSupplierName(supplierName);
                 riskMapper.insertTaskRisk(item);
