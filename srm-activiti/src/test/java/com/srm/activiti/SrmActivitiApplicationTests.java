@@ -34,7 +34,7 @@ class SrmActivitiApplicationTests {
 
         Deployment deployment = repositoryService.createDeployment()
                 .addClasspathResource("flow/test01.bpmn20.xml")
-                .name("first")
+                .name("准入审批")
                 .deploy();
         System.out.println("deployment.getId() = " + deployment.getId());
         System.out.println("deployment.getName() = " + deployment.getName());
@@ -66,7 +66,7 @@ class SrmActivitiApplicationTests {
         //发起流程
         RuntimeService runtimeService = engine.getRuntimeService();
         //通过流程定义ID来启动流程，获取流程实例
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById("test01:1:4");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById("test01:1:25004");
         System.out.println("processInstance.getId() = " + processInstance.getId());
         System.out.println("processInstance.getDeploymentId() = " + processInstance.getDeploymentId());
     }
@@ -79,7 +79,7 @@ class SrmActivitiApplicationTests {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
         //对应act_ru_task这张表的记录
-        List<Task> tasks = taskService.createTaskQuery().taskAssignee("sakai").list();
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee("admin").list();
         if (tasks != null && !tasks.isEmpty()) {
             for (Task task : tasks) {
                 String id = task.getId();
