@@ -49,6 +49,9 @@ public class RiskServiceImpl implements IRiskService {
 
             TaxResponse body = response.getBody();
             assert body != null;
+            if (body.getResult()==null){
+                return body;
+            }
             List<TaxRisk> items = body.getResult().getItems();
             //存入数据库
             for (TaxRisk item : items) {
@@ -79,6 +82,9 @@ public class RiskServiceImpl implements IRiskService {
             ResponseEntity<OperateResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, OperateResponse.class);
             OperateResponse operateResponse = response.getBody();
             assert operateResponse != null;
+            if (operateResponse.getResult()==null){
+                return operateResponse;
+            }
             List<OperateRisk> operateRisks = operateResponse.getResult().getOperateRisks();
 
             for (OperateRisk operateRisk : operateRisks) {
@@ -105,8 +111,10 @@ public class RiskServiceImpl implements IRiskService {
 
             IllegalResponse illegalResponse = response.getBody();
             assert illegalResponse != null;
+            if (illegalResponse.getResult()==null){
+                return illegalResponse;
+            }
             List<IllegalRisk> illegalRisks = illegalResponse.getResult().getOperateRisks();
-
 
             for (IllegalRisk illegalRisk : illegalRisks) {
                 illegalRisk.setSupplierName(supplierName);
