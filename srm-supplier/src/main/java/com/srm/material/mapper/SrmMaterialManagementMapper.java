@@ -5,6 +5,7 @@ import java.util.List;
 import com.srm.common.core.domain.entity.SysUser;
 import com.srm.material.domain.SrmMaterialManagement;
 import com.srm.supplier.domain.SrmCategoryDefinition;
+import org.springframework.stereotype.Repository;
 
 /**
  * 物料管理Mapper接口
@@ -12,6 +13,7 @@ import com.srm.supplier.domain.SrmCategoryDefinition;
  * @author ruoyi
  * @date 2024-07-18
  */
+@Repository
 public interface SrmMaterialManagementMapper 
 {
     /**

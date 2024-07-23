@@ -1,6 +1,9 @@
 package com.srm.inspect.service;
 
+import com.srm.common.core.domain.AjaxResult;
+import com.srm.common.core.domain.entity.SysUser;
 import com.srm.inspect.domain.SrmSupplierSiteVisit;
+import com.srm.material.domain.SrmMaterialManagement;
 import com.srm.supplier.domain.SrmSupplierInformation;
 
 import java.util.List;
@@ -61,4 +64,6 @@ public interface ISrmSupplierSiteVisitService {
     public int deleteSrmSupplierSiteVisitById(Long id);
 
     List<SrmSupplierInformation> selectSrmSupplierInfoList();
+
+    List<SysUser> getAllUser();
 }

@@ -1,11 +1,13 @@
 package com.srm.inspect.service.impl;
 
+import com.srm.common.core.domain.entity.SysUser;
 import com.srm.common.utils.StringUtils;
 import com.srm.inspect.domain.SrmSupplierSiteVisit;
 import com.srm.inspect.domain.SrmSupplierSiteVisitMaterial;
 import com.srm.inspect.domain.SrmSupplierSiteVisitUser;
 import com.srm.inspect.mapper.SrmSupplierSiteVisitMapper;
 import com.srm.inspect.service.ISrmSupplierSiteVisitService;
+import com.srm.material.mapper.SrmMaterialManagementMapper;
 import com.srm.supplier.domain.SrmSupplierInformation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import java.util.List;
 public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitService {
     @Autowired
     private SrmSupplierSiteVisitMapper srmSupplierSiteVisitMapper;
+    @Autowired
+    private SrmMaterialManagementMapper materialManagementMapper;
 
     /**
      * 查询供应商现场考察
@@ -114,6 +118,12 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
     @Override
     public List<SrmSupplierInformation> selectSrmSupplierInfoList() {
         return srmSupplierSiteVisitMapper.selectSrmSupplierInfoList();
+    }
+
+    @Override
+    public List<SysUser> getAllUser() {
+
+        return materialManagementMapper.selectAllUser();
     }
 
     /**
