@@ -1,11 +1,14 @@
 package com.srm.risk.service.impl;
 
+import com.srm.risk.domain.entity.IllegalRisk;
 import com.srm.risk.domain.entity.OperateRisk;
 import com.srm.risk.domain.entity.TaxRisk;
 import com.srm.risk.mapper.RiskMapper;
+import com.srm.risk.response.IllegalResponse;
 import com.srm.risk.response.OperateResponse;
 import com.srm.risk.response.TaxResponse;
 import com.srm.risk.service.IRiskService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class RiskServiceImpl implements IRiskService {
 
@@ -42,6 +46,7 @@ public class RiskServiceImpl implements IRiskService {
             headers.set("Authorization", token);
             HttpEntity<String> entity = new HttpEntity<>(headers);
             ResponseEntity<TaxResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, TaxResponse.class);
+
             TaxResponse body = response.getBody();
             assert body != null;
             List<TaxRisk> items = body.getResult().getItems();
@@ -59,8 +64,9 @@ public class RiskServiceImpl implements IRiskService {
 
     /**
      * 历史经营风险
+     *
      * @param supplierName 供应商名称
-     * @return  响应体
+     * @return 响应体
      */
     @Override
     public OperateResponse executeGetOperate(String supplierName) {
@@ -78,6 +84,33 @@ public class RiskServiceImpl implements IRiskService {
             for (OperateRisk operateRisk : operateRisks) {
                 operateRisk.setSupplierName(supplierName);
                 riskMapper.insertOperateRisk(operateRisks);
+            }
+
+            return response.getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public IllegalResponse executeGetIllegal(String supplierName) {
+        String url = "http://open.api.tianyancha.com/services/open/mr/illegalinfo/2.0?pageSize=20&keyword=" + supplierName + "&pageNum=1";
+        String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", token);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            ResponseEntity<IllegalResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, IllegalResponse.class);
+
+            IllegalResponse illegalResponse = response.getBody();
+            assert illegalResponse != null;
+            List<IllegalRisk> illegalRisks = illegalResponse.getResult().getOperateRisks();
+
+
+            for (IllegalRisk illegalRisk : illegalRisks) {
+                illegalRisk.setSupplierName(supplierName);
+                riskMapper.insertIllegalRisk(illegalRisk);
             }
 
             return response.getBody();

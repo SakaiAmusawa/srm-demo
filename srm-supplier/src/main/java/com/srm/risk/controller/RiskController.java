@@ -1,6 +1,6 @@
 package com.srm.risk.controller;
 
-import com.srm.common.core.domain.AjaxResult;
+import com.srm.risk.response.IllegalResponse;
 import com.srm.risk.response.OperateResponse;
 import com.srm.risk.response.TaxResponse;
 import com.srm.risk.service.IRiskService;
@@ -25,9 +25,15 @@ public class RiskController {
         return riskService.executeGet(supplierName);
     }
 
-    @GetMapping("operate-data")
+    @GetMapping("/operate-data")
     public OperateResponse operateData(@RequestParam String supplierName) {
         OperateResponse operateResponse = riskService.executeGetOperate(supplierName);
         return operateResponse;
+    }
+
+    @GetMapping("/illegal-data")
+    public IllegalResponse illegalData(@RequestParam String supplierName) {
+        IllegalResponse illegalResponse = riskService.executeGetIllegal(supplierName);
+        return illegalResponse;
     }
 }

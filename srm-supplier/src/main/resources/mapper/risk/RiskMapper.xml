@@ -14,5 +14,11 @@
         VALUES (#{id}, #{putDate}, #{putReason}, #{createTime}, #{putDepartment}, #{removeDepartment}, #{removeDate},
                 #{removeReason}, #{supplierName})
     </insert>
+    <insert id="insertIllegalRisk">
+        INSERT INTO srm_demo.srm_supplier_illegal_risk(id, put_date, put_reason, put_department, remove_department,
+                                                       remove_date, remove_reason, supplier_name)
+        VALUES (#{id}, #{putDate}, #{putReason}, #{putDepartment}, #{removeDepartment}, #{removeDate}, #{removeReason},
+                #{supplierName})
+    </insert>
 
 </mapper>
