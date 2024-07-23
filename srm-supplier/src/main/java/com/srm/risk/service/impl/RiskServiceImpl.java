@@ -26,7 +26,7 @@ public class RiskServiceImpl implements IRiskService {
     /**
      * 税务风险查询
      * @param supplierName 供应商名称
-     * @return 
+     * @return
      */
     @Override
     public TaxResponse executeGet(String supplierName) {
@@ -38,6 +38,7 @@ public class RiskServiceImpl implements IRiskService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
             ResponseEntity<TaxResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, TaxResponse.class);
             TaxResponse body = response.getBody();
+            assert body != null;
             List<TaxRisk> items = body.getResult().getItems();
             for (TaxRisk item : items) {
                 riskMapper.insertTaskRisk(item);
