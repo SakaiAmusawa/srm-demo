@@ -22,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -37,6 +36,9 @@ public class ApiTest {
 
         @Mock
         private RestTemplate restTemplate;
+
+        @Mock
+        private RiskMapper riskMapper;
 
         @InjectMocks
         private RiskServiceImpl riskService;
@@ -55,7 +57,28 @@ public class ApiTest {
             headers.set("Authorization", token);
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            // 模拟响应
+            /**
+             * 测试报文
+             * {
+             *   "result": {
+             *     "total": 1,
+             *     "items": [
+             *       {
+             *         "removeDate": null,
+             *         "putReason": "被列入经营异常名录届满3年仍未履行相关义务的",
+             *         "putDepartment": "广州市市场监督管理局",
+             *         "removeDepartment": "",
+             *         "removeReason": "",
+             *         "putDate": 1563897600000
+             *       }
+             *     ]
+             *   },
+             *   "reason": "ok",
+             *   "error_code": 0
+             * }
+             */
+
+            // 模拟响应数据
             IllegalRisk illegalRisk = new IllegalRisk();
             illegalRisk.setPutDate(1563897600000L);
             illegalRisk.setPutReason("被列入经营异常名录届满3年仍未履行相关义务的");
@@ -77,10 +100,10 @@ public class ApiTest {
                     ArgumentMatchers.eq(IllegalResponse.class)
             )).thenReturn(ResponseEntity.ok(mockResponse));
 
-            //调用方法
+            // 调用方法
             IllegalResponse response = riskService.executeGetIllegal(supplierName);
 
-            // 断言
+            // Assert
             assertNotNull(response);
             assertEquals(0, response.getErrorCode());
             assertEquals("ok", response.getReason());
