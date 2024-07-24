@@ -38,11 +38,8 @@ public class ApiTest {
         @Mock
         private RestTemplate restTemplate;
 
-        @Mock
-        private RiskMapper riskMapper;
-
         @InjectMocks
-        private RiskServiceImpl yourService; // Replace with your service class instance
+        private RiskServiceImpl riskService;
 
         @BeforeEach
         void setUp() {
@@ -51,14 +48,14 @@ public class ApiTest {
 
         @Test
         void testExecuteGetIllegal() {
-            // Arrange
+            // 准备测试数据
             String supplierName = "Test Supplier";
             String token = "c1a18228-d4e9-4d3e-bcd7-bbf00f7f0edd";
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", token);
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            // Mocking the response
+            // 模拟响应
             IllegalRisk illegalRisk = new IllegalRisk();
             illegalRisk.setPutDate(1563897600000L);
             illegalRisk.setPutReason("被列入经营异常名录届满3年仍未履行相关义务的");
@@ -80,10 +77,10 @@ public class ApiTest {
                     ArgumentMatchers.eq(IllegalResponse.class)
             )).thenReturn(ResponseEntity.ok(mockResponse));
 
-            // Act
-            IllegalResponse response = yourService.executeGetIllegal(supplierName);
+            //调用方法
+            IllegalResponse response = riskService.executeGetIllegal(supplierName);
 
-            // Assert
+            // 断言
             assertNotNull(response);
             assertEquals(0, response.getErrorCode());
             assertEquals("ok", response.getReason());
