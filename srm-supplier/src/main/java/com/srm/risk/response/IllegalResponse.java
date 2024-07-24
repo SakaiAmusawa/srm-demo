@@ -1,7 +1,7 @@
 package com.srm.risk.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.srm.risk.domain.entity.IllegalRisk;
-import com.srm.risk.domain.entity.OperateRisk;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +11,7 @@ public class IllegalResponse {
 
     private IllegalResponse.Result result;
     private String reason;
+    @JsonProperty("error_code")
     private int errorCode;
 
     // Getters and Setters
@@ -18,7 +19,7 @@ public class IllegalResponse {
     @Data
     public static class Result {
         private int total;
-        private List<IllegalRisk> operateRisks;
+        private List<IllegalRisk> items;
 
         // Getters and Setters
     }

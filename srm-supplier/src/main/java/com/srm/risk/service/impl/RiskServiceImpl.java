@@ -79,7 +79,7 @@ public class RiskServiceImpl implements IRiskService {
             ResponseEntity<OperateResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, OperateResponse.class);
             OperateResponse operateResponse = response.getBody();
             assert operateResponse != null;
-            List<OperateRisk> operateRisks = operateResponse.getResult().getOperateRisks();
+            List<OperateRisk> operateRisks = operateResponse.getResult().getItems();
 
             for (OperateRisk operateRisk : operateRisks) {
                 operateRisk.setSupplierName(supplierName);
@@ -105,7 +105,7 @@ public class RiskServiceImpl implements IRiskService {
 
             IllegalResponse illegalResponse = response.getBody();
             assert illegalResponse != null;
-            List<IllegalRisk> illegalRisks = illegalResponse.getResult().getOperateRisks();
+            List<IllegalRisk> illegalRisks = illegalResponse.getResult().getItems();
 
 
             for (IllegalRisk illegalRisk : illegalRisks) {
