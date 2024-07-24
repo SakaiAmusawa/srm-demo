@@ -1,5 +1,6 @@
 package com.srm.risk.controller;
 
+import com.srm.common.core.domain.AjaxResult;
 import com.srm.risk.response.IllegalResponse;
 import com.srm.risk.response.OperateResponse;
 import com.srm.risk.response.TaxResponse;
@@ -19,21 +20,39 @@ public class RiskController {
     @Autowired
     private IRiskService riskService;
 
-
+    /**
+     * 获取税务风险
+     *
+     * @param supplierName 供应商名称
+     * @return TaxResponse
+     */
     @GetMapping("/tax-data")
-    public TaxResponse taxData(@RequestParam String supplierName) {
-        return riskService.executeGet(supplierName);
+    public AjaxResult taxData(@RequestParam String supplierName) {
+        TaxResponse taxResponse = riskService.executeGet(supplierName);
+        return AjaxResult.success(taxResponse);
     }
 
+    /**
+     * 获取经营风险
+     *
+     * @param supplierName 供应商名称
+     * @return OperateResponse
+     */
     @GetMapping("/operate-data")
-    public OperateResponse operateData(@RequestParam String supplierName) {
+    public AjaxResult operateData(@RequestParam String supplierName) {
         OperateResponse operateResponse = riskService.executeGetOperate(supplierName);
-        return operateResponse;
+        return AjaxResult.success(operateResponse);
     }
 
+    /**
+     * 获取违法风险
+     *
+     * @param supplierName 供应商名称
+     * @return IllegalResponse
+     */
     @GetMapping("/illegal-data")
-    public IllegalResponse illegalData(@RequestParam String supplierName) {
+    public AjaxResult illegalData(@RequestParam String supplierName) {
         IllegalResponse illegalResponse = riskService.executeGetIllegal(supplierName);
-        return illegalResponse;
+        return AjaxResult.success(illegalResponse);
     }
 }

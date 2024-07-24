@@ -196,6 +196,7 @@
         <module>srm-generator</module>
         <module>srm-common</module>
         <module>srm-supplier</module>
+        <module>srm-activiti</module>
     </modules>
     <packaging>pom</packaging>
 
