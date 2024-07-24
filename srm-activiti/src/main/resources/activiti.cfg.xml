@@ -4,6 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean class="com.srm.activiti.bean.Assignee" name="assignee"/>
+
     <!--  配置数据源 -->
     <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
         <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver"/>

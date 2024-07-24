@@ -8,33 +8,25 @@ import org.activiti.engine.task.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
-class SrmActivitiApplicationTests {
-
-    /**
-     * 获取processEngine对象
-     */
-
-    @Test
-    public void test1() {
-        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-        System.out.println("processEngine = " + processEngine);
-    }
+class Activiti6Test03 {
 
     /**
      * 流程部署操作
      */
 
     @Test
-    public void test2() {
+    public void test1() {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         RepositoryService repositoryService = processEngine.getRepositoryService();
 
         Deployment deployment = repositoryService.createDeployment()
-                .addClasspathResource("flow/test01.bpmn20.xml")
-                .name("准入审批")
+                .addClasspathResource("flow/test03.bpmn20.xml")
+                .name("请假流程-方法表达式")
                 .deploy();
         System.out.println("deployment.getId() = " + deployment.getId());
         System.out.println("deployment.getName() = " + deployment.getName());
@@ -44,7 +36,7 @@ class SrmActivitiApplicationTests {
      * 查询流程部署相关信息
      */
     @Test
-    public void test3() {
+    public void test2() {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         RepositoryService repositoryService = processEngine.getRepositoryService();
 
@@ -61,12 +53,12 @@ class SrmActivitiApplicationTests {
      * 发起一个流程
      */
     @Test
-    public void test4() {
+    public void test3() {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         //发起流程
         RuntimeService runtimeService = engine.getRuntimeService();
         //通过流程定义ID来启动流程，获取流程实例
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById("test01:1:25004");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById("test03:1:67504");
         System.out.println("processInstance.getId() = " + processInstance.getId());
         System.out.println("processInstance.getDeploymentId() = " + processInstance.getDeploymentId());
     }
@@ -75,7 +67,7 @@ class SrmActivitiApplicationTests {
      * 代办的查询
      */
     @Test
-    public void test5() {
+    public void test4() {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
         //对应act_ru_task这张表的记录
@@ -96,7 +88,7 @@ class SrmActivitiApplicationTests {
      * 任务审批
      */
     @Test
-    public void test6() {
+    public void test5() {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
         List<Task> tasks = taskService.createTaskQuery().taskAssignee("admin").list();
