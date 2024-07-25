@@ -3,7 +3,6 @@ package com.srm.activiti.service.impl;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.mapper.ActivitiMapper;
 import com.srm.activiti.service.IActivitiService;
-import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.ProcessEngine;
@@ -16,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -69,6 +70,37 @@ public class ActivitiServiceImpl implements IActivitiService {
         RuntimeService runtimeService = engine.getRuntimeService();
         //通过流程定义ID来启动流程，获取流程实例
         ProcessInstance processInstance = runtimeService.startProcessInstanceById("test01:1:4");
+    }
+
+    @Override
+    public String startProcess() {
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        //发起流程
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        Map<String, Object> assigneeMap = new HashMap<>();
+        assigneeMap.put("manager", "admin");
+
+        //通过流程定义ID来启动流程，获取流程实例
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById("access_approval:1:4", assigneeMap);
+
+        TaskService taskService = engine.getTaskService();
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+
+        return task.getId();
+    }
+
+    @Override
+    public void taskReject(String taskId) {
+
+        log.debug("taskId:{}", taskId);
+
+        //流程的拒绝
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = engine.getTaskService();
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("rejected", true);  // 自定义变量，标识任务被拒绝
+        taskService.complete(taskId, variables);
     }
 
 }

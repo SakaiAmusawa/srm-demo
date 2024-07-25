@@ -1,10 +1,10 @@
 package com.srm.activiti.controlller;
 
+import com.srm.activiti.domain.TaskMapDTO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.core.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +47,25 @@ public class ActivitiController {
     @PostMapping("/apply")
     public AjaxResult apply() {
         activitiService.apply();
+        return AjaxResult.success();
+    }
+
+    @PostMapping("/startProcess")
+    public AjaxResult startProcess() {
+        String taskId = activitiService.startProcess();
+        log.debug("taskId:{}", taskId);
+        return AjaxResult.success("操作成功", taskId);
+    }
+
+    @PostMapping("/taskReject/{taskId}")
+    public AjaxResult taskReject(@PathVariable String taskId) {
+        activitiService.taskReject(taskId);
+        return AjaxResult.success();
+    }
+
+    @PostMapping("/saveTask")
+    public AjaxResult saveTaskMap(@RequestBody TaskMapDTO taskMapDTO) {
+        log.debug("taskMapDTO:{}", taskMapDTO);
         return AjaxResult.success();
     }
 

@@ -12,4 +12,7 @@ public interface IActivitiService {
 
     void apply();
 
+    String startProcess();
+
+    void taskReject(String taskId);
 }
