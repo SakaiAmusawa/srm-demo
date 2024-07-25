@@ -6,10 +6,7 @@ import com.srm.common.core.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,9 +35,9 @@ public class ActivitiController {
      *
      * @return code200
      */
-    @PostMapping("/completeTask")
-    public AjaxResult completeTask() {
-        activitiService.completeTask();
+    @PostMapping("/completeTaskById/{taskId}")
+    public AjaxResult completeTask(@PathVariable("taskId") String taskId) {
+        activitiService.completeTask(taskId);
         return AjaxResult.success();
     }
 
@@ -53,14 +50,4 @@ public class ActivitiController {
         return AjaxResult.success();
     }
 
-
-    /**
-     * 测试Task返回
-     */
-
-    @PostMapping("/test")
-    public List<Task> test() {
-        List<Task> tasks = activitiService.getTask();
-        return tasks;
-    }
 }

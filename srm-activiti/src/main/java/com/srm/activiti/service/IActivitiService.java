@@ -8,9 +8,8 @@ import java.util.List;
 public interface IActivitiService {
     List<TaskVO> getAllTask();
 
-    void completeTask();
+    void completeTask(String taskId);
 
     void apply();
 
-    List<Task> getTask();
 }

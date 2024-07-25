@@ -3,7 +3,9 @@ package com.srm.activiti.service.impl;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.mapper.ActivitiMapper;
 import com.srm.activiti.service.IActivitiService;
+import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RuntimeService;
@@ -13,8 +15,10 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ActivitiServiceImpl implements IActivitiService {
 
@@ -23,21 +27,39 @@ public class ActivitiServiceImpl implements IActivitiService {
 
     @Override
     public List<TaskVO> getAllTask() {
-        String username = SecurityUtils.getUsername();
-        return activitiMapper.selectAllTaskByUserName(username);
+
+        //创建一个VO对象，储存所有查询到的代办信息
+        List<TaskVO> taskVOList = new ArrayList<>();
+        //获取当前登入人信息
+        String assignee = SecurityUtils.getUsername();
+        //根据当前登入人获取代办信息
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = engine.getTaskService();
+        List<Task> taskList = taskService.createTaskQuery().taskAssignee(assignee).list();
+
+        for (Task task : taskList) {
+            TaskVO taskVO = new TaskVO();
+            taskVO.setTaskId(task.getId());
+            taskVO.setTaskName(task.getName());
+            taskVOList.add(taskVO);
+        }
+
+        log.debug("任务列表视图:{}", taskList);
+        return taskVOList;
     }
 
     @Override
-    public void completeTask() {
-        String username = SecurityUtils.getUsername();
+    public void completeTask(String taskId) {
+
+        log.debug("taskId:{}", taskId);
+
+        //进行审批操作
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
-        List<Task> tasks = taskService.createTaskQuery().taskAssignee(username).list();
-        if (tasks != null && !tasks.isEmpty()) {
-            for (Task task : tasks) {
-                taskService.complete(task.getId());
-            }
-        }
+        taskService.complete(taskId);
+        log.debug("该任务节点已完成");
+
+
     }
 
     @Override
@@ -49,23 +71,4 @@ public class ActivitiServiceImpl implements IActivitiService {
         ProcessInstance processInstance = runtimeService.startProcessInstanceById("test01:1:4");
     }
 
-    @Override
-    public List<Task> getTask() {
-
-        String username = SecurityUtils.getUsername();
-
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        TaskService taskService = engine.getTaskService();
-        //对应act_ru_task这张表的记录
-        List<Task> tasks = taskService.createTaskQuery().taskAssignee(username).list();
-        if (tasks != null && !tasks.isEmpty()) {
-            for (Task task : tasks) {
-                String id = task.getId();
-                System.out.println("id = " + id);
-                String name = task.getName();
-                System.out.println("name = " + name);
-            }
-        }
-        return tasks;
-    }
 }

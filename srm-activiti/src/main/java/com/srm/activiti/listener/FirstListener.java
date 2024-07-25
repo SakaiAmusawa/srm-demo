@@ -11,7 +11,7 @@ public class FirstListener implements TaskListener {
         log.debug("监听器被执行了......");
         if (EVENTNAME_CREATE.equals(delegateTask.getEventName())) {
             //表示创建时间被触发了
-            delegateTask.setAssignee("zjw");
+            delegateTask.setAssignee("sakai");
         }
     }
 }

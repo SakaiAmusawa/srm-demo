@@ -62,7 +62,7 @@ class Activiti6Test04 {
         assigneeMap.put("manager", "admin");
 
         //通过流程定义ID来启动流程，获取流程实例
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById("access_approval:1:77504", assigneeMap);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById("access_approval:1:4", assigneeMap);
         System.out.println("processInstance.getId() = " + processInstance.getId());
         System.out.println("processInstance.getDeploymentId() = " + processInstance.getDeploymentId());
     }
@@ -86,6 +86,8 @@ class Activiti6Test04 {
         } else {
             System.out.println("没有待办任务");
         }
+
+        //将这个TaskID、TaskName返回给前端做一个信息的展示，方便后期任务的完成
     }
 
     /**
