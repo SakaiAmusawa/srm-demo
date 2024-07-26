@@ -3,12 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.activiti.mapper.ActivitiMapper">
-    <resultMap id="TaskVO" type="com.srm.activiti.domain.vo.TaskVO">
-        <result property="name" column="NAME_"/>
+
+    <resultMap id="supTask" type="com.srm.activiti.domain.vo.SupTaskVO">
+        <id column="supplier_id" property="supplierId"/>
+        <result column="task_id" property="taskId"/>
     </resultMap>
-    <select id="selectAllTaskByUserName" resultMap="TaskVO">
-        SELECT NAME_
-        FROM srm_demo.act_ru_task
-        WHERE ASSIGNEE_ = #{username}
+
+    <select id="getTaskBySupplierId" resultMap="supTask">
+        select supplier_id, task_id
+        from srm_demo.srm_supid_taksid
+        where supplier_id = #{supplierId}
     </select>
 </mapper>

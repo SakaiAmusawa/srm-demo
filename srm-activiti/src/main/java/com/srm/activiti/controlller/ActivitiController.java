@@ -1,6 +1,7 @@
 package com.srm.activiti.controlller;
 
 import com.srm.activiti.domain.TaskMapDTO;
+import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.core.domain.AjaxResult;
@@ -67,6 +68,12 @@ public class ActivitiController {
     public AjaxResult saveTaskMap(@RequestBody TaskMapDTO taskMapDTO) {
         log.debug("taskMapDTO:{}", taskMapDTO);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/getTaskBySupplierId/{supplierId}")
+    public AjaxResult getTaskBySupplierId(@PathVariable Long supplierId) {
+        SupTaskVO supTaskVO = activitiService.getSupTaskBySupplierId(supplierId);
+        return AjaxResult.success(supTaskVO);
     }
 
 }

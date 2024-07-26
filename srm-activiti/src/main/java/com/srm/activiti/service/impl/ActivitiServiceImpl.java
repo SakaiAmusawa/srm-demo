@@ -1,5 +1,6 @@
 package com.srm.activiti.service.impl;
 
+import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.mapper.ActivitiMapper;
 import com.srm.activiti.service.IActivitiService;
@@ -101,6 +102,12 @@ public class ActivitiServiceImpl implements IActivitiService {
         Map<String, Object> variables = new HashMap<>();
         variables.put("rejected", true);  // 自定义变量，标识任务被拒绝
         taskService.complete(taskId, variables);
+    }
+
+    @Override
+    public SupTaskVO getSupTaskBySupplierId(Long supplierId) {
+
+        return activitiMapper.getTaskBySupplierId(supplierId);
     }
 
 }
