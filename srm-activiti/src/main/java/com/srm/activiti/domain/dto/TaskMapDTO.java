@@ -1,4 +1,4 @@
-package com.srm.activiti.domain;
+package com.srm.activiti.domain.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;

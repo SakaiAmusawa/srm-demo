@@ -1,5 +1,6 @@
 package com.srm.activiti.service.impl;
 
+import com.srm.activiti.domain.vo.StartProcessVO;
 import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.mapper.ActivitiMapper;
@@ -79,13 +80,17 @@ public class ActivitiServiceImpl implements IActivitiService {
     }
 
     @Override
-    public String startProcess(Long supplierId) {
+    public StartProcessVO startProcess(Long supplierId) {
 
+        //创建VO对象用于接受返回值
+        StartProcessVO startProcessVO = new StartProcessVO();
+        //将Long类型的supplierId转化为String类型的数据用于存储到Redis中
         String supplierIdStr = supplierId.toString();
-
+        //尝试根据supplierId获取taskId
         String taskId = (String) redisTemplate.opsForValue().get(supplierIdStr);
 
-
+        String assignee = null;
+        //如果Redis中没有这个值，那么表明着个流程尚未发起或已过期
         if (taskId == null) {
 
             ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
@@ -101,13 +106,20 @@ public class ActivitiServiceImpl implements IActivitiService {
             TaskService taskService = engine.getTaskService();
             Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
 
+            assignee = task.getAssignee();
+
             taskId = task.getId();
 
             //将数据存放到Redis
             redisTemplate.opsForValue().set(supplierIdStr, taskId, 12, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(taskId, assignee, 12, TimeUnit.HOURS);
         }
+        String tid = (String) redisTemplate.opsForValue().get(supplierIdStr);
+        String ag = (String) redisTemplate.opsForValue().get(taskId);
 
-        return taskId;
+        startProcessVO.setTaskId(tid);
+        startProcessVO.setAssignee(ag);
+        return startProcessVO;
     }
 
     @Override

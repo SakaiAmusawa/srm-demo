@@ -1,10 +1,12 @@
 package com.srm.activiti.controlller;
 
-import com.srm.activiti.domain.TaskMapDTO;
+import com.srm.activiti.domain.dto.TaskMapDTO;
+import com.srm.activiti.domain.vo.StartProcessVO;
 import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.core.domain.AjaxResult;
+import com.srm.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +55,8 @@ public class ActivitiController {
 
     @PostMapping("/startProcess/{supplierId}")
     public AjaxResult startProcess(@PathVariable("supplierId") Long supplierId) {
-        log.debug("supplierId:{}", supplierId);
-        String taskId = activitiService.startProcess(supplierId);
-        log.debug("taskId:{}", taskId);
-        return AjaxResult.success("操作成功", taskId);
+        StartProcessVO startProcessVO = activitiService.startProcess(supplierId);
+        return AjaxResult.success("操作成功", startProcessVO);
     }
 
     @PostMapping("/taskReject/{taskId}")
@@ -75,6 +75,17 @@ public class ActivitiController {
     public AjaxResult getTaskBySupplierId(@PathVariable Long supplierId) {
         SupTaskVO supTaskVO = activitiService.getSupTaskBySupplierId(supplierId);
         return AjaxResult.success(supTaskVO);
+    }
+
+    @GetMapping("/getActiveUser")
+    public AjaxResult getActiveUser() {
+
+        //获取当前登录用户
+        String username = SecurityUtils.getUsername();
+
+        log.debug("username:{}", username);
+
+        return AjaxResult.success("以获取当前用户", username);
     }
 
 }
