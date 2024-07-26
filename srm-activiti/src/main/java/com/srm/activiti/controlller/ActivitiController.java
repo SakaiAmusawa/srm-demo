@@ -51,9 +51,10 @@ public class ActivitiController {
         return AjaxResult.success();
     }
 
-    @PostMapping("/startProcess")
-    public AjaxResult startProcess() {
-        String taskId = activitiService.startProcess();
+    @PostMapping("/startProcess/{supplierId}")
+    public AjaxResult startProcess(@PathVariable("supplierId") Long supplierId) {
+        log.debug("supplierId:{}", supplierId);
+        String taskId = activitiService.startProcess(supplierId);
         log.debug("taskId:{}", taskId);
         return AjaxResult.success("操作成功", taskId);
     }

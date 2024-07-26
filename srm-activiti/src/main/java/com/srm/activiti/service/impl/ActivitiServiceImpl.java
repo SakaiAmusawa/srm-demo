@@ -13,12 +13,14 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -26,6 +28,9 @@ public class ActivitiServiceImpl implements IActivitiService {
 
     @Autowired
     private ActivitiMapper activitiMapper;
+
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Override
     public List<TaskVO> getAllTask() {
@@ -74,27 +79,39 @@ public class ActivitiServiceImpl implements IActivitiService {
     }
 
     @Override
-    public String startProcess() {
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        //发起流程
-        RuntimeService runtimeService = engine.getRuntimeService();
+    public String startProcess(Long supplierId) {
 
-        Map<String, Object> assigneeMap = new HashMap<>();
-        assigneeMap.put("manager", "admin");
+        String supplierIdStr = supplierId.toString();
 
-        //通过流程定义ID来启动流程，获取流程实例
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById("access_approval:1:4", assigneeMap);
+        String taskId = (String) redisTemplate.opsForValue().get(supplierIdStr);
 
-        TaskService taskService = engine.getTaskService();
-        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
 
-        return task.getId();
+        if (taskId == null) {
+
+            ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+            //发起流程
+            RuntimeService runtimeService = engine.getRuntimeService();
+
+            Map<String, Object> assigneeMap = new HashMap<>();
+            assigneeMap.put("manager", "admin");
+
+            //通过流程定义ID来启动流程，获取流程实例
+            ProcessInstance processInstance = runtimeService.startProcessInstanceById("access_approval:1:4", assigneeMap);
+
+            TaskService taskService = engine.getTaskService();
+            Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+
+            taskId = task.getId();
+
+            //将数据存放到Redis
+            redisTemplate.opsForValue().set(supplierIdStr, taskId, 12, TimeUnit.HOURS);
+        }
+
+        return taskId;
     }
 
     @Override
     public void taskReject(String taskId) {
-
-        log.debug("taskId:{}", taskId);
 
         //流程的拒绝
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
@@ -102,6 +119,7 @@ public class ActivitiServiceImpl implements IActivitiService {
         Map<String, Object> variables = new HashMap<>();
         variables.put("rejected", true);  // 自定义变量，标识任务被拒绝
         taskService.complete(taskId, variables);
+
     }
 
     @Override
