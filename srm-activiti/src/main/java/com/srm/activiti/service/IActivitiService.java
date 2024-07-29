@@ -11,7 +11,7 @@ import java.util.List;
 public interface IActivitiService {
     List<TaskVO> getAllTask();
 
-    void completeTask(String taskId);
+    void completeTask(Long supplierId);
 
     void apply();
 

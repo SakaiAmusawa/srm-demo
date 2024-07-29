@@ -45,6 +45,61 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
     private SrmSupplierClassListMapper srmSupplierClassListMapper;
 
     /**
+     * http get请求
+     *
+     * @param url   接口url
+     * @param token token
+     * @return 返回接口数据
+     */
+    protected static String executeGet(String url, String token) {
+        BasicHttpParams httpParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpParams, 1000);
+        HttpConnectionParams.setSoTimeout(httpParams, 1000);
+        HttpClient httpClient = new DefaultHttpClient(httpParams);
+        String result = null;
+        try {
+
+            HttpGet get = new HttpGet(url);
+            // 设置header
+            get.setHeader("Authorization", token);
+            // 设置类型
+            HttpResponse response = httpClient.execute(get);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity, "utf-8");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+        return result;
+    }
+
+    public static String generateUniqueString(int length) {
+        String uuidStr = UUID.randomUUID().toString();
+        String hashStr = sha256(uuidStr);
+        return hashStr.substring(0, length);
+    }
+
+    private static String sha256(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * 查询供应商信息
      *
      * @param id 供应商信息主键
@@ -207,6 +262,11 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
         srmSupplierInformationMapper.updateRegStatusById(changeRegStatus);
     }
 
+    @Override
+    public List<SrmSupplierInformation> selectActiveSupplier(SrmSupplierInformation srmSupplierInformation) {
+        return srmSupplierInformationMapper.selectActiveSupplier(srmSupplierInformation);
+    }
+
     /**
      * 新增供应商联系人信息信息
      *
@@ -246,7 +306,6 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
             }
         }
     }
-
 
     /**
      * 新增供应商银行信息信息
@@ -305,61 +364,6 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
             if (list.size() > 0) {
                 srmSupplierInformationMapper.batchSrmSupplierLicenseInformation(list);
             }
-        }
-    }
-
-    /**
-     * http get请求
-     *
-     * @param url   接口url
-     * @param token token
-     * @return 返回接口数据
-     */
-    protected static String executeGet(String url, String token) {
-        BasicHttpParams httpParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpParams, 1000);
-        HttpConnectionParams.setSoTimeout(httpParams, 1000);
-        HttpClient httpClient = new DefaultHttpClient(httpParams);
-        String result = null;
-        try {
-
-            HttpGet get = new HttpGet(url);
-            // 设置header
-            get.setHeader("Authorization", token);
-            // 设置类型
-            HttpResponse response = httpClient.execute(get);
-            HttpEntity entity = response.getEntity();
-            result = EntityUtils.toString(entity, "utf-8");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            httpClient.getConnectionManager().shutdown();
-        }
-        return result;
-    }
-
-    public static String generateUniqueString(int length) {
-        String uuidStr = UUID.randomUUID().toString();
-        String hashStr = sha256(uuidStr);
-        return hashStr.substring(0, length);
-    }
-
-    private static String sha256(String base) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
         }
     }
 }

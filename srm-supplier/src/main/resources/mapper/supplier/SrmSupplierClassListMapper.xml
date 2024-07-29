@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSrmSupplierClassListVo">
-        select id, company_code, enterprise, supplier_class, supplier_class_code from srm_supplier_class_list
+        select id, company_code, enterprise, supplier_class, supplier_class_code from srm_demo.srm_supplier_class_list
     </sql>
 
     <select id="selectSrmSupplierClassListList" parameterType="SrmSupplierClassList" resultMap="SrmSupplierClassListResult">
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmSupplierClassListById" parameterType="Long">
-        delete from srm_supplier_class_list where id = #{id}
+        delete from srm_demo.srm_supplier_class_list where id = #{id}
     </delete>
 
     <delete id="deleteSrmSupplierClassListByIds" parameterType="String">

@@ -61,4 +61,6 @@ public interface ISrmSupplierInformationService
     public int deleteSrmSupplierInformationById(Long id);
 
     void changeRegStatusById(ChangeRegStatus changeRegStatus);
+
+    List<SrmSupplierInformation> selectActiveSupplier(SrmSupplierInformation srmSupplierInformation);
 }

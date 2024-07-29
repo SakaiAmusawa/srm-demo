@@ -7,9 +7,11 @@ import com.srm.activiti.mapper.ActivitiMapper;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.SecurityUtils;
+import com.srm.supplier.mapper.SrmSupplierInformationMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.image.ProcessDiagramGenerator;
@@ -18,20 +20,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+@Transactional
 @Slf4j
 @Service
 public class ActivitiServiceImpl implements IActivitiService {
 
+    private final String prefix = "supplier_processInstance:";
     @Autowired
     private ActivitiMapper activitiMapper;
-
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
+    @Autowired
+    private SrmSupplierInformationMapper supMapper;
+
 
     @Override
     public List<TaskVO> getAllTask() {
@@ -56,16 +63,34 @@ public class ActivitiServiceImpl implements IActivitiService {
         return taskVOList;
     }
 
-    @Override
-    public void completeTask(String taskId) {
 
-        log.debug("taskId:{}", taskId);
+    @Override
+    public void completeTask(Long supplierId) {
+
+        String supId = supplierId.toString();
+
+        ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
+        String processInstanceId = (String) operations.get(prefix + supId);
 
         //进行审批操作
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+        String taskId = task.getId();
+
+        //通过历史服务，判断任务是否结束
+        HistoryService historyService = engine.getHistoryService();
+        HistoricProcessInstance historicProcessInstance = historyService
+                .createHistoricProcessInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .singleResult();
+        boolean isEnded = historicProcessInstance != null && historicProcessInstance.getEndTime() != null;
+
+        if (isEnded) {
+            supMapper.updateRegStatusBySupplierId(supplierId);
+        }
+
         taskService.complete(taskId);
-        log.debug("该任务节点已完成");
 
 
     }
@@ -81,14 +106,15 @@ public class ActivitiServiceImpl implements IActivitiService {
 
     @Override
     public StartProcessVO startProcess(Long supplierId) {
-        //todo 优化redis中数据的存储结构
+
+        ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
 
         //创建VO对象用于接受返回值
         StartProcessVO startProcessVO = new StartProcessVO();
         //将Long类型的supplierId转化为String类型的数据用于存储到Redis中
         String supplierIdStr = supplierId.toString();
         //尝试根据supplierId获取processInstanceId
-        String processInstanceId = (String) redisTemplate.opsForValue().get(supplierIdStr);
+        String processInstanceId = (String) operations.get(prefix + supplierIdStr);
 
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
@@ -110,16 +136,16 @@ public class ActivitiServiceImpl implements IActivitiService {
             processInstanceId = processInstance.getId();
 
             //将数据存放到Redis
-            redisTemplate.opsForValue().set(supplierIdStr, processInstanceId, 12, TimeUnit.HOURS);
+            operations.set(prefix + supplierIdStr, processInstanceId, 3, TimeUnit.DAYS);
         }
 
         //根据供应商ID获取流程ID
-        processInstanceId = (String) redisTemplate.opsForValue().get(supplierIdStr);
+        processInstanceId = (String) operations.get(prefix + supplierIdStr);
 
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
 
         if (task == null) {
-            throw new ServiceException("流程已预期结束，不应在此处执行进一步操作.");
+            throw new ServiceException("流程已预期结束，不应在此处执行该操作.");
         }
 
         String assignee = task.getAssignee();
@@ -163,7 +189,7 @@ public class ActivitiServiceImpl implements IActivitiService {
 
         ValueOperations<Object, Object> redisOperation = redisTemplate.opsForValue();
 
-        String processInstanceId = (String) redisOperation.get(supId);
+        String processInstanceId = (String) redisOperation.get(prefix + supId);
 
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         RuntimeService runtimeService = engine.getRuntimeService();

@@ -171,4 +171,8 @@ public interface SrmSupplierInformationMapper {
     void updateRegStatusById(ChangeRegStatus changeRegStatus);
 
     List<SrmSupplierInformation> selectSrmSupplier();
+
+    void updateRegStatusBySupplierId(Long supplierId);
+
+    List<SrmSupplierInformation> selectActiveSupplier(SrmSupplierInformation srmSupplierInformation);
 }

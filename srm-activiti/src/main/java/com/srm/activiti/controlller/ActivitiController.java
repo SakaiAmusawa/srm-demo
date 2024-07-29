@@ -63,9 +63,9 @@ public class ActivitiController {
      *
      * @return code200
      */
-    @PostMapping("/completeTaskById/{taskId}")
-    public AjaxResult completeTask(@PathVariable("taskId") String taskId) {
-        activitiService.completeTask(taskId);
+    @PostMapping("/completeTaskById/{supplierId}")
+    public AjaxResult completeTask(@PathVariable("supplierId") Long supplierId) {
+        activitiService.completeTask(supplierId);
         return AjaxResult.success();
     }
 

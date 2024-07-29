@@ -60,7 +60,10 @@
             <version>3.1.7</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.srm</groupId>
+            <artifactId>srm-supplier</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

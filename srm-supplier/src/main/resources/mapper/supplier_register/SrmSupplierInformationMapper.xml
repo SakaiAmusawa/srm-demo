@@ -135,13 +135,13 @@
                invitation_time,
                life_stage,
                black_list
-        from srm_supplier_information
+        from srm_demo.srm_supplier_information
     </sql>
 
     <select id="selectSrmSupplierInformationList" parameterType="SrmSupplierInformation"
             resultMap="SrmSupplierInformationResult">
         <include refid="selectSrmSupplierInformationVo"/>
-        where registration_status in (2,3)
+        where registration_status in (1,2,3)
         <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>
         <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},
             '%')
@@ -225,7 +225,7 @@
                ssli.update_date,
                ssli.attachment_upload,
                ssli.remarks
-        from srm_supplier_information ssi
+        from srm_demo.srm_supplier_information ssi
                  left join srm_demo.srm_supplier_contact_information ssci on ssi.id = ssci.supplier_id
                  left join srm_demo.srm_supplier_address_information ssai on ssi.id = ssai.supplier_id
                  left join srm_demo.srm_supplier_bank_information ssbi on ssi.id = ssbi.supplier_id
@@ -247,14 +247,14 @@
                document_code,
                remarks,
                supplier_id
-        from srm_supplier_contact_information
+        from srm_demo.srm_supplier_contact_information
         where supplier_id = #{supplier_id}
     </select>
 
     <select id="selectSrmSupplierAddressInformationList" resultType="SrmSupplierAddressInformation"
             resultMap="SrmSupplierAddressInformationResult">
         select id, supplier_id, country, pcd, detailed_address, zipcode, remarks
-        from srm_supplier_address_information
+        from srm_demo.srm_supplier_address_information
         where supplier_id = #{supplier_id}
     </select>
 
@@ -269,7 +269,7 @@
                first_bank,
                account,
                bank_account
-        from srm_supplier_bank_information
+        from srm_demo.srm_supplier_bank_information
         where supplier_id = #{supplier_id}
     </select>
 
@@ -285,13 +285,13 @@
                tax_registration_phone,
                recipient_email,
                recipient_phone
-        from srm_supplier_invoice_information
+        from srm_demo.srm_supplier_invoice_information
         where supplier_id = #{supplier_id}
     </select>
 
     <select id="selectSrmSupplierLicenseInformationList" resultType="SrmSupplierLicenseInformation" resultMap="SrmSupplierLicenseInformationResult">
         select id, attachment, supplier_id, `describe`, expiration_period, update_date, attachment_upload, remarks
-        from srm_supplier_license_information
+        from srm_demo.srm_supplier_license_information
         where supplier_id = #{supplier_id}
     </select>
 
@@ -372,7 +372,7 @@
 
     <delete id="deleteSrmSupplierInformationById" parameterType="Long">
         delete
-        from srm_supplier_information
+        from srm_demo.srm_supplier_information
         where id = #{id}
     </delete>
 
@@ -420,30 +420,30 @@
 
     <delete id="deleteSrmSupplierContactInformationBySupplierId" parameterType="Long">
         delete
-        from srm_supplier_contact_information
+        from srm_demo.srm_supplier_contact_information
         where supplier_id = #{supplierId}
     </delete>
 
     <delete id="deleteSrmSupplierAddressInformationBySupplierId" parameterType="Long">
         delete
-        from srm_supplier_address_information
+        from srm_demo.srm_supplier_address_information
         where supplier_id = #{supplierId}
     </delete>
 
     <delete id="deleteSrmSupplierBankInformationBySupplierId" parameterType="Long">
         delete
-        from srm_supplier_bank_information
+        from srm_demo.srm_supplier_bank_information
         where supplier_id = #{supplierId}
     </delete>
 
     <delete id="deleteSrmSupplierInvoiceInformationBySupplierId" parameterType="Long">
         delete
-        from srm_supplier_invoice_information
+        from srm_demo.srm_supplier_invoice_information
         where supplier_id = #{supplierId}
     </delete>
 
     <delete id="deleteSrmSupplierLicenseInformationBySupplierId" parameterType="Long">
-        delete from srm_supplier_license_information where supplier_id = #{supplierId}
+        delete from srm_demo.srm_supplier_license_information where supplier_id = #{supplierId}
     </delete>
 
     <insert id="batchSrmSupplierContactInformation">
@@ -463,7 +463,6 @@
             #{item.remarks})
         </foreach>
     </insert>
-
 
     <insert id="batchSrmSupplierBankInformation">
         insert into srm_supplier_bank_information( id, supplier_id, country, bank_code, bank_name, interbank_account,
@@ -493,21 +492,57 @@
 
     <select id="selectSrmSupplierInformationByName" resultMap="SrmSupplierInformationResult">
         select supplier_name
-        FROM srm_supplier_information
+        FROM srm_demo.srm_supplier_information
         WHERE supplier_name = #{supplierName}
     </select>
 
     <update id="updateRegStatusById">
-        UPDATE srm_supplier_information
+        UPDATE srm_demo.srm_supplier_information
         SET registration_status = #{registrationStatus}
         WHERE id = #{id}
+    </update>
+
+    <update id="updateRegStatusBySupplierId">
+        UPDATE srm_demo.srm_supplier_information
+        SET registration_status = 1
+        WHERE id = #{supplierId}
     </update>
 
     <select id="selectSrmSupplier" resultType="com.srm.supplier.domain.SrmSupplierInformation">
         select id,
                supplier_code,
                supplier_name
-        FROM srm_supplier_information
+        FROM srm_demo.srm_supplier_information
         WHERE registration_status = 1
     </select>
+
+    <select id="selectActiveSupplier" parameterType="SrmSupplierInformation"
+            resultMap="SrmSupplierInformationResult">
+        <include refid="selectSrmSupplierInformationVo"/>
+        where registration_status in (4)
+        <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>
+        <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},
+            '%')
+        </if>
+        <if test="certificationRegion != null ">and certification_region = #{certificationRegion}</if>
+        <if test="enterpriseType != null ">and enterprise_type = #{enterpriseType}</if>
+        <if test="industryType != null  and industryType != ''">and industry_type = #{industryType}</if>
+        <if test="rsnum != null  and rsnum != ''">and rsnum = #{rsnum}</if>
+        <if test="socialCode != null  and socialCode != ''">and social_code = #{socialCode}</if>
+        <if test="organizationalCode != null  and organizationalCode != ''">and organizational_code =
+            #{organizationalCode}
+        </if>
+        <if test="capital != null ">and capital = #{capital}</if>
+        <if test="taxpayerType != null  and taxpayerType != ''">and taxpayer_type = #{taxpayerType}</if>
+        <if test="incorporationDate != null ">and incorporation_date = #{incorporationDate}</if>
+        <if test="legalPerson != null  and legalPerson != ''">and legal_person = #{legalPerson}</if>
+        <if test="businessTerm != null ">and business_term = #{businessTerm}</if>
+        <if test="businessNature != null ">and business_nature = #{businessNature}</if>
+        <if test="businessLicense != null  and businessLicense != ''">and business_license = #{businessLicense}</if>
+        <if test="registrationStatus != null ">and registration_status = #{registrationStatus}</if>
+        <if test="invitationTime != null ">and invitation_time = #{invitationTime}</if>
+        <if test="lifeStage != null ">and life_stage = #{lifeStage}</if>
+        <if test="blackList != null ">and black_list = #{blackList}</if>
+    </select>
+
 </mapper>
