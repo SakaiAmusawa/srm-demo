@@ -48,7 +48,7 @@ public class SrmSupplierInformationController extends BaseController {
     /**
      * 查询通过供应商信息列表
      */
-    @ApiOperation("查询供应商信息列表")
+    @ApiOperation("查询已通过审批的供应商")
     @PreAuthorize("@ss.hasPermi('supplier_register:information:list')")
     @GetMapping("/listActive")
     public TableDataInfo listActive(SrmSupplierInformation srmSupplierInformation) {
