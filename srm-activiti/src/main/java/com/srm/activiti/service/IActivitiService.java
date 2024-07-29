@@ -5,6 +5,7 @@ import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import org.activiti.engine.task.Task;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface IActivitiService {
@@ -19,4 +20,6 @@ public interface IActivitiService {
     void taskReject(String taskId);
 
     SupTaskVO getSupTaskBySupplierId(Long supplierId);
+
+    InputStream getBpmn(Long supplierId);
 }

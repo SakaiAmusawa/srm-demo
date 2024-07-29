@@ -7,20 +7,19 @@ import com.srm.activiti.mapper.ActivitiMapper;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.image.ProcessDiagramGenerator;
+import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.InputStream;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -81,19 +80,22 @@ public class ActivitiServiceImpl implements IActivitiService {
 
     @Override
     public StartProcessVO startProcess(Long supplierId) {
+        //todo 更改错误逻辑
 
         //创建VO对象用于接受返回值
         StartProcessVO startProcessVO = new StartProcessVO();
         //将Long类型的supplierId转化为String类型的数据用于存储到Redis中
         String supplierIdStr = supplierId.toString();
-        //尝试根据supplierId获取taskId
-        String taskId = (String) redisTemplate.opsForValue().get(supplierIdStr);
+        //尝试根据supplierId获取processInstanceId
+        String processInstanceId = (String) redisTemplate.opsForValue().get(supplierIdStr);
 
-        String assignee = null;
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+
+        TaskService taskService = engine.getTaskService();
+
         //如果Redis中没有这个值，那么表明着个流程尚未发起或已过期
-        if (taskId == null) {
+        if (processInstanceId == null) {
 
-            ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
             //发起流程
             RuntimeService runtimeService = engine.getRuntimeService();
 
@@ -103,22 +105,25 @@ public class ActivitiServiceImpl implements IActivitiService {
             //通过流程定义ID来启动流程，获取流程实例
             ProcessInstance processInstance = runtimeService.startProcessInstanceById("access_approval:1:4", assigneeMap);
 
-            TaskService taskService = engine.getTaskService();
-            Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-
-            assignee = task.getAssignee();
-
-            taskId = task.getId();
+            //获取流程ID
+            processInstanceId = processInstance.getId();
 
             //将数据存放到Redis
-            redisTemplate.opsForValue().set(supplierIdStr, taskId, 12, TimeUnit.HOURS);
-            redisTemplate.opsForValue().set(taskId, assignee, 12, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(supplierIdStr, processInstanceId, 12, TimeUnit.HOURS);
         }
-        String tid = (String) redisTemplate.opsForValue().get(supplierIdStr);
-        String ag = (String) redisTemplate.opsForValue().get(taskId);
 
-        startProcessVO.setTaskId(tid);
-        startProcessVO.setAssignee(ag);
+        //根据供应商ID获取流程ID
+        processInstanceId = (String) redisTemplate.opsForValue().get(supplierIdStr);
+
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+
+        String assignee = task.getAssignee();
+        String taskId = task.getId();
+
+        startProcessVO.setAssignee(assignee);
+        startProcessVO.setTaskId(taskId);
+
+
         return startProcessVO;
     }
 
@@ -138,6 +143,47 @@ public class ActivitiServiceImpl implements IActivitiService {
     public SupTaskVO getSupTaskBySupplierId(Long supplierId) {
 
         return activitiMapper.getTaskBySupplierId(supplierId);
+    }
+
+    /**
+     * 获取当前流程图
+     *
+     * @param supplierId 供应商ID
+     * @return 流程图
+     */
+    @Override
+    public InputStream getBpmn(Long supplierId) {
+
+        String supId = supplierId.toString();
+
+        ValueOperations<Object, Object> redisOperation = redisTemplate.opsForValue();
+
+        String processInstanceId = (String) redisOperation.get(supId);
+
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+
+        if (processInstanceId == null) {
+            return null;
+        }
+
+        RepositoryService repositoryService = engine.getRepositoryService();
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processInstance.getProcessDefinitionId());
+        List<String> activeActivityIds = runtimeService.getActiveActivityIds(processInstanceId);
+
+        ProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator();
+        return diagramGenerator.generateDiagram(
+                bpmnModel,
+                "png",
+                activeActivityIds,
+                Collections.emptyList(),
+                "宋体", // 设置支持中文的字体
+                "宋体",
+                "宋体",
+                null,
+                1.0);
     }
 
 }

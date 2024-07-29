@@ -8,9 +8,14 @@ import com.srm.activiti.service.IActivitiService;
 import com.srm.common.core.domain.AjaxResult;
 import com.srm.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 
@@ -86,6 +91,22 @@ public class ActivitiController {
         log.debug("username:{}", username);
 
         return AjaxResult.success("以获取当前用户", username);
+    }
+
+    @GetMapping("/getBpmn/{supplierId}")
+    public void getBpmn(@PathVariable Long supplierId, HttpServletResponse response) throws IOException {
+        log.debug("该方法执行了.............");
+        InputStream stream = activitiService.getBpmn(supplierId);
+        if (stream == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        response.setContentType("image/png");
+        try (OutputStream out = response.getOutputStream()) {
+            IOUtils.copy(stream, out);
+            out.flush();
+        }
     }
 
 }
