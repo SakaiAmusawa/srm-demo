@@ -28,6 +28,26 @@ public class ActivitiController {
     private IActivitiService activitiService;
 
     /**
+     * 部署流程
+     */
+    @PostMapping("/apply")
+    public AjaxResult apply() {
+        activitiService.apply();
+        return AjaxResult.success();
+    }
+
+    /**
+     * 发起实例
+     * @param supplierId 供应商ID
+     * @return 当前任务ID、当前任务代办人
+     */
+    @PostMapping("/startProcess/{supplierId}")
+    public AjaxResult startProcess(@PathVariable("supplierId") Long supplierId) {
+        StartProcessVO startProcessVO = activitiService.startProcess(supplierId);
+        return AjaxResult.success("操作成功", startProcessVO);
+    }
+
+    /**
      * 查看当前用户的所有待办事项
      *
      * @return 待办事项列表
@@ -39,7 +59,7 @@ public class ActivitiController {
     }
 
     /**
-     * 审批流程
+     * 审批通过
      *
      * @return code200
      */
@@ -47,21 +67,6 @@ public class ActivitiController {
     public AjaxResult completeTask(@PathVariable("taskId") String taskId) {
         activitiService.completeTask(taskId);
         return AjaxResult.success();
-    }
-
-    /**
-     * 发起审查
-     */
-    @PostMapping("/apply")
-    public AjaxResult apply() {
-        activitiService.apply();
-        return AjaxResult.success();
-    }
-
-    @PostMapping("/startProcess/{supplierId}")
-    public AjaxResult startProcess(@PathVariable("supplierId") Long supplierId) {
-        StartProcessVO startProcessVO = activitiService.startProcess(supplierId);
-        return AjaxResult.success("操作成功", startProcessVO);
     }
 
     @PostMapping("/taskReject/{taskId}")

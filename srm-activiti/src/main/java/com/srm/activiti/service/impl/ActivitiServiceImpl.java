@@ -5,6 +5,7 @@ import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.mapper.ActivitiMapper;
 import com.srm.activiti.service.IActivitiService;
+import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.BpmnModel;
@@ -80,7 +81,7 @@ public class ActivitiServiceImpl implements IActivitiService {
 
     @Override
     public StartProcessVO startProcess(Long supplierId) {
-        //todo 更改错误逻辑
+        //todo 优化redis中数据的存储结构
 
         //创建VO对象用于接受返回值
         StartProcessVO startProcessVO = new StartProcessVO();
@@ -116,6 +117,10 @@ public class ActivitiServiceImpl implements IActivitiService {
         processInstanceId = (String) redisTemplate.opsForValue().get(supplierIdStr);
 
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+
+        if (task == null) {
+            throw new ServiceException("流程已预期结束，不应在此处执行进一步操作.");
+        }
 
         String assignee = task.getAssignee();
         String taskId = task.getId();
