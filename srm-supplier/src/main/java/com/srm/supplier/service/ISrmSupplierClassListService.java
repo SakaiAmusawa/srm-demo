@@ -2,6 +2,7 @@ package com.srm.supplier.service;
 
 import java.util.List;
 import com.srm.supplier.domain.SrmSupplierClassList;
+import com.srm.supplier.domain.SrmSupplierInformation;
 
 /**
  * 供应商分类Service接口
@@ -58,4 +59,6 @@ public interface ISrmSupplierClassListService
      * @return 结果
      */
     public int deleteSrmSupplierClassListById(Long id);
+
+    List<SrmSupplierInformation> querySupplierInfor();
 }

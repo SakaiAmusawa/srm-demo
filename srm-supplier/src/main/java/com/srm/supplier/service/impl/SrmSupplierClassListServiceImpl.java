@@ -88,4 +88,9 @@ public class SrmSupplierClassListServiceImpl implements ISrmSupplierClassListSer
     public int deleteSrmSupplierClassListById(Long id) {
         return srmSupplierClassListMapper.deleteSrmSupplierClassListById(id);
     }
+
+    @Override
+    public List<SrmSupplierInformation> querySupplierInfor() {
+        return srmSupplierInformationMapper.selectActiveSupplier(null);
+    }
 }

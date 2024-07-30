@@ -121,7 +121,7 @@ public class SrmSupplierSampleDeliveryController extends BaseController {
 
     @GetMapping("/listSup")
     public AjaxResult listSup() {
-        List<SrmSupplierInformation> srmSupplierInformations = srmSupplierInformationService.selectSrmSupplierInformationList(null);
+        List<SrmSupplierInformation> srmSupplierInformations = srmSupplierInformationService.selectActiveSupplier(null);
         return AjaxResult.success(srmSupplierInformations);
     }
 
