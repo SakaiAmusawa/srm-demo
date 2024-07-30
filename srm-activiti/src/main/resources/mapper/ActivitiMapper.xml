@@ -9,9 +9,25 @@
         <result column="task_id" property="taskId"/>
     </resultMap>
 
+    <resultMap id="activitiInfoDTO" type="com.srm.activiti.domain.dto.ActivitiInfoDTO">
+        <result column="supplier_id" property="supplierId"/>
+        <result column="processInstance_id" property="processInstanceId"/>
+    </resultMap>
+
+    <insert id="saveActivitiInfo">
+        INSERT INTO srm_demo.srm_supplier_activiti_info (supplier_id, processInstance_id)
+        VALUES (#{supplierId}, #{processInstanceId})
+    </insert>
+
     <select id="getTaskBySupplierId" resultMap="supTask">
         select supplier_id, task_id
         from srm_demo.srm_supid_taksid
         where supplier_id = #{supplierId}
+    </select>
+
+    <select id="querySupplierId" resultType="long">
+        SELECT supplier_id
+        FROM srm_demo.srm_supplier_activiti_info
+        WHERE processInstance_id = #{processInstanceId}
     </select>
 </mapper>

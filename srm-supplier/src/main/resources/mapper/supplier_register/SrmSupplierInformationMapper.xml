@@ -504,7 +504,7 @@
 
     <update id="updateRegStatusBySupplierId">
         UPDATE srm_demo.srm_supplier_information
-        SET registration_status = 1
+        SET registration_status = 4
         WHERE id = #{supplierId}
     </update>
 

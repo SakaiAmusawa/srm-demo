@@ -1,5 +1,6 @@
 package com.srm.activiti.mapper;
 
+import com.srm.activiti.domain.dto.ActivitiInfoDTO;
 import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,4 +11,8 @@ import java.util.List;
 @Mapper
 public interface ActivitiMapper {
     SupTaskVO getTaskBySupplierId(Long supplierId);
+
+    void saveActivitiInfo(ActivitiInfoDTO activitiInfoDTO);
+
+    Long querySupplierId(String processInstanceId);
 }

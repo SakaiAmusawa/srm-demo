@@ -1,5 +1,6 @@
 package com.srm.activiti.service.impl;
 
+import com.srm.activiti.domain.dto.ActivitiInfoDTO;
 import com.srm.activiti.domain.vo.StartProcessVO;
 import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.image.ProcessDiagramGenerator;
@@ -38,8 +41,16 @@ public class ActivitiServiceImpl implements IActivitiService {
     private RedisTemplate<Object, Object> redisTemplate;
     @Autowired
     private SrmSupplierInformationMapper supMapper;
+    @Autowired
+    private RuntimeService rTimeServer;
+    @Autowired
+    private RepositoryService repositoryService;
 
-
+    /**
+     * 查询所有代办信息
+     *
+     * @return 代办信息
+     */
     @Override
     public List<TaskVO> getAllTask() {
 
@@ -52,14 +63,19 @@ public class ActivitiServiceImpl implements IActivitiService {
         TaskService taskService = engine.getTaskService();
         List<Task> taskList = taskService.createTaskQuery().taskAssignee(assignee).list();
 
+
         for (Task task : taskList) {
+            String processInstanceId = task.getProcessInstanceId();
+            Long supplierId = activitiMapper.querySupplierId(processInstanceId);
+            String deploymentName = getDeploymentNameByProcessInstanceId(processInstanceId);
             TaskVO taskVO = new TaskVO();
+            taskVO.setDeployName(deploymentName);
+            taskVO.setSupplierId(supplierId);
             taskVO.setTaskId(task.getId());
             taskVO.setTaskName(task.getName());
             taskVOList.add(taskVO);
         }
 
-        log.debug("任务列表视图:{}", taskList);
         return taskVOList;
     }
 
@@ -78,20 +94,17 @@ public class ActivitiServiceImpl implements IActivitiService {
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
         String taskId = task.getId();
 
-        //通过历史服务，判断任务是否结束
-        HistoryService historyService = engine.getHistoryService();
-        HistoricProcessInstance historicProcessInstance = historyService
-                .createHistoricProcessInstanceQuery()
-                .processInstanceId(processInstanceId)
-                .singleResult();
-        boolean isEnded = historicProcessInstance != null && historicProcessInstance.getEndTime() != null;
+        taskService.complete(taskId);
 
+        //通过历史服务，判断任务是否结束
+        log.debug("processInstanceId:{}", processInstanceId);
+        //todo 根据流程实例ID查询结果出现问题
+        HistoryService historyService = engine.getHistoryService();
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        boolean isEnded = historicProcessInstance != null && historicProcessInstance.getEndTime() != null;
         if (isEnded) {
             supMapper.updateRegStatusBySupplierId(supplierId);
         }
-
-        taskService.complete(taskId);
-
 
     }
 
@@ -117,7 +130,6 @@ public class ActivitiServiceImpl implements IActivitiService {
         String processInstanceId = (String) operations.get(prefix + supplierIdStr);
 
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-
         TaskService taskService = engine.getTaskService();
 
         //如果Redis中没有这个值，那么表明着个流程尚未发起或已过期
@@ -125,7 +137,7 @@ public class ActivitiServiceImpl implements IActivitiService {
 
             //发起流程
             RuntimeService runtimeService = engine.getRuntimeService();
-
+            //设置第二级审批人
             Map<String, Object> assigneeMap = new HashMap<>();
             assigneeMap.put("manager", "admin");
 
@@ -137,6 +149,12 @@ public class ActivitiServiceImpl implements IActivitiService {
 
             //将数据存放到Redis
             operations.set(prefix + supplierIdStr, processInstanceId, 3, TimeUnit.DAYS);
+
+            //储存supplierId和processInstanceId
+            ActivitiInfoDTO activitiInfoDTO = new ActivitiInfoDTO();
+            activitiInfoDTO.setSupplierId(supplierId);
+            activitiInfoDTO.setProcessInstanceId(processInstanceId);
+            activitiMapper.saveActivitiInfo(activitiInfoDTO);
         }
 
         //根据供应商ID获取流程ID
@@ -153,7 +171,6 @@ public class ActivitiServiceImpl implements IActivitiService {
 
         startProcessVO.setAssignee(assignee);
         startProcessVO.setTaskId(taskId);
-
 
         return startProcessVO;
     }
@@ -217,4 +234,45 @@ public class ActivitiServiceImpl implements IActivitiService {
                 1.0);
     }
 
+    public String getDeploymentNameByProcessInstanceId(String processInstanceId) {
+        // 通过流程实例ID获取流程实例对象
+        ProcessInstance processInstance = rTimeServer.createProcessInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .singleResult();
+
+        if (processInstance == null) {
+            // 如果流程实例不存在，可能流程实例ID无效或流程已结束
+            return null;
+        }
+
+        // 从流程实例中获取流程定义key
+        String processDefinitionKey = processInstance.getProcessDefinitionKey();
+
+        // 使用流程定义key和流程实例的版本号获取流程定义对象
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionKey(processDefinitionKey)
+                .processDefinitionId(processInstance.getProcessDefinitionId())
+                .singleResult();
+
+        if (processDefinition == null) {
+            // 如果流程定义不存在，可能流程定义已被删除
+            return null;
+        }
+
+        // 从流程定义对象中获取部署ID
+        String deploymentId = processDefinition.getDeploymentId();
+
+        // 通过部署ID获取部署对象
+        Deployment deployment = repositoryService.createDeploymentQuery()
+                .deploymentId(deploymentId)
+                .singleResult();
+
+        if (deployment == null) {
+            // 如果部署对象不存在，可能部署已被删除
+            return null;
+        }
+
+        // 返回部署名称
+        return deployment.getName();
+    }
 }

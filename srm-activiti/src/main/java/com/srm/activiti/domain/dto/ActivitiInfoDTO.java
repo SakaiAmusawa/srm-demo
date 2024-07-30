@@ -1,4 +1,4 @@
-package com.srm.activiti.domain.vo;
+package com.srm.activiti.domain.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,11 +6,9 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TaskVO {
+public class ActivitiInfoDTO {
 
-    String deployName;
     Long supplierId;
-    String taskId;
-    String taskName;
+    String processInstanceId;
 
 }
