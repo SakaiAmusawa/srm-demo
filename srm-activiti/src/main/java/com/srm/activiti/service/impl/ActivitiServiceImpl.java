@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Transactional
 @Slf4j
@@ -62,7 +61,6 @@ public class ActivitiServiceImpl implements IActivitiService {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = engine.getTaskService();
         List<Task> taskList = taskService.createTaskQuery().taskAssignee(assignee).list();
-
 
         for (Task task : taskList) {
             String processInstanceId = task.getProcessInstanceId();
@@ -104,6 +102,8 @@ public class ActivitiServiceImpl implements IActivitiService {
         boolean isEnded = historicProcessInstance != null && historicProcessInstance.getEndTime() != null;
         if (isEnded) {
             supMapper.updateRegStatusBySupplierId(supplierId);
+            //删除已完成审批的供应商储存在redis中的数据
+            redisTemplate.delete(prefix + supId);
         }
 
     }
@@ -148,7 +148,7 @@ public class ActivitiServiceImpl implements IActivitiService {
             processInstanceId = processInstance.getId();
 
             //将数据存放到Redis
-            operations.set(prefix + supplierIdStr, processInstanceId, 3, TimeUnit.DAYS);
+            operations.set(prefix + supplierIdStr, processInstanceId);
 
             //储存supplierId和processInstanceId
             ActivitiInfoDTO activitiInfoDTO = new ActivitiInfoDTO();
