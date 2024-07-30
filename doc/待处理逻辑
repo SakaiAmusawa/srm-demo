@@ -1,0 +1,79 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+public class SupplierSync {
+    public static void main(String[] args) {
+        // 假设supplierList和clasList是两个列表，每个元素是一个Supplier对象
+        List<Supplier> supplierList = new ArrayList<>();
+        supplierList.add(new Supplier(1, "供应商A", null));
+        supplierList.add(new Supplier(2, "供应商B", "类别1"));
+        supplierList.add(new Supplier(3, "供应商C", null));
+        // 其他供应商信息
+
+        List<Supplier> clasList = new ArrayList<>();
+        clasList.add(new Supplier(2, "供应商B", "类别1"));
+        // 其他已经分类的供应商信息
+
+        // 调用函数进行数据同步
+        clasList = syncSuppliers(supplierList, clasList);
+
+        // 打印同步后的clasList
+        for (Supplier supplier : clasList) {
+            System.out.println(supplier);
+        }
+    }
+
+    public static List<Supplier> syncSuppliers(List<Supplier> supplierList, List<Supplier> clasList) {
+        // 创建一个集合来存储clasList中的供应商ID，以便快速查找
+        Set<Integer> clasIds = clasList.stream()
+                .map(Supplier::getId)
+                .collect(Collectors.toSet());
+
+        // 使用并行流筛选出未分类的供应商
+        List<Supplier> unclassifiedSuppliers = supplierList.parallelStream()
+                .filter(supplier -> !clasIds.contains(supplier.getId()))
+                .collect(Collectors.toList());
+
+        // 将未分类的供应商添加到clasList中
+        clasList.addAll(unclassifiedSuppliers);
+
+        return clasList;
+    }
+}
+
+class Supplier {
+    private int id;
+    private String name;
+    private String category;
+
+    public Supplier(int id, String name, String category) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public String toString() {
+        return "Supplier{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
+}
