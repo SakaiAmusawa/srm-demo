@@ -61,4 +61,6 @@ public interface ISrmSupplierClassListService
     public int deleteSrmSupplierClassListById(Long id);
 
     List<SrmSupplierInformation> querySupplierInfor();
+
+    void insertClass(SrmSupplierClassList srmSupplierClassList);
 }

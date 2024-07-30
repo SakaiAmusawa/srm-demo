@@ -93,4 +93,9 @@ public class SrmSupplierClassListServiceImpl implements ISrmSupplierClassListSer
     public List<SrmSupplierInformation> querySupplierInfor() {
         return srmSupplierInformationMapper.selectActiveSupplier(null);
     }
+
+    @Override
+    public void insertClass(SrmSupplierClassList srmSupplierClassList) {
+        srmSupplierClassListMapper.insertSrmClassList(srmSupplierClassList);
+    }
 }

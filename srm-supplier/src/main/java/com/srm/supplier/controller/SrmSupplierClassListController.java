@@ -6,11 +6,14 @@ import com.srm.common.core.domain.AjaxResult;
 import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
+import com.srm.supplier.domain.SrmSupplierClassDefinition;
 import com.srm.supplier.domain.SrmSupplierClassList;
 import com.srm.supplier.domain.SrmSupplierInformation;
+import com.srm.supplier.service.ISrmSupplierClassDefinitionService;
 import com.srm.supplier.service.ISrmSupplierClassListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +27,15 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-07-05
  */
+@Slf4j
 @Api("供应商分类列表")
 @RestController
 @RequestMapping("/supplier/clas")
 public class SrmSupplierClassListController extends BaseController {
     @Autowired
     private ISrmSupplierClassListService srmSupplierClassListService;
+    @Autowired
+    private ISrmSupplierClassDefinitionService classDefinitionService;
 
     /**
      * 查询供应商分类列表
@@ -101,5 +107,24 @@ public class SrmSupplierClassListController extends BaseController {
     public AjaxResult dataSync() {
         List<SrmSupplierInformation> srmSupplierInformations = srmSupplierClassListService.querySupplierInfor();
         return AjaxResult.success(srmSupplierInformations);
+    }
+
+    /**
+     * 获取分类列表
+     */
+    @GetMapping("/listDef")
+    public AjaxResult listDef() {
+        List<SrmSupplierClassDefinition> classDefinitions = classDefinitionService.selectSrmSupplierClassDefinitionList(null);
+        log.debug("classDefinitions:{}", classDefinitions);
+        return AjaxResult.success(classDefinitions);
+    }
+
+    /**
+     * 分配供应商
+     */
+    @PostMapping("/assignationSupplier")
+    public AjaxResult assignationSupplier(@RequestBody SrmSupplierClassList srmSupplierClassList){
+        srmSupplierClassListService.insertClass(srmSupplierClassList);
+        return AjaxResult.success();
     }
 }

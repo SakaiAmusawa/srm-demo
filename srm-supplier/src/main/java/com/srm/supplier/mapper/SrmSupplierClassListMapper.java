@@ -61,4 +61,6 @@ public interface SrmSupplierClassListMapper {
      * @return 结果
      */
     public int deleteSrmSupplierClassListByIds(Long[] ids);
+
+    void insertSrmClassList(SrmSupplierClassList srmSupplierClassList);
 }

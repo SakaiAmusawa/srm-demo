@@ -47,6 +47,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <insert id="insertSrmClassList">
+        INSERT INTO srm_demo.srm_supplier_class_list(company_code, enterprise, supplier_class, supplier_class_code)
+        VALUES (#{companyCode}, #{enterprise}, #{supplierClass}, #{supplierClassCode})
+    </insert>
+
     <update id="updateSrmSupplierClassList" parameterType="SrmSupplierClassList">
         update srm_supplier_class_list
         <trim prefix="SET" suffixOverrides=",">
