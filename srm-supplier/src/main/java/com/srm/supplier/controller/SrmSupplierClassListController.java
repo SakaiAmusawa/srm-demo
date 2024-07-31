@@ -8,7 +8,6 @@ import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
 import com.srm.supplier.domain.SrmSupplierClassDefinition;
 import com.srm.supplier.domain.SrmSupplierClassList;
-import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.service.ISrmSupplierClassDefinitionService;
 import com.srm.supplier.service.ISrmSupplierClassListService;
 import io.swagger.annotations.Api;
@@ -105,8 +104,8 @@ public class SrmSupplierClassListController extends BaseController {
      */
     @GetMapping("/sync")
     public AjaxResult dataSync() {
-        List<SrmSupplierInformation> srmSupplierInformations = srmSupplierClassListService.querySupplierInfor();
-        return AjaxResult.success(srmSupplierInformations);
+        List<SrmSupplierClassList> srmSupplierClassLists = srmSupplierClassListService.querySupplierInfo();
+        return AjaxResult.success(srmSupplierClassLists);
     }
 
     /**
@@ -123,7 +122,7 @@ public class SrmSupplierClassListController extends BaseController {
      * 分配供应商
      */
     @PostMapping("/assignationSupplier")
-    public AjaxResult assignationSupplier(@RequestBody SrmSupplierClassList srmSupplierClassList){
+    public AjaxResult assignationSupplier(@RequestBody SrmSupplierClassList srmSupplierClassList) {
         srmSupplierClassListService.insertClass(srmSupplierClassList);
         return AjaxResult.success();
     }

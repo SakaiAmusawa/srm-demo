@@ -12,6 +12,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="supplierClassCode"    column="supplier_class_code"    />
     </resultMap>
 
+    <resultMap type="SrmSupplierClassList" id="ClassListResult">
+        <result property="id"    column="id"    />
+        <result property="companyCode"    column="company_code"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="supplierClass"    column="supplier_class"    />
+        <result property="supplierClassCode"    column="supplier_class_code"    />
+    </resultMap>
+
     <sql id="selectSrmSupplierClassListVo">
         select id, company_code, enterprise, supplier_class, supplier_class_code from srm_demo.srm_supplier_class_list
     </sql>
@@ -29,6 +37,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSrmSupplierClassListById" parameterType="Long" resultMap="SrmSupplierClassListResult">
         <include refid="selectSrmSupplierClassListVo"/>
         where id = #{id}
+    </select>
+
+    <select id="selectClassList" resultMap="ClassListResult">
+        SELECT company_code, enterprise
+        FROM srm_demo.srm_supplier_class_list
     </select>
 
     <insert id="insertSrmSupplierClassList" parameterType="SrmSupplierClassList" useGeneratedKeys="true" keyProperty="id">
