@@ -208,14 +208,14 @@ public class ActivitiServiceImpl implements IActivitiService {
 
         String processInstanceId = (String) redisOperation.get(prefix + supId);
 
+        if (processInstanceId == null) {
+            throw new ServiceException("当前无流程图提供，或该流程已终止");
+        }
+
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         RuntimeService runtimeService = engine.getRuntimeService();
 
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-
-        if (processInstanceId == null) {
-            return null;
-        }
 
         RepositoryService repositoryService = engine.getRepositoryService();
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processInstance.getProcessDefinitionId());
