@@ -23,6 +23,8 @@ public interface SrmSupplierSiteVisitMapper {
      * @return 供应商现场考察
      */
     public SrmSupplierSiteVisit selectSrmSupplierSiteVisitById(Long id);
+    List<SrmSupplierSiteVisitMaterial> selectSrmSupplierSiteVisitMaterialList(Long investigateId);
+    List<SrmSupplierSiteVisitUser> selectSrmSupplierSiteVisitUserList(Long investigateId);
 
     /**
      * 查询供应商现场考察列表

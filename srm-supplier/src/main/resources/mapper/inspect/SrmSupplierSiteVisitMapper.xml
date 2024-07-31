@@ -104,33 +104,33 @@
 
     <select id="selectSrmSupplierSiteVisitById" parameterType="Long"
             resultMap="SrmSupplierSiteVisitSrmSupplierSiteVisitUserResult">
-        select sv.id,
-               sv.investigate_code,
-               sv.investigate_title,
-               sv.company_code,
-               sv.company_name,
-               sv.supplier_code,
-               sv.supplier_name,
-               sv.investigates_date,
-               sv.investigatee_date,
-               sv.investigate_address,
-               sv.investigate_res,
-               sv.investigate_score,
-               sv.investigate_grade,
-               sv.remarks,
-               sv.attachment_upload,
-               sv.user_code,
-               sm.id,
-               sm.investigate_id,
-               sm.material_code,
-               sm.remarks,
-               su.id,
-               su.investigate_id,
-               su.user_code
-        from srm_supplier_site_visit sv
-                 left join srm_supplier_site_visit_material sm on sv.id = sm.investigate_id
-                 left join srm_supplier_site_visit_user su on sv.id = su.investigate_id
-        where sv.id = #{id}
+        select id,
+               investigate_code,
+               investigate_title,
+               company_code,
+               company_name,
+               supplier_code,
+               supplier_name,
+               investigates_date,
+               investigatee_date,
+               investigate_address,
+               investigate_res,
+               investigate_score,
+               investigate_grade,
+               remarks,
+               attachment_upload,
+               user_code
+        #                sm.id,
+#                sm.investigate_id,
+#                sm.material_code,
+#                sm.remarks,
+#                su.id,
+#                su.investigate_id,
+#                su.user_code
+        from srm_supplier_site_visit
+        #                  left join srm_supplier_site_visit_material sm on sv.id = sm.investigate_id
+#                  left join srm_supplier_site_visit_user su on sv.id = su.investigate_id
+        where id = #{id}
     </select>
 
 

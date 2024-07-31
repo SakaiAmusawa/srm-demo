@@ -10,6 +10,7 @@ import com.srm.inspect.service.ISrmSupplierSiteVisitService;
 import com.srm.material.mapper.SrmMaterialManagementMapper;
 import com.srm.supplier.domain.SrmSupplierInformation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +40,15 @@ public class SrmSupplierSiteVisitServiceImpl implements ISrmSupplierSiteVisitSer
      */
     @Override
     public SrmSupplierSiteVisit selectSrmSupplierSiteVisitById(Long id) {
-        log.debug("result:{}", srmSupplierSiteVisitMapper.selectSrmSupplierSiteVisitById(id));
-        return srmSupplierSiteVisitMapper.selectSrmSupplierSiteVisitById(id);
+        SrmSupplierSiteVisit srmSupplierSiteVisit = new SrmSupplierSiteVisit();
+        SrmSupplierSiteVisit srmSupplierSiteVisitResult = srmSupplierSiteVisitMapper.selectSrmSupplierSiteVisitById(id);
+
+        BeanUtils.copyProperties(srmSupplierSiteVisitResult, srmSupplierSiteVisit);
+
+        srmSupplierSiteVisit.setSrmSupplierSiteVisitMaterialList(srmSupplierSiteVisitMapper.selectSrmSupplierSiteVisitMaterialList(id));
+        srmSupplierSiteVisit.setSrmSupplierSiteVisitUserList(srmSupplierSiteVisitMapper.selectSrmSupplierSiteVisitUserList(id));
+
+        return srmSupplierSiteVisit;
     }
 
     /**
