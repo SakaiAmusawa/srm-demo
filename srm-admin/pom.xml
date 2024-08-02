@@ -70,6 +70,11 @@
             <groupId>com.srm</groupId>
             <artifactId>srm-activiti</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.srm</groupId>
+            <artifactId>srm-tool</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

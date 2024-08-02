@@ -185,6 +185,13 @@
                 <artifactId>srm-activiti</artifactId>
                 <version>${srm.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.srm</groupId>
+                <artifactId>srm-tool</artifactId>
+                <version>${srm.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -197,6 +204,7 @@
         <module>srm-common</module>
         <module>srm-supplier</module>
         <module>srm-activiti</module>
+        <module>srm-tool</module>
     </modules>
     <packaging>pom</packaging>
 
