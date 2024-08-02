@@ -28,14 +28,13 @@ public class SupplierSurveyActivitiImpl implements ISupplierSurveyActivitiServic
     @Override
     public StartProcessVO startProcess(String supplierName) {
 
-        //将供应商名称传递给监听器
-        new SupplierListener(supplierName);
-
         ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
         //尝试获取流程实例ID
         String processInstanceId = (String) operations.get(PREFIX + supplierName);
 
         if (processInstanceId == null) {
+            //将供应商名称传递给监听器
+            new SupplierListener(supplierName);
             //发起流程
             ProcessInstance processInstance = runtimeService.startProcessInstanceById(PROCESS_INSTANCE_ID);
             //获取流程ID

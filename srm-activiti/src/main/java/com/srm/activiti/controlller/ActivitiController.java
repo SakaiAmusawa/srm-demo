@@ -6,6 +6,7 @@ import com.srm.activiti.domain.vo.SupTaskVO;
 import com.srm.activiti.domain.vo.TaskVO;
 import com.srm.activiti.service.IActivitiService;
 import com.srm.common.core.domain.AjaxResult;
+import com.srm.common.core.domain.model.LoginUser;
 import com.srm.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
