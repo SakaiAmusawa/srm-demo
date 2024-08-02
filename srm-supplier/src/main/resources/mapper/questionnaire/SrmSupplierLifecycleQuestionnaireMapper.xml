@@ -1,95 +1,182 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.supplier.mapper.SrmSupplierLifecycleQuestionnaireMapper">
-    
-    <resultMap type="SrmSupplierLifecycleQuestionnaire" id="SrmSupplierLifecycleQuestionnaireResult">
-        <result property="id"    column="id"    />
-        <result property="surveyCode"    column="survey_code"    />
-        <result property="surveyTitle"    column="survey_title"    />
-        <result property="surveyState"    column="survey_state"    />
-        <result property="surveyType"    column="survey_type"    />
-        <result property="companyCode"    column="company_code"    />
-        <result property="companyName"    column="company_name"    />
-        <result property="supplierCode"    column="supplier_code"    />
-        <result property="supplierName"    column="supplier_name"    />
-        <result property="supplierContacts"    column="supplier_contacts"    />
-        <result property="supplierPhone"    column="supplier_phone"    />
-        <result property="supplierEmil"    column="supplier_emil"    />
-        <result property="attachmentUpload"    column="attachment_upload"    />
-        <result property="remarks"    column="remarks"    />
+
+    <resultMap type="SysDictData" id="SysDictDataResult">
+        <id property="dictCode" column="dict_code"/>
+        <result property="dictSort" column="dict_sort"/>
+        <result property="dictLabel" column="dict_label"/>
+        <result property="dictValue" column="dict_value"/>
+        <result property="dictType" column="dict_type"/>
+        <result property="cssClass" column="css_class"/>
+        <result property="listClass" column="list_class"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
-    <resultMap id="SrmSupplierLifecycleQuestionnaireSrmSupplierBasicInformationResult" type="SrmSupplierLifecycleQuestionnaire" extends="SrmSupplierLifecycleQuestionnaireResult">
-        <collection property="srmSupplierBasicInformationList" ofType="SrmSupplierBasicInformation" column="survey_id" select="selectSrmSupplierBasicInformationList" />
+    <resultMap type="SrmSupplierLifecycleQuestionnaire" id="SrmSupplierLifecycleQuestionnaireResult">
+        <result property="id" column="id"/>
+        <result property="surveyCode" column="survey_code"/>
+        <result property="surveyTitle" column="survey_title"/>
+        <result property="surveyState" column="survey_state"/>
+        <result property="surveyType" column="survey_type"/>
+        <result property="companyCode" column="company_code"/>
+        <result property="companyName" column="company_name"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="supplierContacts" column="supplier_contacts"/>
+        <result property="supplierPhone" column="supplier_phone"/>
+        <result property="supplierEmil" column="supplier_emil"/>
+        <result property="attachmentUpload" column="attachment_upload"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+
+    <resultMap id="SrmSupplierLifecycleQuestionnaireSrmSupplierBasicInformationResult"
+               type="SrmSupplierLifecycleQuestionnaire" extends="SrmSupplierLifecycleQuestionnaireResult">
+        <collection property="srmSupplierBasicInformationList" ofType="SrmSupplierBasicInformation" column="survey_id"
+                    select="selectSrmSupplierBasicInformationList"/>
     </resultMap>
 
     <resultMap type="SrmSupplierBasicInformation" id="SrmSupplierBasicInformationResult">
-        <result property="id"    column="id"    />
-        <result property="supplierCode"    column="supplier_code"    />
-        <result property="supplierName"    column="supplier_name"    />
-        <result property="manager"    column="manager"    />
-        <result property="isList"    column="is_list"    />
-        <result property="stockCode"    column="stock_code"    />
-        <result property="stockLoad"    column="stock_load"    />
-        <result property="industryRanking"    column="industry_ranking"    />
-        <result property="isAudit"    column="is_audit"    />
-        <result property="staffNum"    column="staff_num"    />
-        <result property="managerNum"    column="manager_num"    />
-        <result property="structureLoad"    column="structure_load"    />
-        <result property="competitors"    column="competitors"    />
-        <result property="business"    column="business"    />
-        <result property="taxRate"    column="tax_rate"    />
-        <result property="currency"    column="currency"    />
-        <result property="supplyCycle"    column="supply_cycle"    />
-        <result property="freightMethod"    column="freight_method"    />
-        <result property="timeliness"    column="timeliness"    />
-        <result property="isCommitment"    column="is_commitment"    />
-        <result property="isStockup"    column="is_stockup"    />
-        <result property="paymentProgress"    column="payment_progress"    />
-        <result property="packaging"    column="packaging"    />
-        <result property="materialCost"    column="material_cost"    />
-        <result property="costControl"    column="cost_control"    />
-        <result property="surveyId"    column="survey_id"    />
+        <result property="id" column="id"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="manager" column="manager"/>
+        <result property="isList" column="is_list"/>
+        <result property="stockCode" column="stock_code"/>
+        <result property="stockLoad" column="stock_load"/>
+        <result property="industryRanking" column="industry_ranking"/>
+        <result property="isAudit" column="is_audit"/>
+        <result property="staffNum" column="staff_num"/>
+        <result property="managerNum" column="manager_num"/>
+        <result property="structureLoad" column="structure_load"/>
+        <result property="competitors" column="competitors"/>
+        <result property="business" column="business"/>
+        <result property="taxRate" column="tax_rate"/>
+        <result property="currency" column="currency"/>
+        <result property="supplyCycle" column="supply_cycle"/>
+        <result property="freightMethod" column="freight_method"/>
+        <result property="timeliness" column="timeliness"/>
+        <result property="isCommitment" column="is_commitment"/>
+        <result property="isStockup" column="is_stockup"/>
+        <result property="paymentProgress" column="payment_progress"/>
+        <result property="packaging" column="packaging"/>
+        <result property="materialCost" column="material_cost"/>
+        <result property="costControl" column="cost_control"/>
+        <result property="surveyId" column="survey_id"/>
     </resultMap>
 
     <sql id="selectSrmSupplierLifecycleQuestionnaireVo">
-        select id, survey_code, survey_title, survey_state, survey_type, company_code, company_name, supplier_code, supplier_name, supplier_contacts, supplier_phone, supplier_emil, attachment_upload, remarks from srm_supplier_lifecycle_questionnaire
+        select id,
+               survey_code,
+               survey_title,
+               survey_state,
+               survey_type,
+               company_code,
+               company_name,
+               supplier_code,
+               supplier_name,
+               supplier_contacts,
+               supplier_phone,
+               supplier_emil,
+               attachment_upload,
+               remarks
+        from srm_supplier_lifecycle_questionnaire
     </sql>
 
-    <select id="selectSrmSupplierLifecycleQuestionnaireList" parameterType="SrmSupplierLifecycleQuestionnaire" resultMap="SrmSupplierLifecycleQuestionnaireResult">
+    <select id="selectSrmSupplierLifecycleQuestionnaireList" parameterType="SrmSupplierLifecycleQuestionnaire"
+            resultMap="SrmSupplierLifecycleQuestionnaireResult">
         <include refid="selectSrmSupplierLifecycleQuestionnaireVo"/>
-        <where>  
-            <if test="surveyCode != null  and surveyCode != ''"> and survey_code = #{surveyCode}</if>
-            <if test="surveyTitle != null  and surveyTitle != ''"> and survey_title = #{surveyTitle}</if>
-            <if test="surveyState != null "> and survey_state = #{surveyState}</if>
-            <if test="surveyType != null  and surveyType != ''"> and survey_type = #{surveyType}</if>
-            <if test="companyCode != null  and companyCode != ''"> and company_code = #{companyCode}</if>
-            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
-            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
-            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
-            <if test="supplierContacts != null  and supplierContacts != ''"> and supplier_contacts = #{supplierContacts}</if>
-            <if test="supplierPhone != null  and supplierPhone != ''"> and supplier_phone = #{supplierPhone}</if>
-            <if test="supplierEmil != null  and supplierEmil != ''"> and supplier_emil = #{supplierEmil}</if>
-            <if test="attachmentUpload != null  and attachmentUpload != ''"> and attachment_upload = #{attachmentUpload}</if>
-            <if test="remarks != null "> and remarks = #{remarks}</if>
+        <where>
+            <if test="surveyCode != null  and surveyCode != ''">and survey_code = #{surveyCode}</if>
+            <if test="surveyTitle != null  and surveyTitle != ''">and survey_title = #{surveyTitle}</if>
+            <if test="surveyState != null ">and survey_state = #{surveyState}</if>
+            <if test="surveyType != null  and surveyType != ''">and survey_type = #{surveyType}</if>
+            <if test="companyCode != null  and companyCode != ''">and company_code = #{companyCode}</if>
+            <if test="companyName != null  and companyName != ''">and company_name like concat('%', #{companyName},
+                '%')
+            </if>
+            <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>
+            <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},
+                '%')
+            </if>
+            <if test="supplierContacts != null  and supplierContacts != ''">and supplier_contacts =
+                #{supplierContacts}
+            </if>
+            <if test="supplierPhone != null  and supplierPhone != ''">and supplier_phone = #{supplierPhone}</if>
+            <if test="supplierEmil != null  and supplierEmil != ''">and supplier_emil = #{supplierEmil}</if>
+            <if test="attachmentUpload != null  and attachmentUpload != ''">and attachment_upload =
+                #{attachmentUpload}
+            </if>
+            <if test="remarks != null ">and remarks = #{remarks}</if>
         </where>
     </select>
-    
-    <select id="selectSrmSupplierLifecycleQuestionnaireById" parameterType="Long" resultMap="SrmSupplierLifecycleQuestionnaireSrmSupplierBasicInformationResult">
-        select id, survey_code, survey_title, survey_state, survey_type, company_code, company_name, supplier_code, supplier_name, supplier_contacts, supplier_phone, supplier_emil, attachment_upload, remarks
+
+    <select id="selectSrmSupplierLifecycleQuestionnaireById" parameterType="Long"
+            resultMap="SrmSupplierLifecycleQuestionnaireSrmSupplierBasicInformationResult">
+        select id,
+               survey_code,
+               survey_title,
+               survey_state,
+               survey_type,
+               company_code,
+               company_name,
+               supplier_code,
+               supplier_name,
+               supplier_contacts,
+               supplier_phone,
+               supplier_emil,
+               attachment_upload,
+               remarks
         from srm_supplier_lifecycle_questionnaire
         where id = #{id}
     </select>
 
-    <select id="selectSrmSupplierBasicInformationList" resultType="SrmSupplierBasicInformation" resultMap="SrmSupplierBasicInformationResult">
-        select id, supplier_code, supplier_name, manager, is_list, stock_code, stock_load, industry_ranking, is_audit, staff_num, manager_num, structure_load, competitors, business, tax_rate, currency, supply_cycle, freight_method, timeliness, is_commitment, is_stockup, payment_progress, packaging, material_cost, cost_control, survey_id
+    <select id="selectSrmSupplierBasicInformationList" resultType="SrmSupplierBasicInformation"
+            resultMap="SrmSupplierBasicInformationResult">
+        select id,
+               supplier_code,
+               supplier_name,
+               manager,
+               is_list,
+               stock_code,
+               stock_load,
+               industry_ranking,
+               is_audit,
+               staff_num,
+               manager_num,
+               structure_load,
+               competitors,
+               business,
+               tax_rate,
+               currency,
+               supply_cycle,
+               freight_method,
+               timeliness,
+               is_commitment,
+               is_stockup,
+               payment_progress,
+               packaging,
+               material_cost,
+               cost_control,
+               survey_id
         from srm_supplier_basic_information
         where survey_id = #{survey_id}
     </select>
+    <select id="selectDictData" resultMap="SysDictDataResult">
+        SELECT dict_label, dict_value
+        FROM srm_demo.sys_dict_data
+        WHERE dict_type = #{dictKey}
+    </select>
 
-    <insert id="insertSrmSupplierLifecycleQuestionnaire" parameterType="SrmSupplierLifecycleQuestionnaire" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSrmSupplierLifecycleQuestionnaire" parameterType="SrmSupplierLifecycleQuestionnaire"
+            useGeneratedKeys="true" keyProperty="id">
         insert into srm_supplier_lifecycle_questionnaire
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="surveyCode != null and surveyCode != ''">survey_code,</if>
@@ -105,7 +192,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="supplierEmil != null and supplierEmil != ''">supplier_emil,</if>
             <if test="attachmentUpload != null">attachment_upload,</if>
             <if test="remarks != null">remarks,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="surveyCode != null and surveyCode != ''">#{surveyCode},</if>
             <if test="surveyTitle != null and surveyTitle != ''">#{surveyTitle},</if>
@@ -120,7 +207,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="supplierEmil != null and supplierEmil != ''">#{supplierEmil},</if>
             <if test="attachmentUpload != null">#{attachmentUpload},</if>
             <if test="remarks != null">#{remarks},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSrmSupplierLifecycleQuestionnaire" parameterType="SrmSupplierLifecycleQuestionnaire">
@@ -144,31 +231,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmSupplierLifecycleQuestionnaireById" parameterType="Long">
-        delete from srm_supplier_lifecycle_questionnaire where id = #{id}
+        delete
+        from srm_supplier_lifecycle_questionnaire
+        where id = #{id}
     </delete>
 
     <delete id="deleteSrmSupplierLifecycleQuestionnaireByIds" parameterType="String">
-        delete from srm_supplier_lifecycle_questionnaire where id in 
+        delete from srm_supplier_lifecycle_questionnaire where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
     <delete id="deleteSrmSupplierBasicInformationBySurveyIds" parameterType="String">
-        delete from srm_supplier_basic_information where survey_id in 
+        delete from srm_supplier_basic_information where survey_id in
         <foreach item="surveyId" collection="array" open="(" separator="," close=")">
             #{surveyId}
         </foreach>
     </delete>
 
     <delete id="deleteSrmSupplierBasicInformationBySurveyId" parameterType="Long">
-        delete from srm_supplier_basic_information where survey_id = #{surveyId}
+        delete
+        from srm_supplier_basic_information
+        where survey_id = #{surveyId}
     </delete>
 
     <insert id="batchSrmSupplierBasicInformation">
-        insert into srm_supplier_basic_information( id, supplier_code, supplier_name, manager, is_list, stock_code, stock_load, industry_ranking, is_audit, staff_num, manager_num, structure_load, competitors, business, tax_rate, currency, supply_cycle, freight_method, timeliness, is_commitment, is_stockup, payment_progress, packaging, material_cost, cost_control, survey_id) values
+        insert into srm_supplier_basic_information( id, supplier_code, supplier_name, manager, is_list, stock_code,
+        stock_load, industry_ranking, is_audit, staff_num, manager_num, structure_load, competitors, business, tax_rate,
+        currency, supply_cycle, freight_method, timeliness, is_commitment, is_stockup, payment_progress, packaging,
+        material_cost, cost_control, survey_id) values
         <foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.id}, #{item.supplierCode}, #{item.supplierName}, #{item.manager}, #{item.isList}, #{item.stockCode}, #{item.stockLoad}, #{item.industryRanking}, #{item.isAudit}, #{item.staffNum}, #{item.managerNum}, #{item.structureLoad}, #{item.competitors}, #{item.business}, #{item.taxRate}, #{item.currency}, #{item.supplyCycle}, #{item.freightMethod}, #{item.timeliness}, #{item.isCommitment}, #{item.isStockup}, #{item.paymentProgress}, #{item.packaging}, #{item.materialCost}, #{item.costControl}, #{item.surveyId})
+            ( #{item.id}, #{item.supplierCode}, #{item.supplierName}, #{item.manager}, #{item.isList},
+            #{item.stockCode}, #{item.stockLoad}, #{item.industryRanking}, #{item.isAudit}, #{item.staffNum},
+            #{item.managerNum}, #{item.structureLoad}, #{item.competitors}, #{item.business}, #{item.taxRate},
+            #{item.currency}, #{item.supplyCycle}, #{item.freightMethod}, #{item.timeliness}, #{item.isCommitment},
+            #{item.isStockup}, #{item.paymentProgress}, #{item.packaging}, #{item.materialCost}, #{item.costControl},
+            #{item.surveyId})
         </foreach>
     </insert>
 </mapper>

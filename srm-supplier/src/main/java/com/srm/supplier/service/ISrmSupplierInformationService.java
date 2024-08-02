@@ -63,4 +63,6 @@ public interface ISrmSupplierInformationService
     void changeRegStatusById(ChangeRegStatus changeRegStatus);
 
     List<SrmSupplierInformation> selectActiveSupplier(SrmSupplierInformation srmSupplierInformation);
+
+    List<SrmSupplierInformation> selectActiveSupplierInfo();
 }

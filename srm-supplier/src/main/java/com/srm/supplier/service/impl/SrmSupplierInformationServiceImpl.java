@@ -24,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 供应商信息Service业务层处理
@@ -265,6 +262,11 @@ public class SrmSupplierInformationServiceImpl implements ISrmSupplierInformatio
     @Override
     public List<SrmSupplierInformation> selectActiveSupplier(SrmSupplierInformation srmSupplierInformation) {
         return srmSupplierInformationMapper.selectActiveSupplier(srmSupplierInformation);
+    }
+
+    @Override
+    public List<SrmSupplierInformation> selectActiveSupplierInfo() {
+        return srmSupplierInformationMapper.selectActiveSupplierInfo();
     }
 
     /**

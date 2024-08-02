@@ -33,7 +33,7 @@ public class SrmSupplierLifecycleQuestionnaire extends BaseEntity
 
     /** 调查表类型 */
     @Excel(name = "调查表类型")
-    private String surveyType;
+    private Long surveyType;
 
     /** 公司编码 */
     @Excel(name = "公司编码")
@@ -110,16 +110,16 @@ public class SrmSupplierLifecycleQuestionnaire extends BaseEntity
     {
         return surveyState;
     }
-    public void setSurveyType(String surveyType) 
-    {
+
+    public Long getSurveyType() {
+        return surveyType;
+    }
+
+    public void setSurveyType(Long surveyType) {
         this.surveyType = surveyType;
     }
 
-    public String getSurveyType() 
-    {
-        return surveyType;
-    }
-    public void setCompanyCode(String companyCode) 
+    public void setCompanyCode(String companyCode)
     {
         this.companyCode = companyCode;
     }

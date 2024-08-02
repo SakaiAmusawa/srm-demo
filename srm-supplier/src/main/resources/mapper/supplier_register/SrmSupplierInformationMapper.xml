@@ -544,5 +544,70 @@
         <if test="lifeStage != null ">and life_stage = #{lifeStage}</if>
         <if test="blackList != null ">and black_list = #{blackList}</if>
     </select>
+    <select id="selectActiveSupplierInfo" resultMap="SrmSupplierInformationSrmSupplierLicenseInformationResult">
+        select ssi.id,
+               ssi.supplier_code,
+               ssi.supplier_name,
+               ssi.certification_region,
+               ssi.enterprise_type,
+               ssi.industry_type,
+               ssi.rsnum,
+               ssi.social_code,
+               ssi.organizational_code,
+               ssi.capital,
+               ssi.taxpayer_type,
+               ssi.incorporation_date,
+               ssi.legal_person,
+               ssi.business_term,
+               ssi.business_nature,
+               ssi.business_license,
+               ssi.registration_status,
+               ssi.invitation_time,
+               ssi.life_stage,
+               ssi.black_list,
+               ssai.id,
+               ssai.supplier_id,
+               ssai.country,
+               ssai.pcd,
+               ssai.detailed_address,
+               ssai.zipcode,
+               ssai.remarks,
+               ssci.id,
+               ssci.name,
+               ssci.gender,
+               ssci.email,
+               ssci.phone,
+               ssci.department,
+               ssci.telephone,
+               ssci.document_type,
+               ssci.document_code,
+               ssci.remarks,
+               ssci.supplier_id,
+               ssii.id,
+               ssii.supplier_id,
+               ssii.invoice_header,
+               ssii.tax_registration,
+               ssii.first_bank_num,
+               ssii.first_bank,
+               ssii.tax_registration_add,
+               ssii.tax_registration_phone,
+               ssii.recipient_email,
+               ssii.recipient_phone,
+               ssli.id,
+               ssli.attachment,
+               ssli.supplier_id,
+               ssli.`describe`,
+               ssli.expiration_period,
+               ssli.update_date,
+               ssli.attachment_upload,
+               ssli.remarks
+        from srm_demo.srm_supplier_information ssi
+                 left join srm_demo.srm_supplier_contact_information ssci on ssi.id = ssci.supplier_id
+                 left join srm_demo.srm_supplier_address_information ssai on ssi.id = ssai.supplier_id
+                 left join srm_demo.srm_supplier_bank_information ssbi on ssi.id = ssbi.supplier_id
+                 left join srm_demo.srm_supplier_invoice_information ssii on ssi.id = ssii.supplier_id
+                 left join srm_demo.srm_supplier_license_information ssli on ssi.id = ssli.supplier_id
+        where ssi.registration_status = 4
+    </select>
 
 </mapper>

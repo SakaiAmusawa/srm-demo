@@ -1,6 +1,8 @@
 package com.srm.supplier.service;
 
 import java.util.List;
+
+import com.srm.common.core.domain.entity.SysDictData;
 import com.srm.supplier.domain.SrmSupplierLifecycleQuestionnaire;
 
 /**
@@ -58,4 +60,6 @@ public interface ISrmSupplierLifecycleQuestionnaireService
      * @return 结果
      */
     public int deleteSrmSupplierLifecycleQuestionnaireById(Long id);
+
+    List<SysDictData> selectDictDetail(String dictKey);
 }
