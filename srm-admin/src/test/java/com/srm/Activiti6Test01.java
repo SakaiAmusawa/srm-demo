@@ -41,6 +41,14 @@ class Activiti6Test01 {
     }
 
     /**
+     * 部署调查表流程
+     */
+    @Test
+    public void surveyDeployment(){
+
+    }
+
+    /**
      * 查询流程部署相关信息
      */
     @Test
