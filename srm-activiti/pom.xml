@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>com.srm</groupId>
-            <artifactId>srm-framework</artifactId>
+            <artifactId>srm-common</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.activiti/activiti-engine -->
@@ -36,21 +36,12 @@
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <!-- 注意activiti6与mybatis的高版本并不兼容 -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.4.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
