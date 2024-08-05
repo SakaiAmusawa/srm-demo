@@ -5,10 +5,7 @@ import com.srm.activiti.service.ISupplierSurveyActivitiService;
 import com.srm.common.core.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -25,6 +22,30 @@ public class SupplierActivitiController {
     public AjaxResult startSurveyProcess(@PathVariable String supplierName) {
         StartProcessVO startProcessVO = service.startProcess(supplierName);
         return AjaxResult.success(startProcessVO);
+    }
+
+    /**
+     * 获取当前任务信息
+     */
+    @GetMapping("/getTaskInfo/{supplierName}")
+    public AjaxResult getTaskInfo(@PathVariable String supplierName) {
+
+        if (supplierName == null) {
+            return AjaxResult.success();
+        }
+
+        StartProcessVO startProcessVO = service.getTaskInfoBySupplierName(supplierName);
+
+        return AjaxResult.success(startProcessVO);
+    }
+
+    /**
+     * 完成任务
+     */
+    @PostMapping("/completeTask")
+    public AjaxResult completeTask(@RequestBody StartProcessVO startProcessVO) {
+        service.completeTaskByTaskId(startProcessVO);
+        return AjaxResult.success();
     }
 
 }

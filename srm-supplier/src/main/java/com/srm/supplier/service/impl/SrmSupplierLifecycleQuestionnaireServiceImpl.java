@@ -6,6 +6,7 @@ import com.srm.supplier.domain.SrmSupplierBasicInformation;
 import com.srm.supplier.domain.SrmSupplierLifecycleQuestionnaire;
 import com.srm.supplier.mapper.SrmSupplierLifecycleQuestionnaireMapper;
 import com.srm.supplier.service.ISrmSupplierLifecycleQuestionnaireService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,9 @@ public class SrmSupplierLifecycleQuestionnaireServiceImpl implements ISrmSupplie
      */
     @Override
     public SrmSupplierLifecycleQuestionnaire selectSrmSupplierLifecycleQuestionnaireById(Long id) {
-        return srmSupplierLifecycleQuestionnaireMapper.selectSrmSupplierLifecycleQuestionnaireById(id);
+         SrmSupplierLifecycleQuestionnaire srmSupplierLifecycleQuestionnaire = srmSupplierLifecycleQuestionnaireMapper.selectSrmSupplierLifecycleQuestionnaireById(id);
+         srmSupplierLifecycleQuestionnaire.setSrmSupplierBasicInformationList(srmSupplierLifecycleQuestionnaireMapper.selectSrmSupplierBasicInformationList(id));
+         return srmSupplierLifecycleQuestionnaire;
     }
 
     /**
@@ -71,6 +74,7 @@ public class SrmSupplierLifecycleQuestionnaireServiceImpl implements ISrmSupplie
     public int updateSrmSupplierLifecycleQuestionnaire(SrmSupplierLifecycleQuestionnaire srmSupplierLifecycleQuestionnaire) {
         srmSupplierLifecycleQuestionnaireMapper.deleteSrmSupplierBasicInformationBySurveyId(srmSupplierLifecycleQuestionnaire.getId());
         insertSrmSupplierBasicInformation(srmSupplierLifecycleQuestionnaire);
+
         return srmSupplierLifecycleQuestionnaireMapper.updateSrmSupplierLifecycleQuestionnaire(srmSupplierLifecycleQuestionnaire);
     }
 

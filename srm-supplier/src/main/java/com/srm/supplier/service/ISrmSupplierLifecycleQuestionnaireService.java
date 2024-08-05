@@ -3,6 +3,7 @@ package com.srm.supplier.service;
 import java.util.List;
 
 import com.srm.common.core.domain.entity.SysDictData;
+import com.srm.supplier.domain.SrmSupplierBasicInformation;
 import com.srm.supplier.domain.SrmSupplierLifecycleQuestionnaire;
 
 /**

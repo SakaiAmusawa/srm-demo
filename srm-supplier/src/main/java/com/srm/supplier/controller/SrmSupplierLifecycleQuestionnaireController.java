@@ -7,10 +7,13 @@ import com.srm.common.core.domain.entity.SysDictData;
 import com.srm.common.core.page.TableDataInfo;
 import com.srm.common.enums.BusinessType;
 import com.srm.common.utils.poi.ExcelUtil;
+import com.srm.supplier.domain.SrmSupplierBasicInformation;
 import com.srm.supplier.domain.SrmSupplierInformation;
 import com.srm.supplier.domain.SrmSupplierLifecycleQuestionnaire;
 import com.srm.supplier.service.ISrmSupplierInformationService;
 import com.srm.supplier.service.ISrmSupplierLifecycleQuestionnaireService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-07-31
  */
+@Slf4j
 @RestController
 @RequestMapping("/questionnaire/questionnaire")
 public class SrmSupplierLifecycleQuestionnaireController extends BaseController {

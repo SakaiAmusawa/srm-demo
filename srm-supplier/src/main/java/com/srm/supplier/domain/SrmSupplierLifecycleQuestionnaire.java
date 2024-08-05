@@ -69,7 +69,7 @@ public class SrmSupplierLifecycleQuestionnaire extends BaseEntity
 
     /** 备注 */
     @Excel(name = "备注")
-    private Long remarks;
+    private String remarks;
 
     /** 供应商基本信息信息 */
     private List<SrmSupplierBasicInformation> srmSupplierBasicInformationList;
@@ -191,14 +191,13 @@ public class SrmSupplierLifecycleQuestionnaire extends BaseEntity
     {
         return attachmentUpload;
     }
-    public void setRemarks(Long remarks) 
-    {
-        this.remarks = remarks;
+
+    public String getRemarks() {
+        return remarks;
     }
 
-    public Long getRemarks() 
-    {
-        return remarks;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public List<SrmSupplierBasicInformation> getSrmSupplierBasicInformationList()

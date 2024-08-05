@@ -89,4 +89,7 @@ public interface SrmSupplierLifecycleQuestionnaireMapper {
     public int deleteSrmSupplierBasicInformationBySurveyId(Long id);
 
     List<SysDictData> selectDictData(String dictKey);
+
+
+    List<SrmSupplierBasicInformation> selectSrmSupplierBasicInformationList(Long id);
 }

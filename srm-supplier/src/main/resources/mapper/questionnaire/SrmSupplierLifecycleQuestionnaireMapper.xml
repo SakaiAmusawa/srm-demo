@@ -252,7 +252,7 @@
 
     <delete id="deleteSrmSupplierBasicInformationBySurveyId" parameterType="Long">
         delete
-        from srm_supplier_basic_information
+        from srm_demo.srm_supplier_basic_information
         where survey_id = #{surveyId}
     </delete>
 
