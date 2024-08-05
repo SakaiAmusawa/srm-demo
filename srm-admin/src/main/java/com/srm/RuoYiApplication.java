@@ -6,25 +6,26 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * 启动程序
- * 
+ *
  * @author ruoyi
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-public class RuoYiApplication
-{
-    public static void main(String[] args)
-    {
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+public class RuoYiApplication {
+    public static void main(String[] args) {
         // System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(RuoYiApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
-                " .-------.       ____     __        \n" +
-                " |  _ _   \\      \\   \\   /  /    \n" +
-                " | ( ' )  |       \\  _. /  '       \n" +
-                " |(_ o _) /        _( )_ .'         \n" +
-                " | (_,_).' __  ___(_ o _)'          \n" +
-                " |  |\\ \\  |  ||   |(_,_)'         \n" +
-                " |  | \\ `'   /|   `-'  /           \n" +
-                " |  |  \\    /  \\      /           \n" +
-                " ''-'   `'-'    `-..-'              ");
+        System.out.println(
+                "       ccee88oo                            ccee88oo\n" +
+                        "   C8O8O8Q8PoOb o8oo                 C8O8O8Q8PoOb o8oo\n" +
+                        "dOB69QO8PdUOpugoO9bD           dOB69QO8PdUOpugoO9bD\n" +
+                        "CgggbU8OU qOp qOdoUOdcb    CgggbU8OU qOp qOdoUOdcb\n" +
+                        "      6OuU  /p u gcoUodpP        6OuU  /p u gcoUodpP\n" +
+                        "        \\\\\\//  /douUP                \\\\\\//  /douUP\n" +
+                        "          \\\\\\////                      \\\\\\////\n" +
+                        "          |||/\\                        |||/\\\n" +
+                        "          |||\\/                        |||\\/\n" +
+                        "          |||||                        |||||\n" +
+                        "    .....//||||\\....              .....//||||\\....\n"
+        );
     }
 }
