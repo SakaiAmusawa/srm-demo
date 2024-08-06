@@ -4,6 +4,7 @@ import com.srm.activiti.domain.vo.StartProcessVO;
 import com.srm.activiti.listener.survey.SupplierListener;
 import com.srm.activiti.service.ISupplierSurveyActivitiService;
 import com.srm.common.exception.ServiceException;
+import com.srm.common.utils.SecurityUtils;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class SupplierSurveyActivitiImpl implements ISupplierSurveyActivitiService {
@@ -79,10 +82,25 @@ public class SupplierSurveyActivitiImpl implements ISupplierSurveyActivitiServic
     @Override
     public void completeTaskByTaskId(StartProcessVO startProcessVO, String supplierName) {
 
+        ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
         String taskId = startProcessVO.getTaskId();
+        if (taskId == null) {
+            String processInstanceId = (String) operations.get(PREFIX + supplierName);
+            if (processInstanceId == null) {
+                throw new ServiceException("当前流程已结束");
+            }
+            Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+            startProcessVO.setTaskId(task.getId());
+            startProcessVO.setAssignee(task.getAssignee());
+        }
+
+        String username = SecurityUtils.getUsername();
+        if (!Objects.equals(username, startProcessVO.getAssignee())) {
+            throw new ServiceException("当前无权审批");
+        }
+
         taskService.complete(taskId);
 
-        ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
         String processInstanceId = (String) operations.get(PREFIX + supplierName);
         if (processInstanceId == null) {
             throw new ServiceException("sakai-error");
