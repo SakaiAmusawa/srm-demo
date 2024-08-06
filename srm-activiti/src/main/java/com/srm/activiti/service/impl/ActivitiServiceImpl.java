@@ -96,7 +96,6 @@ public class ActivitiServiceImpl implements IActivitiService {
 
         //通过历史服务，判断任务是否结束
         log.debug("processInstanceId:{}", processInstanceId);
-        //todo 根据流程实例ID查询结果出现问题
         HistoryService historyService = engine.getHistoryService();
         HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         boolean isEnded = historicProcessInstance != null && historicProcessInstance.getEndTime() != null;
