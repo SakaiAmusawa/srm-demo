@@ -7,5 +7,5 @@ public interface ISupplierSurveyActivitiService {
 
     StartProcessVO getTaskInfoBySupplierName(String supplierName);
 
-    void completeTaskByTaskId(StartProcessVO startProcessVO);
+    void completeTaskByTaskId(StartProcessVO startProcessVO,String supplierName);
 }

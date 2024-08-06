@@ -42,9 +42,9 @@ public class SupplierActivitiController {
     /**
      * 完成任务
      */
-    @PostMapping("/completeTask")
-    public AjaxResult completeTask(@RequestBody StartProcessVO startProcessVO) {
-        service.completeTaskByTaskId(startProcessVO);
+    @PostMapping("/completeTask/{supplierName}")
+    public AjaxResult completeTask(@RequestBody StartProcessVO startProcessVO, @PathVariable String supplierName) {
+        service.completeTaskByTaskId(startProcessVO, supplierName);
         return AjaxResult.success();
     }
 
