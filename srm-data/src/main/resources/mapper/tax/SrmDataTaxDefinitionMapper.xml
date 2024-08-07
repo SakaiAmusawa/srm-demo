@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.data.mapper.SrmDataTaxDefinitionMapper">
+    
+    <resultMap type="SrmDataTaxDefinition" id="SrmDataTaxDefinitionResult">
+        <result property="id"    column="id"    />
+        <result property="taxCode"    column="tax_code"    />
+        <result property="description"    column="description"    />
+        <result property="taxRate"    column="tax_rate"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectSrmDataTaxDefinitionVo">
+        select id, tax_code, description, tax_rate, state from srm_demo.srm_data_tax_definition
+    </sql>
+
+    <select id="selectSrmDataTaxDefinitionList" parameterType="SrmDataTaxDefinition" resultMap="SrmDataTaxDefinitionResult">
+        <include refid="selectSrmDataTaxDefinitionVo"/>
+        <where>  
+            <if test="taxCode != null  and taxCode != ''"> and tax_code = #{taxCode}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="taxRate != null "> and tax_rate = #{taxRate}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmDataTaxDefinitionById" parameterType="Long" resultMap="SrmDataTaxDefinitionResult">
+        <include refid="selectSrmDataTaxDefinitionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmDataTaxDefinition" parameterType="SrmDataTaxDefinition" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_data_tax_definition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taxCode != null and taxCode != ''">tax_code,</if>
+            <if test="description != null">description,</if>
+            <if test="taxRate != null">tax_rate,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taxCode != null and taxCode != ''">#{taxCode},</if>
+            <if test="description != null">#{description},</if>
+            <if test="taxRate != null">#{taxRate},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmDataTaxDefinition" parameterType="SrmDataTaxDefinition">
+        update srm_data_tax_definition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taxCode != null and taxCode != ''">tax_code = #{taxCode},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="taxRate != null">tax_rate = #{taxRate},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmDataTaxDefinitionById" parameterType="Long">
+        delete from srm_data_tax_definition where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmDataTaxDefinitionByIds" parameterType="String">
+        delete from srm_data_tax_definition where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

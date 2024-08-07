@@ -80,6 +80,11 @@
             <groupId>com.srm</groupId>
             <artifactId>srm-procurement</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.srm</groupId>
+            <artifactId>srm-data</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
