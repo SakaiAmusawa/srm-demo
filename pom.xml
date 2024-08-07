@@ -192,6 +192,11 @@
                 <version>${srm.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.srm</groupId>
+                <artifactId>srm-procurement</artifactId>
+                <version>${srm.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -205,6 +210,7 @@
         <module>srm-supplier</module>
         <module>srm-activiti</module>
         <module>srm-tool</module>
+        <module>srm-procurement</module>
     </modules>
     <packaging>pom</packaging>
 
