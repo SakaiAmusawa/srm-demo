@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.data.mapper.SrmDataCurrencyMapper">
+    
+    <resultMap type="SrmDataCurrency" id="SrmDataCurrencyResult">
+        <result property="id"    column="id"    />
+        <result property="currencyCode"    column="currency_code"    />
+        <result property="currencyName"    column="currency_name"    />
+        <result property="country"    column="country"    />
+        <result property="currencyPrecision"    column="currency_precision"    />
+        <result property="currencySymbol"    column="currency_symbol"    />
+        <result property="currencyState"    column="currency_state"    />
+    </resultMap>
+
+    <sql id="selectSrmDataCurrencyVo">
+        select id, currency_code, currency_name, country, currency_precision, currency_symbol, currency_state from srm_data_currency
+    </sql>
+
+    <select id="selectSrmDataCurrencyList" parameterType="SrmDataCurrency" resultMap="SrmDataCurrencyResult">
+        <include refid="selectSrmDataCurrencyVo"/>
+        <where>  
+            <if test="currencyCode != null  and currencyCode != ''"> and currency_code = #{currencyCode}</if>
+            <if test="currencyName != null  and currencyName != ''"> and currency_name like concat('%', #{currencyName}, '%')</if>
+            <if test="country != null  and country != ''"> and country = #{country}</if>
+            <if test="currencyState != null "> and currency_state = #{currencyState}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmDataCurrencyById" parameterType="Long" resultMap="SrmDataCurrencyResult">
+        <include refid="selectSrmDataCurrencyVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmDataCurrency" parameterType="SrmDataCurrency" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_data_currency
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="currencyCode != null and currencyCode != ''">currency_code,</if>
+            <if test="currencyName != null and currencyName != ''">currency_name,</if>
+            <if test="country != null and country != ''">country,</if>
+            <if test="currencyPrecision != null">currency_precision,</if>
+            <if test="currencySymbol != null">currency_symbol,</if>
+            <if test="currencyState != null">currency_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="currencyCode != null and currencyCode != ''">#{currencyCode},</if>
+            <if test="currencyName != null and currencyName != ''">#{currencyName},</if>
+            <if test="country != null and country != ''">#{country},</if>
+            <if test="currencyPrecision != null">#{currencyPrecision},</if>
+            <if test="currencySymbol != null">#{currencySymbol},</if>
+            <if test="currencyState != null">#{currencyState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmDataCurrency" parameterType="SrmDataCurrency">
+        update srm_data_currency
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="currencyCode != null and currencyCode != ''">currency_code = #{currencyCode},</if>
+            <if test="currencyName != null and currencyName != ''">currency_name = #{currencyName},</if>
+            <if test="country != null and country != ''">country = #{country},</if>
+            <if test="currencyPrecision != null">currency_precision = #{currencyPrecision},</if>
+            <if test="currencySymbol != null">currency_symbol = #{currencySymbol},</if>
+            <if test="currencyState != null">currency_state = #{currencyState},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmDataCurrencyById" parameterType="Long">
+        delete from srm_data_currency where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmDataCurrencyByIds" parameterType="String">
+        delete from srm_data_currency where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
