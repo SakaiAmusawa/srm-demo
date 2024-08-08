@@ -25,4 +25,13 @@ public class ToolServiceImpl implements IToolService {
         List<DeptVO> deptVOList = toolMapper.selectLowDept();
         return deptVOList;
     }
+
+    @Override
+    public String selectDeptNameByUserName(String userName) {
+        String deptName;
+
+        Long deptId = toolMapper.selectDeptIdByUserName(userName);
+        deptName = toolMapper.selectDeptNameByDeptId(deptId);
+        return deptName;
+    }
 }

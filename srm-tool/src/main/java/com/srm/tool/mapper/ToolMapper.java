@@ -10,4 +10,8 @@ public interface ToolMapper {
     List<DeptVO> selectTopDept();
 
     List<DeptVO> selectLowDept();
+
+    Long selectDeptIdByUserName(String userName);
+
+    String selectDeptNameByDeptId(Long deptId);
 }

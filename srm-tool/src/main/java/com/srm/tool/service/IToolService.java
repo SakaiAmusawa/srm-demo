@@ -8,4 +8,6 @@ public interface IToolService {
     List<DeptVO> getTopCompanyList();
 
     List<DeptVO> getDepartmentList();
+
+    String selectDeptNameByUserName(String userName);
 }

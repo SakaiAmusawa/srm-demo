@@ -64,7 +64,7 @@ public class SrmProcurementRequirementServiceImpl implements ISrmProcurementRequ
         //设置创建时间
         srmProcurementRequirement.setCreateTime(DateUtils.getNowDate());
         //设置需求编号
-        String serial = IdUtils.simpleUUID();
+        String serial = IdUtils.randomUUID();
         srmProcurementRequirement.setRequirementSerial(serial);
 
         LoginUser loginUser = SecurityUtils.getLoginUser();
