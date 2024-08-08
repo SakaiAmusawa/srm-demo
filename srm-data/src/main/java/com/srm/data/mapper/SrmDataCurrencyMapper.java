@@ -2,6 +2,7 @@ package com.srm.data.mapper;
 
 import java.util.List;
 import com.srm.data.domain.SrmDataCurrency;
+import org.springframework.stereotype.Repository;
 
 /**
  * 货币定义Mapper接口
@@ -9,6 +10,7 @@ import com.srm.data.domain.SrmDataCurrency;
  * @author sakai
  * @date 2024-08-08
  */
+@Repository
 public interface SrmDataCurrencyMapper 
 {
     /**

@@ -58,4 +58,5 @@ public interface ISrmDataCurrencyService
      * @return 结果
      */
     public int deleteSrmDataCurrencyById(Long id);
+
 }

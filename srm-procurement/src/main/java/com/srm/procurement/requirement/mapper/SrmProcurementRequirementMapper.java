@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.srm.procurement.requirement.domain.SrmProcurementRequirement;
 import com.srm.procurement.requirement.domain.SrmProcurementRequirementMaterial;
+import org.springframework.stereotype.Repository;
 
 /**
  * 采购需求Mapper接口
@@ -11,6 +12,7 @@ import com.srm.procurement.requirement.domain.SrmProcurementRequirementMaterial;
  * @author Sakai
  * @date 2024-08-07
  */
+@Repository
 public interface SrmProcurementRequirementMapper 
 {
     /**
@@ -85,4 +87,6 @@ public interface SrmProcurementRequirementMapper
      * @return 结果
      */
     public int deleteSrmProcurementRequirementMaterialByProcurementRequirementId(Long id);
+
+    List<SrmProcurementRequirementMaterial> selectSrmProcurementRequirementMaterialByProcurementRequirementId(Long id);
 }

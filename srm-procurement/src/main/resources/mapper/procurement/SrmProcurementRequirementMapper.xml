@@ -1,83 +1,168 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.srm.procurement.requirement.mapper.SrmProcurementRequirementMapper">
-    
+
     <resultMap type="SrmProcurementRequirement" id="SrmProcurementRequirementResult">
-        <result property="id"    column="id"    />
-        <result property="requirementSerial"    column="requirement_serial"    />
-        <result property="requirementTitle"    column="requirement_title"    />
-        <result property="requirementCreator"    column="requirement_creator"    />
-        <result property="requirementDepartment"    column="requirement_department"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="demander"    column="demander"    />
-        <result property="sectorDemand"    column="sector_demand"    />
-        <result property="company"    column="company"    />
-        <result property="requirementType"    column="requirement_type"    />
-        <result property="estimatedAmount"    column="estimated_amount"    />
-        <result property="receivingContact"    column="receiving_contact"    />
-        <result property="expenseDepartment"    column="expense_department"    />
-        <result property="useDescription"    column="use_description"    />
-        <result property="addressDetail"    column="address_detail"    />
-        <result property="contactInformation"    column="contact_information"    />
-        <result property="attachment"    column="attachment"    />
-        <result property="currency"    column="currency"    />
+        <result property="id" column="id"/>
+        <result property="requirementSerial" column="requirement_serial"/>
+        <result property="requirementTitle" column="requirement_title"/>
+        <result property="requirementCreator" column="requirement_creator"/>
+        <result property="requirementDepartment" column="requirement_department"/>
+        <result property="createTime" column="create_time"/>
+        <result property="demander" column="demander"/>
+        <result property="sectorDemand" column="sector_demand"/>
+        <result property="company" column="company"/>
+        <result property="requirementType" column="requirement_type"/>
+        <result property="estimatedAmount" column="estimated_amount"/>
+        <result property="receivingContact" column="receiving_contact"/>
+        <result property="expenseDepartment" column="expense_department"/>
+        <result property="useDescription" column="use_description"/>
+        <result property="addressDetail" column="address_detail"/>
+        <result property="contactInformation" column="contact_information"/>
+        <result property="attachment" column="attachment"/>
+        <result property="currency" column="currency"/>
     </resultMap>
 
-    <resultMap id="SrmProcurementRequirementSrmProcurementRequirementMaterialResult" type="SrmProcurementRequirement" extends="SrmProcurementRequirementResult">
-        <collection property="srmProcurementRequirementMaterialList" ofType="SrmProcurementRequirementMaterial" column="procurement_requirement_id" select="selectSrmProcurementRequirementMaterialList" />
+    <resultMap id="SrmProcurementRequirementSrmProcurementRequirementMaterialResult" type="SrmProcurementRequirement"
+               extends="SrmProcurementRequirementResult">
+        <collection property="srmProcurementRequirementMaterialList" ofType="SrmProcurementRequirementMaterial"
+                    column="procurement_requirement_id" select="selectSrmProcurementRequirementMaterialList"/>
     </resultMap>
 
     <resultMap type="SrmProcurementRequirementMaterial" id="SrmProcurementRequirementMaterialResult">
-        <result property="id"    column="id"    />
-        <result property="materialCode"    column="material_code"    />
-        <result property="materialName"    column="material_name"    />
-        <result property="categoryName"    column="category_name"    />
-        <result property="brand"    column="brand"    />
-        <result property="unit"    column="unit"    />
-        <result property="requirementNumber"    column="requirement_number"    />
-        <result property="requirementDate"    column="requirement_date"    />
-        <result property="currency"    column="currency"    />
-        <result property="referencePrice"    column="reference_price"    />
-        <result property="estimatedUnitPrice"    column="estimated_unit_price"    />
-        <result property="taxRate"    column="tax_rate"    />
-        <result property="taxRateValue"    column="tax_rate_value"    />
-        <result property="estimatedPrice"    column="estimated_price"    />
-        <result property="remark"    column="remark"    />
-        <result property="attachment"    column="attachment"    />
-        <result property="buyer"    column="buyer"    />
-        <result property="procurementRequirementId"    column="procurement_requirement_id"    />
+        <result property="id" column="id"/>
+        <result property="materialCode" column="material_code"/>
+        <result property="materialName" column="material_name"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="brand" column="brand"/>
+        <result property="unit" column="unit"/>
+        <result property="requirementNumber" column="requirement_number"/>
+        <result property="requirementDate" column="requirement_date"/>
+        <result property="currency" column="currency"/>
+        <result property="referencePrice" column="reference_price"/>
+        <result property="estimatedUnitPrice" column="estimated_unit_price"/>
+        <result property="taxRate" column="tax_rate"/>
+        <result property="taxRateValue" column="tax_rate_value"/>
+        <result property="estimatedPrice" column="estimated_price"/>
+        <result property="remark" column="remark"/>
+        <result property="attachment" column="attachment"/>
+        <result property="buyer" column="buyer"/>
+        <result property="procurementRequirementId" column="procurement_requirement_id"/>
     </resultMap>
 
     <sql id="selectSrmProcurementRequirementVo">
-        select id, requirement_serial, requirement_title, requirement_creator, requirement_department, create_time, demander, sector_demand, company, requirement_type, estimated_amount, receiving_contact, expense_department, use_description, address_detail, contact_information, attachment, currency from srm_procurement_requirement
+        select id,
+               requirement_serial,
+               requirement_title,
+               requirement_creator,
+               requirement_department,
+               create_time,
+               demander,
+               sector_demand,
+               company,
+               requirement_type,
+               estimated_amount,
+               receiving_contact,
+               expense_department,
+               use_description,
+               address_detail,
+               contact_information,
+               attachment,
+               currency
+        from srm_demo.srm_procurement_requirement
     </sql>
 
-    <select id="selectSrmProcurementRequirementList" parameterType="SrmProcurementRequirement" resultMap="SrmProcurementRequirementResult">
+    <select id="selectSrmProcurementRequirementList" parameterType="SrmProcurementRequirement"
+            resultMap="SrmProcurementRequirementResult">
         <include refid="selectSrmProcurementRequirementVo"/>
-        <where>  
-            <if test="requirementSerial != null  and requirementSerial != ''"> and requirement_serial = #{requirementSerial}</if>
-            <if test="requirementCreator != null  and requirementCreator != ''"> and requirement_creator = #{requirementCreator}</if>
-            <if test="demander != null  and demander != ''"> and demander = #{demander}</if>
-            <if test="sectorDemand != null  and sectorDemand != ''"> and sector_demand = #{sectorDemand}</if>
-            <if test="requirementType != null "> and requirement_type = #{requirementType}</if>
+        <where>
+            <if test="requirementSerial != null  and requirementSerial != ''">and requirement_serial =
+                #{requirementSerial}
+            </if>
+            <if test="requirementCreator != null  and requirementCreator != ''">and requirement_creator =
+                #{requirementCreator}
+            </if>
+            <if test="demander != null  and demander != ''">and demander = #{demander}</if>
+            <if test="sectorDemand != null  and sectorDemand != ''">and sector_demand = #{sectorDemand}</if>
+            <if test="requirementType != null ">and requirement_type = #{requirementType}</if>
         </where>
     </select>
-    
-    <select id="selectSrmProcurementRequirementById" parameterType="Long" resultMap="SrmProcurementRequirementSrmProcurementRequirementMaterialResult">
-        select id, requirement_serial, requirement_title, requirement_creator, requirement_department, create_time, demander, sector_demand, company, requirement_type, estimated_amount, receiving_contact, expense_department, use_description, address_detail, contact_information, attachment, currency
-        from srm_procurement_requirement
+
+    <select id="selectSrmProcurementRequirementById" parameterType="Long"
+            resultMap="SrmProcurementRequirementSrmProcurementRequirementMaterialResult">
+        select id,
+               requirement_serial,
+               requirement_title,
+               requirement_creator,
+               requirement_department,
+               create_time,
+               demander,
+               sector_demand,
+               company,
+               requirement_type,
+               estimated_amount,
+               receiving_contact,
+               expense_department,
+               use_description,
+               address_detail,
+               contact_information,
+               attachment,
+               currency
+        from srm_demo.srm_procurement_requirement
         where id = #{id}
     </select>
 
-    <select id="selectSrmProcurementRequirementMaterialList" resultType="SrmProcurementRequirementMaterial" resultMap="SrmProcurementRequirementMaterialResult">
-        select id, material_code, material_name, category_name, brand, unit, requirement_number, requirement_date, currency, reference_price, estimated_unit_price, tax_rate, tax_rate_value, estimated_price, remark, attachment, buyer, procurement_requirement_id
-        from srm_procurement_requirement_material
+    <select id="selectSrmProcurementRequirementMaterialList" resultType="SrmProcurementRequirementMaterial"
+            resultMap="SrmProcurementRequirementMaterialResult">
+        select id,
+               material_code,
+               material_name,
+               category_name,
+               brand,
+               unit,
+               requirement_number,
+               requirement_date,
+               currency,
+               reference_price,
+               estimated_unit_price,
+               tax_rate,
+               tax_rate_value,
+               estimated_price,
+               remark,
+               attachment,
+               buyer,
+               procurement_requirement_id
+        from srm_demo.srm_procurement_requirement_material
         where procurement_requirement_id = #{procurement_requirement_id}
     </select>
+    <select id="selectSrmProcurementRequirementMaterialByProcurementRequirementId"
+            resultMap="SrmProcurementRequirementMaterialResult">
+        select id,
+               material_code,
+               material_name,
+               category_name,
+               brand,
+               unit,
+               requirement_number,
+               requirement_date,
+               currency,
+               reference_price,
+               estimated_unit_price,
+               tax_rate,
+               tax_rate_value,
+               estimated_price,
+               remark,
+               attachment,
+               buyer,
+               procurement_requirement_id
+        from srm_demo.srm_procurement_requirement_material
+        where procurement_requirement_id = #{id}
+    </select>
 
-    <insert id="insertSrmProcurementRequirement" parameterType="SrmProcurementRequirement" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSrmProcurementRequirement" parameterType="SrmProcurementRequirement" useGeneratedKeys="true"
+            keyProperty="id">
         insert into srm_procurement_requirement
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="requirementSerial != null">requirement_serial,</if>
@@ -97,7 +182,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactInformation != null">contact_information,</if>
             <if test="attachment != null">attachment,</if>
             <if test="currency != null">currency,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="requirementSerial != null">#{requirementSerial},</if>
             <if test="requirementTitle != null">#{requirementTitle},</if>
@@ -116,7 +201,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactInformation != null">#{contactInformation},</if>
             <if test="attachment != null">#{attachment},</if>
             <if test="currency != null">#{currency},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSrmProcurementRequirement" parameterType="SrmProcurementRequirement">
@@ -144,31 +229,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSrmProcurementRequirementById" parameterType="Long">
-        delete from srm_procurement_requirement where id = #{id}
+        delete
+        from srm_demo.srm_procurement_requirement
+        where id = #{id}
     </delete>
 
     <delete id="deleteSrmProcurementRequirementByIds" parameterType="String">
-        delete from srm_procurement_requirement where id in 
+        delete from srm_procurement_requirement where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
     <delete id="deleteSrmProcurementRequirementMaterialByProcurementRequirementIds" parameterType="String">
-        delete from srm_procurement_requirement_material where procurement_requirement_id in 
+        delete from srm_procurement_requirement_material where procurement_requirement_id in
         <foreach item="procurementRequirementId" collection="array" open="(" separator="," close=")">
             #{procurementRequirementId}
         </foreach>
     </delete>
 
     <delete id="deleteSrmProcurementRequirementMaterialByProcurementRequirementId" parameterType="Long">
-        delete from srm_procurement_requirement_material where procurement_requirement_id = #{procurementRequirementId}
+        delete
+        from srm_demo.srm_procurement_requirement_material
+        where procurement_requirement_id = #{procurementRequirementId}
     </delete>
 
     <insert id="batchSrmProcurementRequirementMaterial">
-        insert into srm_procurement_requirement_material( id, material_code, material_name, category_name, brand, unit, requirement_number, requirement_date, currency, reference_price, estimated_unit_price, tax_rate, tax_rate_value, estimated_price, remark, attachment, buyer, procurement_requirement_id) values
+        insert into srm_procurement_requirement_material( id, material_code, material_name, category_name, brand, unit,
+        requirement_number, requirement_date, currency, reference_price, estimated_unit_price, tax_rate, tax_rate_value,
+        estimated_price, remark, attachment, buyer, procurement_requirement_id) values
         <foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.id}, #{item.materialCode}, #{item.materialName}, #{item.categoryName}, #{item.brand}, #{item.unit}, #{item.requirementNumber}, #{item.requirementDate}, #{item.currency}, #{item.referencePrice}, #{item.estimatedUnitPrice}, #{item.taxRate}, #{item.taxRateValue}, #{item.estimatedPrice}, #{item.remark}, #{item.attachment}, #{item.buyer}, #{item.procurementRequirementId})
+            ( #{item.id}, #{item.materialCode}, #{item.materialName}, #{item.categoryName}, #{item.brand}, #{item.unit},
+            #{item.requirementNumber}, #{item.requirementDate}, #{item.currency}, #{item.referencePrice},
+            #{item.estimatedUnitPrice}, #{item.taxRate}, #{item.taxRateValue}, #{item.estimatedPrice}, #{item.remark},
+            #{item.attachment}, #{item.buyer}, #{item.procurementRequirementId})
         </foreach>
     </insert>
 </mapper>
