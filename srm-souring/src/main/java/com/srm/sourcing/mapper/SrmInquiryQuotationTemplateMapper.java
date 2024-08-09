@@ -2,6 +2,7 @@ package com.srm.sourcing.mapper;
 
 import java.util.List;
 import com.srm.sourcing.domain.SrmInquiryQuotationTemplate;
+import org.springframework.stereotype.Repository;
 
 /**
  * 询报价模板定义Mapper接口
@@ -9,6 +10,7 @@ import com.srm.sourcing.domain.SrmInquiryQuotationTemplate;
  * @author sakai
  * @date 2024-08-09
  */
+@Repository
 public interface SrmInquiryQuotationTemplateMapper 
 {
     /**

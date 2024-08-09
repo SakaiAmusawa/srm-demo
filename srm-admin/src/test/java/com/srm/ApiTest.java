@@ -119,6 +119,13 @@ public class ApiTest {
         }
 
     }
+
+
+    @Test
+    public void timeTest() {
+        long currentTimeSeconds = System.currentTimeMillis() / 1000;
+        System.out.println("currentTimeSeconds = " + currentTimeSeconds);
+    }
 }
 
 
