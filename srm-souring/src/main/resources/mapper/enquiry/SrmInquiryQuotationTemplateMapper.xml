@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.sourcing.mapper.SrmInquiryQuotationTemplateMapper">
+    
+    <resultMap type="SrmInquiryQuotationTemplate" id="SrmInquiryQuotationTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="templateCode"    column="template_code"    />
+        <result property="templateName"    column="template_name"    />
+        <result property="sourceClass"    column="source_class"    />
+        <result property="version"    column="version"    />
+        <result property="templateState"    column="template_state"    />
+        <result property="templateDescription"    column="template_description"    />
+        <result property="sourceFirstReview"    column="source_first_review"    />
+        <result property="prequalification"    column="prequalification"    />
+        <result property="multipleRoundOfferRules"    column="multiple_round_offer_rules"    />
+        <result property="resultApproval"    column="result_approval"    />
+        <result property="sourceMethod"    column="source_method"    />
+        <result property="offerRange"    column="offer_range"    />
+        <result property="sourceType"    column="source_type"    />
+        <result property="offerType"    column="offer_type"    />
+        <result property="sealedBid"    column="sealed_bid"    />
+        <result property="maxSupplierNumber"    column="max_supplier_number"    />
+        <result property="minSupplierNumber"    column="min_supplier_number"    />
+    </resultMap>
+
+    <sql id="selectSrmInquiryQuotationTemplateVo">
+        select id, template_code, template_name, source_class, version, template_state, template_description, source_first_review, prequalification, multiple_round_offer_rules, result_approval, source_method, offer_range, source_type, offer_type, sealed_bid, max_supplier_number, min_supplier_number from srm_inquiry_quotation_template
+    </sql>
+
+    <select id="selectSrmInquiryQuotationTemplateList" parameterType="SrmInquiryQuotationTemplate" resultMap="SrmInquiryQuotationTemplateResult">
+        <include refid="selectSrmInquiryQuotationTemplateVo"/>
+        <where>  
+            <if test="templateCode != null  and templateCode != ''"> and template_code = #{templateCode}</if>
+            <if test="templateName != null  and templateName != ''"> and template_name like concat('%', #{templateName}, '%')</if>
+            <if test="sourceClass != null "> and source_class = #{sourceClass}</if>
+            <if test="version != null "> and version = #{version}</if>
+            <if test="templateState != null "> and template_state = #{templateState}</if>
+            <if test="templateDescription != null  and templateDescription != ''"> and template_description = #{templateDescription}</if>
+            <if test="sourceFirstReview != null "> and source_first_review = #{sourceFirstReview}</if>
+            <if test="prequalification != null "> and prequalification = #{prequalification}</if>
+            <if test="multipleRoundOfferRules != null "> and multiple_round_offer_rules = #{multipleRoundOfferRules}</if>
+            <if test="resultApproval != null "> and result_approval = #{resultApproval}</if>
+            <if test="sourceMethod != null "> and source_method = #{sourceMethod}</if>
+            <if test="offerRange != null "> and offer_range = #{offerRange}</if>
+            <if test="sourceType != null "> and source_type = #{sourceType}</if>
+            <if test="offerType != null "> and offer_type = #{offerType}</if>
+            <if test="sealedBid != null "> and sealed_bid = #{sealedBid}</if>
+            <if test="maxSupplierNumber != null "> and max_supplier_number = #{maxSupplierNumber}</if>
+            <if test="minSupplierNumber != null "> and min_supplier_number = #{minSupplierNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectSrmInquiryQuotationTemplateById" parameterType="Long" resultMap="SrmInquiryQuotationTemplateResult">
+        <include refid="selectSrmInquiryQuotationTemplateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSrmInquiryQuotationTemplate" parameterType="SrmInquiryQuotationTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_inquiry_quotation_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateCode != null and templateCode != ''">template_code,</if>
+            <if test="templateName != null and templateName != ''">template_name,</if>
+            <if test="sourceClass != null">source_class,</if>
+            <if test="version != null">version,</if>
+            <if test="templateState != null">template_state,</if>
+            <if test="templateDescription != null">template_description,</if>
+            <if test="sourceFirstReview != null">source_first_review,</if>
+            <if test="prequalification != null">prequalification,</if>
+            <if test="multipleRoundOfferRules != null">multiple_round_offer_rules,</if>
+            <if test="resultApproval != null">result_approval,</if>
+            <if test="sourceMethod != null">source_method,</if>
+            <if test="offerRange != null">offer_range,</if>
+            <if test="sourceType != null">source_type,</if>
+            <if test="offerType != null">offer_type,</if>
+            <if test="sealedBid != null">sealed_bid,</if>
+            <if test="maxSupplierNumber != null">max_supplier_number,</if>
+            <if test="minSupplierNumber != null">min_supplier_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateCode != null and templateCode != ''">#{templateCode},</if>
+            <if test="templateName != null and templateName != ''">#{templateName},</if>
+            <if test="sourceClass != null">#{sourceClass},</if>
+            <if test="version != null">#{version},</if>
+            <if test="templateState != null">#{templateState},</if>
+            <if test="templateDescription != null">#{templateDescription},</if>
+            <if test="sourceFirstReview != null">#{sourceFirstReview},</if>
+            <if test="prequalification != null">#{prequalification},</if>
+            <if test="multipleRoundOfferRules != null">#{multipleRoundOfferRules},</if>
+            <if test="resultApproval != null">#{resultApproval},</if>
+            <if test="sourceMethod != null">#{sourceMethod},</if>
+            <if test="offerRange != null">#{offerRange},</if>
+            <if test="sourceType != null">#{sourceType},</if>
+            <if test="offerType != null">#{offerType},</if>
+            <if test="sealedBid != null">#{sealedBid},</if>
+            <if test="maxSupplierNumber != null">#{maxSupplierNumber},</if>
+            <if test="minSupplierNumber != null">#{minSupplierNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSrmInquiryQuotationTemplate" parameterType="SrmInquiryQuotationTemplate">
+        update srm_inquiry_quotation_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateCode != null and templateCode != ''">template_code = #{templateCode},</if>
+            <if test="templateName != null and templateName != ''">template_name = #{templateName},</if>
+            <if test="sourceClass != null">source_class = #{sourceClass},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="templateState != null">template_state = #{templateState},</if>
+            <if test="templateDescription != null">template_description = #{templateDescription},</if>
+            <if test="sourceFirstReview != null">source_first_review = #{sourceFirstReview},</if>
+            <if test="prequalification != null">prequalification = #{prequalification},</if>
+            <if test="multipleRoundOfferRules != null">multiple_round_offer_rules = #{multipleRoundOfferRules},</if>
+            <if test="resultApproval != null">result_approval = #{resultApproval},</if>
+            <if test="sourceMethod != null">source_method = #{sourceMethod},</if>
+            <if test="offerRange != null">offer_range = #{offerRange},</if>
+            <if test="sourceType != null">source_type = #{sourceType},</if>
+            <if test="offerType != null">offer_type = #{offerType},</if>
+            <if test="sealedBid != null">sealed_bid = #{sealedBid},</if>
+            <if test="maxSupplierNumber != null">max_supplier_number = #{maxSupplierNumber},</if>
+            <if test="minSupplierNumber != null">min_supplier_number = #{minSupplierNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmInquiryQuotationTemplateById" parameterType="Long">
+        delete from srm_inquiry_quotation_template where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmInquiryQuotationTemplateByIds" parameterType="String">
+        delete from srm_inquiry_quotation_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
