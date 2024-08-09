@@ -22,6 +22,11 @@
             <groupId>com.srm</groupId>
             <artifactId>srm-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.srm</groupId>
+            <artifactId>srm-data</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

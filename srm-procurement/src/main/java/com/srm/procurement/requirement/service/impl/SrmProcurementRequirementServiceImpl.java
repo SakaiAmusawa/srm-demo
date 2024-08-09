@@ -5,6 +5,8 @@ import com.srm.common.utils.DateUtils;
 import com.srm.common.utils.SecurityUtils;
 import com.srm.common.utils.StringUtils;
 import com.srm.common.utils.uuid.IdUtils;
+import com.srm.data.domain.SrmDataCurrency;
+import com.srm.data.mapper.SrmDataCurrencyMapper;
 import com.srm.procurement.requirement.domain.SrmProcurementRequirement;
 import com.srm.procurement.requirement.domain.SrmProcurementRequirementMaterial;
 import com.srm.procurement.requirement.mapper.SrmProcurementRequirementMapper;
@@ -26,6 +28,8 @@ import java.util.List;
 public class SrmProcurementRequirementServiceImpl implements ISrmProcurementRequirementService {
     @Autowired
     private SrmProcurementRequirementMapper srmProcurementRequirementMapper;
+    @Autowired
+    private SrmDataCurrencyMapper srmDataCurrencyMapper;
 
     /**
      * 查询采购需求
@@ -49,7 +53,13 @@ public class SrmProcurementRequirementServiceImpl implements ISrmProcurementRequ
      */
     @Override
     public List<SrmProcurementRequirement> selectSrmProcurementRequirementList(SrmProcurementRequirement srmProcurementRequirement) {
-        return srmProcurementRequirementMapper.selectSrmProcurementRequirementList(srmProcurementRequirement);
+        List<SrmProcurementRequirement> srmProcurementRequirements = srmProcurementRequirementMapper.selectSrmProcurementRequirementList(srmProcurementRequirement);
+        for (SrmProcurementRequirement procurementRequirement : srmProcurementRequirements) {
+            Long currencyId = procurementRequirement.getCurrency();
+            SrmDataCurrency srmDataCurrency = srmDataCurrencyMapper.selectSrmDataCurrencyById(currencyId);
+            procurementRequirement.setCurrencyName(srmDataCurrency.getCurrencyName());
+        }
+        return srmProcurementRequirements;
     }
 
     /**
