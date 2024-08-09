@@ -203,6 +203,12 @@
                 <artifactId>srm-data</artifactId>
                 <version>${srm.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.srm</groupId>
+                <artifactId>srm-souring</artifactId>
+                <version>${srm.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -218,6 +224,7 @@
         <module>srm-tool</module>
         <module>srm-procurement</module>
         <module>srm-data</module>
+        <module>srm-souring</module>
     </modules>
     <packaging>pom</packaging>
 

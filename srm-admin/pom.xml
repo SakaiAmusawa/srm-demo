@@ -85,6 +85,11 @@
             <groupId>com.srm</groupId>
             <artifactId>srm-data</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.srm</groupId>
+            <artifactId>srm-souring</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
