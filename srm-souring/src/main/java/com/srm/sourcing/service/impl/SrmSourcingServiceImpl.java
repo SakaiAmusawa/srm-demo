@@ -28,6 +28,15 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Autowired
     private SrmInquiryQuotationTemplateMapper srmInquiryQuotationTemplateMapper;
 
+    private static void compareTime(SrmSourcing srmSourcing) {
+        Date quotationStartTime = srmSourcing.getQuotationStartTime();
+        Date quotationEndTime = srmSourcing.getQuotationEndTime();
+
+        if (quotationEndTime.before(quotationStartTime)) {
+            throw new ServiceException("错误！结束时间应当在开始时间之前");
+        }
+    }
+
     /**
      * 查询询价台
      *
@@ -83,9 +92,7 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
             throw new ServiceException("供应商数量不符合要求");
         }
 
-        //todo 时间比较待完成
-        Date quotationStartTime = srmSourcing.getQuotationStartTime();
-        Date quotationEndTime = srmSourcing.getQuotationEndTime();
+        compareTime(srmSourcing);
 
         srmSourcing.setCreateTime(DateUtils.getNowDate());
         int rows = srmSourcingMapper.insertSrmSourcing(srmSourcing);
@@ -104,6 +111,7 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Transactional
     @Override
     public int updateSrmSourcing(SrmSourcing srmSourcing) {
+        compareTime(srmSourcing);
         srmSourcingMapper.deleteSrmSourcingMaterialDetailBySourcingId(srmSourcing.getId());
         insertSrmSourcingMaterialDetail(srmSourcing);
         insertSrmSourcingSupplierDetail(srmSourcing);
