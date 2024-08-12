@@ -1,4 +1,4 @@
-package com.srm;
+package com.srm.activiti;
 
 
 import com.srm.risk.domain.entity.IllegalRisk;

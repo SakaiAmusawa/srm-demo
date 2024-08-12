@@ -1,4 +1,4 @@
-package com.srm;
+package com.srm.activiti;
 
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
