@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srm.sourcing.mapper.SrmSourcingMapper">
+
+    <resultMap type="SrmSourcing" id="SrmSourcingResult">
+        <result property="id" column="id"/>
+        <result property="sourcingSerial" column="sourcing_serial"/>
+        <result property="scouringTitle" column="scouring_title"/>
+        <result property="scouringTemplateId" column="scouring_template_id"/>
+        <result property="sourcingType" column="sourcing_type"/>
+        <result property="company" column="company"/>
+        <result property="purchasingOrganizationId" column="purchasing_organization_id"/>
+        <result property="sectorDemandId" column="sector_demand_id"/>
+        <result property="creatorDeptId" column="creator_dept_id"/>
+        <result property="round" column="round"/>
+        <result property="scouringType" column="scouring_type"/>
+        <result property="state" column="state"/>
+        <result property="budgetAmount" column="budget_amount"/>
+        <result property="currencyType" column="currency_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="buyer" column="buyer"/>
+        <result property="quotationStartTime" column="quotation_start_time"/>
+        <result property="quotationEndTime" column="quotation_end_time"/>
+        <result property="creator" column="creator"/>
+        <result property="remark" column="remark"/>
+        <result property="firstAuditor" column="first_auditor"/>
+        <result property="priceAssessor" column="price_assessor"/>
+        <result property="reserved1" column="reserved_1"/>
+        <result property="reserved2" column="reserved_2"/>
+        <result property="reserved3" column="reserved_3"/>
+        <result property="reserved4" column="reserved_4"/>
+        <result property="reserved5" column="reserved_5"/>
+    </resultMap>
+
+    <resultMap id="SrmSourcingSrmSourcingMaterialDetailResult" type="SrmSourcing" extends="SrmSourcingResult">
+        <collection property="srmSourcingMaterialDetailList" ofType="SrmSourcingMaterialDetail" column="sourcing_id"
+                    select="selectSrmSourcingMaterialDetailList"/>
+    </resultMap>
+
+    <resultMap id="SrmSourcingSrmSourcingSupplierDetailResult" type="SrmSourcing"
+               extends="SrmSourcingSrmSourcingMaterialDetailResult">
+        <collection property="srmSourcingSupplierDetailList" ofType="SrmSourcingSupplierDetail" column="sourcing_id"
+                    select="selectSrmSourcingSupplierDetailList"/>
+    </resultMap>
+
+    <resultMap id="SrmSourcingSrmSourcingAttachmentResult" type="SrmSourcing"
+               extends="SrmSourcingSrmSourcingSupplierDetailResult">
+        <collection property="srmSourcingAttachmentList" ofType="SrmSourcingAttachment" column="sourcing_id"
+                    select="selectSrmSourcingAttachmentList"/>
+    </resultMap>
+
+    <resultMap type="SrmSourcingMaterialDetail" id="SrmSourcingMaterialDetailResult">
+        <result property="id" column="id"/>
+        <result property="materialName" column="material_name"/>
+        <result property="materialCode" column="material_code"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="unit" column="unit"/>
+        <result property="referencePrice" column="reference_price"/>
+        <result property="requirementNumber" column="requirement_number"/>
+        <result property="estimatedUnitPrice" column="estimated_unit_price"/>
+        <result property="taxCode" column="tax_code"/>
+        <result property="taxRate" column="tax_rate"/>
+        <result property="requirementDate" column="requirement_date"/>
+        <result property="requestLineNumber" column="request_line_number"/>
+        <result property="purchaseRequestLineNumber" column="purchase_request_line_number"/>
+        <result property="inquiryListAttachment" column="inquiry_list_attachment"/>
+        <result property="sourcingId" column="sourcing_id"/>
+    </resultMap>
+
+    <resultMap type="SrmSourcingSupplierDetail" id="SrmSourcingSupplierDetailResult">
+        <result property="id" column="id"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="lifeStage" column="life_stage"/>
+        <result property="risk" column="risk"/>
+        <result property="contacts" column="contacts"/>
+        <result property="telephone" column="telephone"/>
+        <result property="email" column="email"/>
+        <result property="sourcingId" column="sourcing_id"/>
+    </resultMap>
+
+    <resultMap type="SrmSourcingAttachment" id="SrmSourcingAttachmentResult">
+        <result property="id"    column="id"    />
+        <result property="businessAttachment"    column="business_attachment"    />
+        <result property="technicalAppendix"    column="technical_appendix"    />
+        <result property="sourcingId"    column="sourcing_id"    />
+    </resultMap>
+
+    <sql id="selectSrmSourcingVo">
+        select id,
+               sourcing_serial,
+               scouring_title,
+               scouring_template_id,
+               sourcing_type,
+               company,
+               purchasing_organization_id,
+               sector_demand_id,
+               creator_dept_id,
+               round,
+               scouring_type,
+               state,
+               budget_amount,
+               currency_type,
+               create_time,
+               buyer,
+               quotation_start_time,
+               quotation_end_time,
+               creator,
+               remark,
+               first_auditor,
+               price_assessor,
+               reserved_1,
+               reserved_2,
+               reserved_3,
+               reserved_4,
+               reserved_5
+        from srm_demo.srm_sourcing
+    </sql>
+
+    <select id="selectSrmSourcingList" parameterType="SrmSourcing" resultMap="SrmSourcingResult">
+        <include refid="selectSrmSourcingVo"/>
+        <where>
+            <if test="sourcingSerial != null  and sourcingSerial != ''">and sourcing_serial = #{sourcingSerial}</if>
+            <if test="scouringTemplateId != null ">and scouring_template_id = #{scouringTemplateId}</if>
+            <if test="company != null  and company != ''">and company = #{company}</if>
+            <if test="firstAuditor != null  and firstAuditor != ''">and first_auditor = #{firstAuditor}</if>
+            <if test="priceAssessor != null  and priceAssessor != ''">and price_assessor = #{priceAssessor}</if>
+            <if test="reserved1 != null ">and reserved_1 = #{reserved1}</if>
+            <if test="reserved2 != null ">and reserved_2 = #{reserved2}</if>
+            <if test="reserved3 != null ">and reserved_3 = #{reserved3}</if>
+            <if test="reserved4 != null ">and reserved_4 = #{reserved4}</if>
+            <if test="reserved5 != null ">and reserved_5 = #{reserved5}</if>
+        </where>
+    </select>
+
+    <select id="selectSrmSourcingById" parameterType="Long" resultMap="SrmSourcingSrmSourcingAttachmentResult">
+        select id,
+               sourcing_serial,
+               scouring_title,
+               scouring_template_id,
+               sourcing_type,
+               company,
+               purchasing_organization_id,
+               sector_demand_id,
+               creator_dept_id,
+               round,
+               scouring_type,
+               state,
+               budget_amount,
+               currency_type,
+               create_time,
+               buyer,
+               quotation_start_time,
+               quotation_end_time,
+               creator,
+               remark,
+               first_auditor,
+               price_assessor,
+               reserved_1,
+               reserved_2,
+               reserved_3,
+               reserved_4,
+               reserved_5
+        from srm_demo.srm_sourcing
+        where id = #{id}
+    </select>
+
+    <select id="selectSrmSourcingMaterialDetailList" resultType="SrmSourcingMaterialDetail"
+            resultMap="SrmSourcingMaterialDetailResult">
+        select id,
+               material_name,
+               material_code,
+               category_name,
+               unit,
+               reference_price,
+               requirement_number,
+               estimated_unit_price,
+               tax_code,
+               tax_rate,
+               requirement_date,
+               request_line_number,
+               purchase_request_line_number,
+               inquiry_list_attachment,
+               sourcing_id
+        from srm_demo.srm_sourcing_material_detail
+        where sourcing_id = #{sourcing_id}
+    </select>
+
+    <select id="selectSrmSourcingSupplierDetailList" resultType="SrmSourcingSupplierDetail"
+            resultMap="SrmSourcingSupplierDetailResult">
+        select id,
+               supplier_code,
+               supplier_name,
+               life_stage,
+               risk,
+               contacts,
+               telephone,
+               email,
+               sourcing_id
+        from srm_demo.srm_sourcing_supplier_detail
+        where sourcing_id = #{sourcing_id}
+    </select>
+
+    <select id="selectSrmSourcingAttachmentList" resultType="SrmSourcingAttachment" resultMap="SrmSourcingAttachmentResult">
+        select id, business_attachment, technical_appendix, sourcing_id
+        from srm_demo.srm_sourcing_attachment
+        where sourcing_id = #{sourcing_id}
+    </select>
+
+    <insert id="insertSrmSourcing" parameterType="SrmSourcing" useGeneratedKeys="true" keyProperty="id">
+        insert into srm_sourcing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sourcingSerial != null and sourcingSerial != ''">sourcing_serial,</if>
+            <if test="scouringTitle != null and scouringTitle != ''">scouring_title,</if>
+            <if test="scouringTemplateId != null">scouring_template_id,</if>
+            <if test="sourcingType != null">sourcing_type,</if>
+            <if test="company != null">company,</if>
+            <if test="purchasingOrganizationId != null">purchasing_organization_id,</if>
+            <if test="sectorDemandId != null">sector_demand_id,</if>
+            <if test="creatorDeptId != null">creator_dept_id,</if>
+            <if test="round != null">round,</if>
+            <if test="scouringType != null">scouring_type,</if>
+            <if test="state != null">state,</if>
+            <if test="budgetAmount != null">budget_amount,</if>
+            <if test="currencyType != null">currency_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="buyer != null">buyer,</if>
+            <if test="quotationStartTime != null">quotation_start_time,</if>
+            <if test="quotationEndTime != null">quotation_end_time,</if>
+            <if test="creator != null">creator,</if>
+            <if test="remark != null">remark,</if>
+            <if test="firstAuditor != null">first_auditor,</if>
+            <if test="priceAssessor != null">price_assessor,</if>
+            <if test="reserved1 != null">reserved_1,</if>
+            <if test="reserved2 != null">reserved_2,</if>
+            <if test="reserved3 != null">reserved_3,</if>
+            <if test="reserved4 != null">reserved_4,</if>
+            <if test="reserved5 != null">reserved_5,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sourcingSerial != null and sourcingSerial != ''">#{sourcingSerial},</if>
+            <if test="scouringTitle != null and scouringTitle != ''">#{scouringTitle},</if>
+            <if test="scouringTemplateId != null">#{scouringTemplateId},</if>
+            <if test="sourcingType != null">#{sourcingType},</if>
+            <if test="company != null">#{company},</if>
+            <if test="purchasingOrganizationId != null">#{purchasingOrganizationId},</if>
+            <if test="sectorDemandId != null">#{sectorDemandId},</if>
+            <if test="creatorDeptId != null">#{creatorDeptId},</if>
+            <if test="round != null">#{round},</if>
+            <if test="scouringType != null">#{scouringType},</if>
+            <if test="state != null">#{state},</if>
+            <if test="budgetAmount != null">#{budgetAmount},</if>
+            <if test="currencyType != null">#{currencyType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="buyer != null">#{buyer},</if>
+            <if test="quotationStartTime != null">#{quotationStartTime},</if>
+            <if test="quotationEndTime != null">#{quotationEndTime},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="firstAuditor != null">#{firstAuditor},</if>
+            <if test="priceAssessor != null">#{priceAssessor},</if>
+            <if test="reserved1 != null">#{reserved1},</if>
+            <if test="reserved2 != null">#{reserved2},</if>
+            <if test="reserved3 != null">#{reserved3},</if>
+            <if test="reserved4 != null">#{reserved4},</if>
+            <if test="reserved5 != null">#{reserved5},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSrmSourcing" parameterType="SrmSourcing">
+        update srm_sourcing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sourcingSerial != null and sourcingSerial != ''">sourcing_serial = #{sourcingSerial},</if>
+            <if test="scouringTitle != null and scouringTitle != ''">scouring_title = #{scouringTitle},</if>
+            <if test="scouringTemplateId != null">scouring_template_id = #{scouringTemplateId},</if>
+            <if test="sourcingType != null">sourcing_type = #{sourcingType},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="purchasingOrganizationId != null">purchasing_organization_id = #{purchasingOrganizationId},</if>
+            <if test="sectorDemandId != null">sector_demand_id = #{sectorDemandId},</if>
+            <if test="creatorDeptId != null">creator_dept_id = #{creatorDeptId},</if>
+            <if test="round != null">round = #{round},</if>
+            <if test="scouringType != null">scouring_type = #{scouringType},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="budgetAmount != null">budget_amount = #{budgetAmount},</if>
+            <if test="currencyType != null">currency_type = #{currencyType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="buyer != null">buyer = #{buyer},</if>
+            <if test="quotationStartTime != null">quotation_start_time = #{quotationStartTime},</if>
+            <if test="quotationEndTime != null">quotation_end_time = #{quotationEndTime},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="firstAuditor != null">first_auditor = #{firstAuditor},</if>
+            <if test="priceAssessor != null">price_assessor = #{priceAssessor},</if>
+            <if test="reserved1 != null">reserved_1 = #{reserved1},</if>
+            <if test="reserved2 != null">reserved_2 = #{reserved2},</if>
+            <if test="reserved3 != null">reserved_3 = #{reserved3},</if>
+            <if test="reserved4 != null">reserved_4 = #{reserved4},</if>
+            <if test="reserved5 != null">reserved_5 = #{reserved5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSrmSourcingById" parameterType="Long">
+        delete
+        from srm_demo.srm_sourcing
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteSrmSourcingByIds" parameterType="String">
+        delete from srm_sourcing where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmSourcingMaterialDetailBySourcingIds" parameterType="String">
+        delete from srm_sourcing_material_detail where sourcing_id in
+        <foreach item="sourcingId" collection="array" open="(" separator="," close=")">
+            #{sourcingId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmSourcingMaterialDetailBySourcingId" parameterType="Long">
+        delete
+        from srm_demo.srm_sourcing_material_detail
+        where sourcing_id = #{sourcingId}
+    </delete>
+
+    <insert id="batchSrmSourcingMaterialDetail">
+        insert into srm_sourcing_material_detail( id, material_name, material_code, category_name, unit,
+        reference_price, requirement_number, estimated_unit_price, tax_code, tax_rate, requirement_date,
+        request_line_number, purchase_request_line_number, inquiry_list_attachment, sourcing_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.materialName}, #{item.materialCode}, #{item.categoryName}, #{item.unit},
+            #{item.referencePrice}, #{item.requirementNumber}, #{item.estimatedUnitPrice}, #{item.taxCode},
+            #{item.taxRate}, #{item.requirementDate}, #{item.requestLineNumber}, #{item.purchaseRequestLineNumber},
+            #{item.inquiryListAttachment}, #{item.sourcingId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSrmSourcingSupplierDetailBySourcingIds" parameterType="String">
+        delete from srm_sourcing_supplier_detail where sourcing_id in
+        <foreach item="sourcingId" collection="array" open="(" separator="," close=")">
+            #{sourcingId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmSourcingSupplierDetailBySourcingId" parameterType="Long">
+        delete
+        from srm_demo.srm_sourcing_supplier_detail
+        where sourcing_id = #{sourcingId}
+    </delete>
+
+    <insert id="batchSrmSourcingSupplierDetail">
+        insert into srm_sourcing_supplier_detail( id, supplier_code, supplier_name, life_stage, risk, contacts,
+        telephone, email, sourcing_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.supplierCode}, #{item.supplierName}, #{item.lifeStage}, #{item.risk}, #{item.contacts},
+            #{item.telephone}, #{item.email}, #{item.sourcingId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSrmSourcingAttachmentBySourcingIds" parameterType="String">
+        delete from srm_sourcing_attachment where sourcing_id in
+        <foreach item="sourcingId" collection="array" open="(" separator="," close=")">
+            #{sourcingId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSrmSourcingAttachmentBySourcingId" parameterType="Long">
+        delete
+        from srm_demo.srm_sourcing_attachment
+        where sourcing_id = #{sourcingId}
+    </delete>
+
+    <insert id="batchSrmSourcingAttachment">
+        insert into srm_sourcing_attachment( id, business_attachment, technical_appendix, sourcing_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.businessAttachment}, #{item.technicalAppendix}, #{item.sourcingId})
+        </foreach>
+    </insert>
+</mapper>
