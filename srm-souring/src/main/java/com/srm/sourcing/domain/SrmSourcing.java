@@ -33,19 +33,19 @@ public class SrmSourcing extends BaseEntity {
      * 寻源标题
      */
     @Excel(name = "寻源标题")
-    private String scouringTitle;
+    private String sourcingTitle;
 
     /**
      * 寻源模板
      */
     @Excel(name = "寻源模板")
-    private Long scouringTemplateId;
+    private Long sourcingTemplate;
 
     /**
      * 寻源类别
      */
     @Excel(name = "寻源类别")
-    private Long sourcingType;
+    private Long sourcingClass;
 
     /**
      * 公司
@@ -57,19 +57,19 @@ public class SrmSourcing extends BaseEntity {
      * 采购组织
      */
     @Excel(name = "采购组织")
-    private String purchasingOrganizationId;
+    private String purchasingOrganization;
 
     /**
      * 需求部门
      */
     @Excel(name = "需求部门")
-    private String sectorDemandId;
+    private String sectorDemand;
 
     /**
      * 创建人部门
      */
     @Excel(name = "创建人部门")
-    private String creatorDeptId;
+    private String creatorDept;
 
     /**
      * 轮次
@@ -81,7 +81,7 @@ public class SrmSourcing extends BaseEntity {
      * 寻源类型
      */
     @Excel(name = "寻源类型")
-    private Long scouringType;
+    private Long sourcingType;
 
     /**
      * 状态
@@ -198,28 +198,28 @@ public class SrmSourcing extends BaseEntity {
         this.sourcingSerial = sourcingSerial;
     }
 
-    public String getScouringTitle() {
-        return scouringTitle;
+    public String getSourcingTitle() {
+        return sourcingTitle;
     }
 
-    public void setScouringTitle(String scouringTitle) {
-        this.scouringTitle = scouringTitle;
+    public void setSourcingTitle(String sourcingTitle) {
+        this.sourcingTitle = sourcingTitle;
     }
 
-    public Long getScouringTemplateId() {
-        return scouringTemplateId;
+    public Long getSourcingTemplate() {
+        return sourcingTemplate;
     }
 
-    public void setScouringTemplateId(Long scouringTemplateId) {
-        this.scouringTemplateId = scouringTemplateId;
+    public void setSourcingTemplate(Long sourcingTemplate) {
+        this.sourcingTemplate = sourcingTemplate;
     }
 
-    public Long getSourcingType() {
-        return sourcingType;
+    public Long getSourcingClass() {
+        return sourcingClass;
     }
 
-    public void setSourcingType(Long sourcingType) {
-        this.sourcingType = sourcingType;
+    public void setSourcingClass(Long sourcingClass) {
+        this.sourcingClass = sourcingClass;
     }
 
     public String getCompany() {
@@ -230,28 +230,28 @@ public class SrmSourcing extends BaseEntity {
         this.company = company;
     }
 
-    public String getPurchasingOrganizationId() {
-        return purchasingOrganizationId;
+    public String getPurchasingOrganization() {
+        return purchasingOrganization;
     }
 
-    public void setPurchasingOrganizationId(String purchasingOrganizationId) {
-        this.purchasingOrganizationId = purchasingOrganizationId;
+    public void setPurchasingOrganization(String purchasingOrganization) {
+        this.purchasingOrganization = purchasingOrganization;
     }
 
-    public String getSectorDemandId() {
-        return sectorDemandId;
+    public String getSectorDemand() {
+        return sectorDemand;
     }
 
-    public void setSectorDemandId(String sectorDemandId) {
-        this.sectorDemandId = sectorDemandId;
+    public void setSectorDemand(String sectorDemand) {
+        this.sectorDemand = sectorDemand;
     }
 
-    public String getCreatorDeptId() {
-        return creatorDeptId;
+    public String getCreatorDept() {
+        return creatorDept;
     }
 
-    public void setCreatorDeptId(String creatorDeptId) {
-        this.creatorDeptId = creatorDeptId;
+    public void setCreatorDept(String creatorDept) {
+        this.creatorDept = creatorDept;
     }
 
     public Long getRound() {
@@ -262,12 +262,12 @@ public class SrmSourcing extends BaseEntity {
         this.round = round;
     }
 
-    public Long getScouringType() {
-        return scouringType;
+    public Long getSourcingType() {
+        return sourcingType;
     }
 
-    public void setScouringType(Long scouringType) {
-        this.scouringType = scouringType;
+    public void setSourcingType(Long sourcingType) {
+        this.sourcingType = sourcingType;
     }
 
     public Long getState() {
@@ -398,13 +398,11 @@ public class SrmSourcing extends BaseEntity {
         this.srmSourcingSupplierDetailList = srmSourcingSupplierDetailList;
     }
 
-    public List<SrmSourcingAttachment> getSrmSourcingAttachmentList()
-    {
+    public List<SrmSourcingAttachment> getSrmSourcingAttachmentList() {
         return srmSourcingAttachmentList;
     }
 
-    public void setSrmSourcingAttachmentList(List<SrmSourcingAttachment> srmSourcingAttachmentList)
-    {
+    public void setSrmSourcingAttachmentList(List<SrmSourcingAttachment> srmSourcingAttachmentList) {
         this.srmSourcingAttachmentList = srmSourcingAttachmentList;
     }
 
@@ -413,15 +411,15 @@ public class SrmSourcing extends BaseEntity {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
                 .append("sourcingSerial", getSourcingSerial())
-                .append("scouringTitle", getScouringTitle())
-                .append("scouringTemplateId", getScouringTemplateId())
-                .append("sourcingType", getSourcingType())
+                .append("sourcingTitle", getSourcingTitle())
+                .append("sourcingTemplate", getSourcingTemplate())
+                .append("sourcingType", getSourcingClass())
                 .append("company", getCompany())
-                .append("purchasingOrganizationId", getPurchasingOrganizationId())
-                .append("sectorDemandId", getSectorDemandId())
-                .append("creatorDeptId", getCreatorDeptId())
+                .append("purchasingOrganizationId", getPurchasingOrganization())
+                .append("sectorDemandId", getSectorDemand())
+                .append("creatorDeptId", getCreatorDept())
                 .append("round", getRound())
-                .append("scouringType", getScouringType())
+                .append("sourcingType", getSourcingType())
                 .append("state", getState())
                 .append("budgetAmount", getBudgetAmount())
                 .append("currencyType", getCurrencyType())
@@ -439,6 +437,8 @@ public class SrmSourcing extends BaseEntity {
                 .append("reserved4", getReserved4())
                 .append("reserved5", getReserved5())
                 .append("srmSourcingMaterialDetailList", getSrmSourcingMaterialDetailList())
+                .append("srmSourcingSupplierDetailList",getSrmSourcingSupplierDetailList())
+                .append("srmSourcingAttachmentList",getSrmSourcingAttachmentList())
                 .toString();
     }
 }
