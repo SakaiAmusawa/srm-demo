@@ -1,11 +1,10 @@
 package com.srm.sourcing.service.impl;
 
+import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.DateUtils;
 import com.srm.common.utils.StringUtils;
-import com.srm.sourcing.domain.SrmSourcing;
-import com.srm.sourcing.domain.SrmSourcingAttachment;
-import com.srm.sourcing.domain.SrmSourcingMaterialDetail;
-import com.srm.sourcing.domain.SrmSourcingSupplierDetail;
+import com.srm.sourcing.domain.*;
+import com.srm.sourcing.mapper.SrmInquiryQuotationTemplateMapper;
 import com.srm.sourcing.mapper.SrmSourcingMapper;
 import com.srm.sourcing.service.ISrmSourcingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,8 @@ import java.util.List;
 public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Autowired
     private SrmSourcingMapper srmSourcingMapper;
+    @Autowired
+    private SrmInquiryQuotationTemplateMapper srmInquiryQuotationTemplateMapper;
 
     /**
      * 查询询价台
@@ -57,6 +58,28 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Transactional
     @Override
     public int insertSrmSourcing(SrmSourcing srmSourcing) {
+
+        List<SrmSourcingMaterialDetail> srmSourcingMaterialDetailList = srmSourcing.getSrmSourcingMaterialDetailList();
+        if (srmSourcingMaterialDetailList.isEmpty()) {
+            throw new ServiceException("物料明细不能为空");
+        }
+        List<SrmSourcingSupplierDetail> srmSourcingSupplierDetailList = srmSourcing.getSrmSourcingSupplierDetailList();
+        if (srmSourcingSupplierDetailList.isEmpty()) {
+            throw new ServiceException("供应商明细不能为空");
+        }
+
+        Long sourcingTemplate = srmSourcing.getSourcingTemplate();
+        SrmInquiryQuotationTemplate srmInquiryQuotationTemplate = srmInquiryQuotationTemplateMapper.selectSrmInquiryQuotationTemplateById(sourcingTemplate);
+        Long maxSupplierNumber = srmInquiryQuotationTemplate.getMaxSupplierNumber();
+        Long minSupplierNumber = srmInquiryQuotationTemplate.getMinSupplierNumber();
+
+        //判断是否符合最大、最小数量
+        Long supplierListSize = (long) srmSourcingSupplierDetailList.size();
+
+        if (!(maxSupplierNumber > supplierListSize && supplierListSize >= minSupplierNumber)) {
+            throw new ServiceException("供应商数量不符合要求");
+        }
+
         srmSourcing.setCreateTime(DateUtils.getNowDate());
         int rows = srmSourcingMapper.insertSrmSourcing(srmSourcing);
         insertSrmSourcingMaterialDetail(srmSourcing);
