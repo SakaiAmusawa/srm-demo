@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Override
     public int insertSrmSourcing(SrmSourcing srmSourcing) {
 
+        //判断用户是否填写相关信息
         List<SrmSourcingMaterialDetail> srmSourcingMaterialDetailList = srmSourcing.getSrmSourcingMaterialDetailList();
         if (srmSourcingMaterialDetailList.isEmpty()) {
             throw new ServiceException("物料明细不能为空");
@@ -68,6 +70,7 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
             throw new ServiceException("供应商明细不能为空");
         }
 
+        //根据模板ID获取模板相关内容
         Long sourcingTemplate = srmSourcing.getSourcingTemplate();
         SrmInquiryQuotationTemplate srmInquiryQuotationTemplate = srmInquiryQuotationTemplateMapper.selectSrmInquiryQuotationTemplateById(sourcingTemplate);
         Long maxSupplierNumber = srmInquiryQuotationTemplate.getMaxSupplierNumber();
@@ -79,6 +82,10 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
         if (!(maxSupplierNumber > supplierListSize && supplierListSize >= minSupplierNumber)) {
             throw new ServiceException("供应商数量不符合要求");
         }
+
+        //todo 时间比较待完成
+        Date quotationStartTime = srmSourcing.getQuotationStartTime();
+        Date quotationEndTime = srmSourcing.getQuotationEndTime();
 
         srmSourcing.setCreateTime(DateUtils.getNowDate());
         int rows = srmSourcingMapper.insertSrmSourcing(srmSourcing);
