@@ -2,6 +2,8 @@ package com.srm.sourcing.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +25,11 @@ import com.srm.common.core.page.TableDataInfo;
 
 /**
  * 询价台Controller
- * 
+ *
  * @author sakai
  * @date 2024-08-12
  */
+@Slf4j
 @RestController
 @RequestMapping("/enquiry/sourcing")
 public class SrmSourcingController extends BaseController

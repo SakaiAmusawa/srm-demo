@@ -82,10 +82,10 @@
     </resultMap>
 
     <resultMap type="SrmSourcingAttachment" id="SrmSourcingAttachmentResult">
-        <result property="id"    column="id"    />
-        <result property="businessAttachment"    column="business_attachment"    />
-        <result property="technicalAppendix"    column="technical_appendix"    />
-        <result property="sourcingId"    column="sourcing_id"    />
+        <result property="id" column="id"/>
+        <result property="businessAttachment" column="business_attachment"/>
+        <result property="technicalAppendix" column="technical_appendix"/>
+        <result property="sourcingId" column="sourcing_id"/>
     </resultMap>
 
     <sql id="selectSrmSourcingVo">
@@ -122,16 +122,17 @@
     <select id="selectSrmSourcingList" parameterType="SrmSourcing" resultMap="SrmSourcingResult">
         <include refid="selectSrmSourcingVo"/>
         <where>
-            <if test="sourcingSerial != null  and sourcingSerial != ''">and sourcing_serial = #{sourcingSerial}</if>
-            <if test="sourcingTemplate != null ">and sourcing_template = #{sourcingTemplate}</if>
-            <if test="company != null  and company != ''">and company = #{company}</if>
-            <if test="firstAuditor != null  and firstAuditor != ''">and first_auditor = #{firstAuditor}</if>
-            <if test="priceAssessor != null  and priceAssessor != ''">and price_assessor = #{priceAssessor}</if>
-            <if test="reserved1 != null ">and reserved_1 = #{reserved1}</if>
-            <if test="reserved2 != null ">and reserved_2 = #{reserved2}</if>
-            <if test="reserved3 != null ">and reserved_3 = #{reserved3}</if>
-            <if test="reserved4 != null ">and reserved_4 = #{reserved4}</if>
-            <if test="reserved5 != null ">and reserved_5 = #{reserved5}</if>
+            <if test="sourcingSerial != null  and sourcingSerial != ''"> and sourcing_serial = #{sourcingSerial}</if>
+            <if test="sourcingTemplate != null "> and sourcing_template = #{sourcingTemplate}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="firstAuditor != null  and firstAuditor != ''"> and first_auditor = #{firstAuditor}</if>
+            <if test="priceAssessor != null  and priceAssessor != ''"> and price_assessor = #{priceAssessor}</if>
+            <if test="reserved1 != null "> and reserved_1 = #{reserved1}</if>
+            <if test="reserved2 != null "> and reserved_2 = #{reserved2}</if>
+            <if test="reserved3 != null "> and reserved_3 = #{reserved3}</if>
+            <if test="reserved4 != null "> and reserved_4 = #{reserved4}</if>
+            <if test="reserved5 != null "> and reserved_5 = #{reserved5}</if>
         </where>
     </select>
 
@@ -203,7 +204,8 @@
         where sourcing_id = #{sourcing_id}
     </select>
 
-    <select id="selectSrmSourcingAttachmentList" resultType="SrmSourcingAttachment" resultMap="SrmSourcingAttachmentResult">
+    <select id="selectSrmSourcingAttachmentList" resultType="SrmSourcingAttachment"
+            resultMap="SrmSourcingAttachmentResult">
         select id, business_attachment, technical_appendix, sourcing_id
         from srm_demo.srm_sourcing_attachment
         where sourcing_id = #{sourcing_id}
@@ -275,7 +277,7 @@
             <if test="sourcingSerial != null and sourcingSerial != ''">sourcing_serial = #{sourcingSerial},</if>
             <if test="sourcingTitle != null and sourcingTitle != ''">sourcing_title = #{sourcingTitle},</if>
             <if test="sourcingTemplate != null">sourcing_template = #{sourcingTemplate},</if>
-            <if test="sourcingClass != null">sourcing_type = #{sourcingClass},</if>
+            <if test="sourcingClass != null">sourcing_class = #{sourcingClass},</if>
             <if test="company != null">company = #{company},</if>
             <if test="purchasingOrganization != null">purchasing_organization = #{purchasingOrganization},</if>
             <if test="sectorDemand != null">sector_demand = #{sectorDemand},</if>
