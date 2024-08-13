@@ -139,6 +139,8 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     public int updateSrmSourcing(SrmSourcing srmSourcing) {
         compareTime(srmSourcing);
         srmSourcingMapper.deleteSrmSourcingMaterialDetailBySourcingId(srmSourcing.getId());
+        srmSourcingMapper.deleteSrmSourcingSupplierDetailBySourcingId(srmSourcing.getId());
+        srmSourcingMapper.deleteSrmSourcingAttachmentBySourcingId(srmSourcing.getId());
         insertSrmSourcingMaterialDetail(srmSourcing);
         insertSrmSourcingSupplierDetail(srmSourcing);
         insertSrmSourcingAttachment(srmSourcing);
@@ -155,6 +157,8 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Override
     public int deleteSrmSourcingByIds(Long[] ids) {
         srmSourcingMapper.deleteSrmSourcingMaterialDetailBySourcingIds(ids);
+        srmSourcingMapper.deleteSrmSourcingSupplierDetailBySourcingIds(ids);
+        srmSourcingMapper.deleteSrmSourcingAttachmentBySourcingIds(ids);
         return srmSourcingMapper.deleteSrmSourcingByIds(ids);
     }
 
@@ -168,6 +172,8 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     @Override
     public int deleteSrmSourcingById(Long id) {
         srmSourcingMapper.deleteSrmSourcingMaterialDetailBySourcingId(id);
+        srmSourcingMapper.deleteSrmSourcingSupplierDetailBySourcingId(id);
+        srmSourcingMapper.deleteSrmSourcingAttachmentBySourcingId(id);
         return srmSourcingMapper.deleteSrmSourcingById(id);
     }
 
