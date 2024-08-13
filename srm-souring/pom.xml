@@ -27,6 +27,11 @@
             <groupId>com.srm</groupId>
             <artifactId>srm-tool</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.srm</groupId>
+            <artifactId>srm-supplier</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

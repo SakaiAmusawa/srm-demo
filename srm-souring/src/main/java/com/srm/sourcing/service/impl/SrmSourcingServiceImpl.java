@@ -1,8 +1,11 @@
 package com.srm.sourcing.service.impl;
 
+import com.srm.common.core.domain.model.LoginUser;
 import com.srm.common.exception.ServiceException;
 import com.srm.common.utils.DateUtils;
+import com.srm.common.utils.SecurityUtils;
 import com.srm.common.utils.StringUtils;
+import com.srm.sakai.mapper.SakaiMapper;
 import com.srm.sourcing.domain.*;
 import com.srm.sourcing.mapper.SrmInquiryQuotationTemplateMapper;
 import com.srm.sourcing.mapper.SrmSourcingMapper;
@@ -27,8 +30,10 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
     private SrmSourcingMapper srmSourcingMapper;
     @Autowired
     private SrmInquiryQuotationTemplateMapper srmInquiryQuotationTemplateMapper;
+    @Autowired
+    private SakaiMapper sakaiMapper;
 
-    private static void compareTime(SrmSourcing srmSourcing) {
+    private void compareTime(SrmSourcing srmSourcing) {
         Date quotationStartTime = srmSourcing.getQuotationStartTime();
         Date quotationEndTime = srmSourcing.getQuotationEndTime();
 
@@ -45,7 +50,16 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
      */
     @Override
     public SrmSourcing selectSrmSourcingById(Long id) {
-        return srmSourcingMapper.selectSrmSourcingById(id);
+        SrmSourcing srmSourcing = srmSourcingMapper.selectSrmSourcingById(id);
+        List<SrmSourcingMaterialDetail> materialDetails = srmSourcingMapper.selectSrmSourcingMaterialDetailList(id);
+        srmSourcing.setSrmSourcingMaterialDetailList(materialDetails);
+
+        List<SrmSourcingSupplierDetail> supplierDetails = srmSourcingMapper.selectSrmSourcingSupplierDetailList(id);
+        srmSourcing.setSrmSourcingSupplierDetailList(supplierDetails);
+
+        List<SrmSourcingAttachment> attachments = srmSourcingMapper.selectSrmSourcingAttachmentList(id);
+        srmSourcing.setSrmSourcingAttachmentList(attachments);
+        return srmSourcing;
     }
 
     /**
@@ -93,6 +107,18 @@ public class SrmSourcingServiceImpl implements ISrmSourcingService {
         }
 
         compareTime(srmSourcing);
+
+        //设置设置寻源单号
+        if (srmSourcing.getSourcingSerial() == null) {
+            srmSourcing.setSourcingSerial("RFQ" + System.currentTimeMillis() / 1000);
+        }
+
+        //设置创建人，创建人部门
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        srmSourcing.setCreator(loginUser.getUsername());
+        Long deptId = loginUser.getDeptId();
+        String deptName = sakaiMapper.selectDeptNameByDeptId(deptId);
+        srmSourcing.setCreatorDept(deptName);
 
         srmSourcing.setCreateTime(DateUtils.getNowDate());
         int rows = srmSourcingMapper.insertSrmSourcing(srmSourcing);

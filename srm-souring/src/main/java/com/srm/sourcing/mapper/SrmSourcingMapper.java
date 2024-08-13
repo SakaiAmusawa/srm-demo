@@ -138,4 +138,10 @@ public interface SrmSourcingMapper {
      * @return 结果
      */
     public int deleteSrmSourcingAttachmentBySourcingId(Long id);
+
+    List<SrmSourcingMaterialDetail> selectSrmSourcingMaterialDetailList(Long id);
+
+    List<SrmSourcingSupplierDetail> selectSrmSourcingSupplierDetailList(Long id);
+
+    List<SrmSourcingAttachment> selectSrmSourcingAttachmentList(Long id);
 }
